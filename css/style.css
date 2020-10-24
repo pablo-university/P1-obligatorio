@@ -1,0 +1,138 @@
+/* COMENTARIOS
+- usar efecto vidrio?
+*/
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+/* ----------- GLOBALES ------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans", sans-serif;
+    font-weight: 400;
+    list-style: none;
+}
+:root {
+    /* colores */
+    --color-fuente: rgb(40, 40, 40);
+    --color-link: #5549ff;
+    --hover-link: rgb(162, 176, 255);
+    --color-tabla: rgb(169, 196, 255);
+
+    --margen-fuente: 1rem;
+
+    /* sombras */
+    --shadow-form: 0 0 5px 3px whitesmoke;
+    --shadow-img: 0 0 5px 0px black;
+}
+img {
+    width: 100%;
+    object-fit: cover;
+    transition: filter 0.5s, box-shadow 0.5s;
+}
+img:hover {
+    filter: hue-rotate(-30deg);
+    box-shadow: var(--shadow-img);
+}
+ul {
+    list-style: none;
+}
+h1,
+h2,
+h3,
+p,
+i,
+span {
+    color: var(--color-fuente);
+    margin-bottom: var(--margen-fuente);
+    /* white-space: pre-line; */
+    /* transisiones de color en texto */
+    transition: color 0.5s;
+}
+/*reset margin ico*/
+i[class*="fa"] {
+    margin-bottom: 0;
+}
+/* Links */
+a {
+    color: var(--color-link);
+    text-decoration: none;
+    transition: color 0.5s;
+}
+/* Hover Links */
+a:hover {
+    color: var(--hover-link);
+}
+/* Boton */
+
+
+
+/* ----------- MIS BIBLIOTECAS ------------- */
+/* Mi biblioteca flex */
+.flex-space-between {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+/* Mi biblioteca grid? */
+.grid-auto {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+    grid-auto-rows: 12rem;
+    grid-auto-flow: row dense;
+}
+
+
+/* ----------- CUERPO DE PAGINAS ------------- */
+/* LOGIN */
+.index{
+    height: 100vh;
+    background-color: darkslategray;
+
+    place-content: center;
+}
+.contenedor-login{
+    width: 12rem;
+}
+
+/* ---------- TABLAS Y FORMULARIO ------------ */
+/* TABLAS GENERAL */
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+}
+th,
+caption {
+    font-weight: 700;
+}
+td,
+th {
+    border: 1px solid var(--color-tabla);
+    text-align: left;
+    padding: 0.5rem;
+}
+tr:nth-child(even) {
+    background-color: var(--color-tabla);
+}
+
+/* FORMULARIO GENERAL */
+label {
+    display: inline-block;
+}
+label > *:focus {
+    outline: 2px solid lightgrey;
+    box-shadow: var(--shadow-form);
+}
+input,
+textarea,
+select {
+    /* display: block; */
+    background-color: white;
+    border: 1px solid black;
+    padding: 0.5rem;
+    width: 100%;
+}
+input[type="submit"] {
+    border: 1px solid black;
+}

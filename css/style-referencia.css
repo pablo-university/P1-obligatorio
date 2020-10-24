@@ -1,0 +1,429 @@
+/* COMENTARIOS
+- Justificado de clases? 
+    - modulos: agregar y quitar secciones sin problema, mas adaptabilidad
+    - 'componentes': poder agregar y eliminar por ejemplo botones, modelo
+        de caja, cambiar mi biblioteca flex etc.
+    -agregué unos efectiños con una biblioteca js que encontré
+    
+- quede en 324*/
+
+/* ---GLOBALES--- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans", sans-serif;
+    font-weight: 400;
+    list-style: none;
+}
+:root {
+    /* colores */
+    --color-fuente: rgb(40, 40, 40);
+    --color-link: #272727;
+    --hover-link: white;
+    --color-tabla: rgb(186 186 186);
+    --color-fondo: #d6d4d4;
+    /* --color-fondo: #8d8d8d ; */
+
+    --margen-fuente: 1rem;
+
+    /* sombras */
+    --shadow-form: 0 0 5px 3px whitesmoke;
+    --shadow-img: 0 0 5px 0px black;
+}
+
+/* ---GENERALES--- */
+img {
+    width: 100%;
+    object-fit: cover;
+    transition: filter 0.5s, box-shadow 0.5s;
+}
+img:hover {
+    filter: hue-rotate(-30deg);
+    box-shadow: var(--shadow-img);
+}
+ul {
+    list-style: none;
+}
+h1,
+h2,
+h3,
+p,
+i,
+span {
+    color: var(--color-fuente);
+    margin-bottom: var(--margen-fuente);
+    /* white-space: pre-line; */
+    /* transisiones de color en texto */
+    transition: color 0.5s;
+}
+/*reset margin ico*/
+i[class*="fa"] {
+    margin-bottom: 0;
+}
+/* Links */
+a {
+    color: var(--color-link);
+    text-decoration: none;
+    transition: color 0.5s;
+}
+/* Hover Links */
+a:hover {
+    color: var(--hover-link);
+}
+/* Hover Links con icono y h1*/
+a:hover > i[class*="fa"],
+a:hover > h1 {
+    color: var(--hover-link);
+}
+/* Boton */
+.boton {
+    background-color: var(--color-link);
+    display: block;
+    width: max-content;
+    color: var(--hover-link);
+    font-weight: 400;
+    padding: 0.5em 1.5em;
+    /* transition: background-color 0.5s; */
+    transition-property: background-color, outline;
+    transition-duration: 0.5s;
+}
+.boton:hover {
+    color: var(--color-boton);
+    background-color: var(--hover-link) !important;
+    outline: 1px solid lightgrey;
+}
+
+/* Modelo de caja¿? */
+header,
+main > *,
+footer {
+    /* width: min(60rem, 100vw); */
+    max-width: 1400px;
+    margin: auto;
+    background-color: var(--color-fondo);
+    padding: 4rem min(10rem, 10vw) 2rem;
+    /* padding: 4rem min(10rem, 15vw) 2rem; BACKUP */
+}
+/* Mi biblioteca flex */
+.flex-space-between {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+/* Mi biblioteca table */
+.table {
+    display: table;
+    border-spacing: 1rem;
+}
+.table-row {
+    display: table-row;
+}
+.table-cell {
+    display: table-cell;
+}
+/* Mi biblioteca grid? */
+.grid-auto {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+    grid-auto-rows: 12rem;
+    grid-auto-flow: row dense;
+}
+/* ---HEADER--- */
+/* active */
+.active {
+    pointer-events: none;
+}
+@keyframes active {
+    0% {
+        width: 0px;
+        margin: 0 0 0 0;
+    }
+    50% {
+        width: 100%;
+        margin: 0 0 0 0;
+    }
+    51%{
+        width: 100%;
+        margin: 0 0 0 auto;
+    }
+    100%{
+        width: 0%;
+        margin: 0 0 0 auto;
+    }
+}
+.active::after {
+    content: "";
+    display: block;
+    margin: auto;
+    height: 3px;
+    border-radius: 10px;
+    background: var(--color-link);
+    /* trate de hacer que creciera de izquierda a derecha
+     y se achicara pegado a la derecha pero no pude */
+    animation: active 2s ease-in-out 0s infinite;
+}
+/* nav1 & nav2 */
+/* nav1 */
+header nav:first-child h1 {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 2rem;
+    margin-left: 1rem;
+    vertical-align: top;
+    width: min-content;
+    line-height: 32px;
+}
+/* primer y segunda li */
+header nav:first-child li:first-child,
+header nav:first-child li:nth-child(2) {
+    flex: 4;
+}
+/* label & lupita */
+header label {
+    position: relative;
+    width: 100%;
+}
+header label i {
+    position: absolute;
+    top: 30%;
+    right: 5%;
+    opacity: 30%;
+}
+/* nav2 */
+
+/* ---MAIN-index--- */
+/* Section1 */
+.section1-index {
+    text-align: left;
+    background: linear-gradient(
+            to right,
+            rgb(255 255 255 / 30%),
+            rgb(255 255 255 / 20%)
+        ),
+        url(img/portada.jpg) center/cover no-repeat;
+
+    background-attachment: fixed;
+    min-height: 120vh;
+    opacity: 90%;
+
+    padding: 5rem min(10rem, 6vw) 2rem;
+}
+.section1-index div {
+    position: relative;
+    background-color: rgba(255, 255, 255, .20);
+    backdrop-filter: blur(30px);
+    width: min(25rem, 90vw);
+    min-height: 35rem;
+    padding: 4rem 3rem;
+    overflow-x: visible;
+}
+.section1-index div h1,
+.section1-index div p {
+    width: 40vw;
+}
+.section1-index h1 {
+    font-family: "Libre Baskerville";
+    font-weight: 700;
+    font-size: min(4rem, 6vw);
+    animation: pepe 1s cubic-bezier(0, 0, 0.2, 1) infinite alternate;
+}
+@keyframes pepe {
+    from {
+        color:white;
+    }
+    to {
+        color:black;
+    }
+}
+.section1-index a:last-child {
+    position: absolute;
+    bottom: 2rem;
+}
+/* Section2 */
+.section2-index h2 {
+    flex-basis: 100%;
+}
+.section2-index article {
+    flex: 1 1 20rem;
+}
+.section2-index article > * {
+    flex: 1;
+}
+/* boton */
+.section2-index article > div {
+    display: flex;
+    flex-direction: column;
+}
+.section2-index article div a {
+    margin: auto 0 0 auto;
+}
+/* Section3 */
+.section3-index article {
+    width: calc(100% / 3);
+}
+.section3-index figure {
+    position: relative;
+}
+.section3-index figure a {
+    position: absolute;
+    top: 40%;
+    left: 31%;
+    opacity: 0;
+    transition: opacity, background-color, 0.5s;
+}
+.section3-index figure:hover a {
+    opacity: 100%;
+}
+.section3-index figure:hover img {
+    filter: hue-rotate(-30deg);
+    box-shadow: var(--shadow-img);
+}
+@media (max-width: 600px) {
+    .section3-index > div {
+        display: flex;
+        flex-direction: column;
+    }
+    .section3-index article {
+        width: auto;
+    }
+}
+
+/* Section4 */
+/* Formulario general */
+label {
+    display: inline-block;
+}
+label > *:focus {
+    outline: 2px solid lightgrey;
+    box-shadow: var(--shadow-form);
+}
+input,
+textarea,
+select {
+    display: block;
+    background-color: whitesmoke;
+    border: none;
+    padding: 0.5rem;
+    width: 100%;
+}
+input[type="submit"] {
+    border: none;
+}
+/* formulario estructura */
+[role="group"] {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+[role="group"] > * {
+    flex: 1 14rem;
+}
+[role="group"] > label:nth-child(4) {
+    flex: 2.5 33rem;
+}
+[role="group"] > div:last-child input {
+    width: auto;
+    display: inline;
+    margin-right: 0.5rem;
+}
+[role="group"] > div:last-child label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* ---MAIN-packs--- */
+/* Section1 */
+/* Tablas general */
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+}
+th,
+caption {
+    font-weight: 700;
+}
+td,
+th {
+    border: 1px solid var(--color-tabla);
+    text-align: left;
+    padding: 0.5rem;
+}
+tr:nth-child(even) {
+    background-color: var(--color-tabla);
+}
+/* modelado seccion */
+.section1-packs > * {
+    flex: 1 20rem;
+}
+.section1-packs div {
+    margin-bottom: 1rem;
+}
+.section1-packs div a {
+    margin-left: auto;
+}
+.section1-packs i {
+    margin-left: 0.3rem;
+}
+/* Section2 */
+.section2-packs img,
+.section3-packs img {
+    height: 100%;
+}
+.section2-packs > figure figure:nth-child(2) {
+    grid-row: span 2;
+}
+.section2-packs > a {
+    margin: auto;
+    margin-top: 3rem;
+}
+/* Section3 */
+.section3-packs > figure {
+    /* grid-template-columns: repeat(auto-fit,minmax(12rem,1fr)); */
+    grid-auto-flow: row;
+}
+/* subgrilla */
+.section3-packs > figure figure {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    column-gap: 1rem;
+}
+.section3-packs > figure figure:nth-child(4) {
+    grid-column: span 2;
+}
+@media (max-width: 600px) {
+    .section3-packs {
+        padding: 4rem 1vw 2rem;
+    }
+    .section3-packs > figure figure:nth-child(4) {
+        grid-column: span 1;
+    }
+}
+/* Section4 */
+.section4-packs div:last-child {
+    flex-basis: 100%;
+}
+.section4-packs a {
+    margin: auto;
+}
+/* Sectionx */
+/* Sectionx */
+/* Sectionx */
+
+/* ---FOOTER--- */
+footer ul {
+    max-width: 20rem;
+    margin: auto;
+}
+
+/* ---SOPORTE--- */
+/* mi idea era poner una hoja de
+   estilos condicional para mantener
+   el css ordenado y si no bancaba usar esta */
+@supports not ((display:grid) or (display:flex)){
+    @import "style-p.css";
+}
+/* hola */
