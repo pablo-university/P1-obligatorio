@@ -1,7 +1,10 @@
-/* COMENTARIOS
+/* --- MIS NOTAS ---
 - usar efecto vidrio?
+- usar .elem.active||.elem .active y no .elem-active||.elem-active,
+  asi es solo agregar active en CUALQUIER elemento interactivo
+-
 */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
 /* ----------- GLOBALES ------------- */
 * {
     margin: 0;
@@ -10,12 +13,18 @@
     font-family: "Noto Sans", sans-serif;
     font-weight: 400;
     list-style: none;
+
+    user-select: none;
 }
 :root {
     /* colores */
+    --color-fondo: rgba(255, 255, 255, 0.20);
+    --color-fondo-elementos:white;
     --color-fuente: rgb(40, 40, 40);
+
     --color-link: #5549ff;
     --hover-link: rgb(162, 176, 255);
+
     --color-tabla: rgb(169, 196, 255);
 
     --margen-fuente: 1rem;
@@ -64,8 +73,6 @@ a:hover {
 }
 /* Boton */
 
-
-
 /* ----------- MIS BIBLIOTECAS ------------- */
 /* Mi biblioteca flex */
 .flex-space-between {
@@ -73,6 +80,10 @@ a:hover {
     gap: 1rem;
     flex-wrap: wrap;
     justify-content: space-between;
+}
+.flex-1 > *{
+    flex: 1;
+    padding: 1rem;
 }
 /* Mi biblioteca grid? */
 .grid-auto {
@@ -83,18 +94,105 @@ a:hover {
     grid-auto-flow: row dense;
 }
 
-
 /* ----------- CUERPO DE PAGINAS ------------- */
-/* LOGIN */
-.index{
+/* --- LOGIN --- */
+.index {
     height: 100vh;
-    background-color: darkslategray;
+    background-color: lightseagreen;
 
     place-content: center;
 }
-.contenedor-login{
+.contenedor-login {
     width: 12rem;
 }
+/* --- INTERNA GENERAL --- */
+.interna {
+    background: linear-gradient(
+        0deg,
+        rgb(236 236 236 / 48%) 0%,
+        rgb(242 242 242 / 50%) 100%
+    );
+}
+.contenedor-interna {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 10rem minmax(20rem, 1fr) 20rem;
+
+    background-color: var(--color-fondo);
+    backdrop-filter: blur(30px);
+    height: 100vh;
+}
+
+/* --- NAV --- */
+.nav{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+.nav h2{
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.nav ul{
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    flex-flow: column wrap;
+    place-content: center start;
+    /* como padre es flex estira ul */
+    flex-grow: 1;
+}
+.nav ul :last-child {
+    margin-top: auto;
+}
+/* Nav item activo */
+.nav .active{
+    color: lightseagreen;
+}
+
+/* --- SECTION1 --- */
+.section1{
+    display: grid;
+    gap: 1rem;
+    grid-template-rows: 1fr 1fr 1fr;
+
+    height: 100vh;
+    padding: 1rem;
+}
+/* Header */
+.section1 h1{
+    font-size: 2rem;
+    font-weight: 700;
+}
+.section1 h2{
+    font-weight: 700;
+}
+.section1 header > div{
+    background-color: var(--color-fondo-elementos);
+}
+
+/* --- SECTION2 --- */
+/* por defecto section dos viene sin verse
+se podria mejorar con js */
+.section2{
+    display: none;
+}
+/* --- ASIDE --- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* ---------- TABLAS Y FORMULARIO ------------ */
 /* TABLAS GENERAL */

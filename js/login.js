@@ -16,7 +16,7 @@ function ini() {
 	if (window.location.pathname != '/index.html' && window.location.pathname != '/') {
 		// si esta logueado
 		if (sessionStorage.getItem('logueado') === 'si') {
-			alert('hola ' + sessionStorage.getItem('nombre'))
+			$('.section1 h1').html(`Hola ${sessionStorage.getItem('nombre')}, bienvenido`);
 		} else {
 			window.location = 'index.html';
 		}

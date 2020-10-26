@@ -13,17 +13,57 @@
     <script src="js/login.js"></script>
     <!-- script general -->
     <script type="text/javascript" src="js/script.js"></script>
-    
+
     <!-- probando table sorter -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+
+    <!-- font-awesome -->
+    <script src="https://kit.fontawesome.com/cebf744b85.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
-    privada
-    <main>
-        <a href="index.html">home</a>
-    </main>
+<body class="interna">
 
+    <!-- probando maquetado basico -->
+    <section class="contenedor-interna">
+        <nav class="nav">
+            <h2>perSystem</h2>
+            <ul>
+                <li class="active">Dashboard</li>
+                <li>Personal</li>
+                <li>Detalles</li>
+                <li>Configuraciones</li>
+                <li>Salir</li>
+            </ul>
+        </nav>
+        <main class="main">
+            <section class="section1">
+                <header class="flex-space-between flex-1">
+                    <h1>Hola fulano, bienvenido!</h1>
+                    <div>
+                        <h2>Moneda local</h2>
+                        <p>precio de la moneda local actualmente</p>
+                        <i class="fas fa-dollar-sign fa-3x"></i>
+                    </div>
+                    <div>
+                        <h2>Personal</h2>
+                        <p>Personal contagiado con covid</p>
+                        <i class="fas fa-head-side-cough fa-3x"></i>
+                    </div>
+                </header>
+                <main>main</main>
+                <footer>footer</footer>
+            </section>
+            <section class="section2">
+                <h1>hola seccion dos</h1>
+            </section>
+        </main>
+        <aside class="aside">barra aside</aside>
+    </section>
+
+    <a href="index.html">home</a>
+
+    <!-- una simple tablita -->
     <table id="myTable" class="tablesorter">
         <thead>
             <tr>
