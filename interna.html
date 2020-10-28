@@ -24,8 +24,9 @@
 
 <body class="interna">
 
-    <!-- probando maquetado basico -->
+    <!-- contenedor-interna -->
     <section class="contenedor-interna">
+        <!-- nav -->
         <nav class="nav">
             <h2>perSystem</h2>
             <ul>
@@ -36,6 +37,7 @@
                 <li>Salir</li>
             </ul>
         </nav>
+        <!-- main -->
         <main class="main">
             <section class="section1">
                 <header class="flex-space-between flex-1">
@@ -56,44 +58,63 @@
             </section>
             <section class="section2">
                 <h1>hola seccion dos</h1>
+                <a href="index.html">home</a>
+
+                <!-- una simple tablita -->
+                <table id="myTable" class="tablesorter">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Edad</th>
+                            <th>Sexo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pablo</td>
+                            <td>Delfante</td>
+                            <td>23</td>
+                            <td>M</td>
+                        </tr>
+                        <tr>
+                            <td>Guille</td>
+                            <td>Delfante</td>
+                            <td>21</td>
+                            <td>m</td>
+                        </tr>
+                        <tr>
+                            <td>Paolo</td>
+                            <td>CHochil</td>
+                            <td>26</td>
+                            <td>f</td>
+                        </tr>
+                    </tbody>
+                </table>
             </section>
         </main>
-        <aside class="aside">barra aside</aside>
+        <!-- aside -->
+        <aside class="aside">barra aside
+            <section class="pendientes">
+                <h3>Pendientes</h3>
+                    <form action="" class="flex-space-between">
+                        <input type="text" name="tarea" id="tarea" placeholder="agrega tarea">
+                        <!-- 
+                    <input type="month" name="" id="">
+                    <input type="time" name="" id=""> -->
+                        <input type="button" value="agregar" id="add">
+                    </form>
+                <ul>
+                    <li>Asignar tareas</li>
+                    <li>Llamar consultora</li>
+                    <li>Jornal Tito</li>
+                </ul>
+                <i class="fas fa-broom fa-2x" id="remove"></i>
+            </section>
+        </aside>
     </section>
 
-    <a href="index.html">home</a>
 
-    <!-- una simple tablita -->
-    <table id="myTable" class="tablesorter">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Edad</th>
-                <th>Sexo</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Pablo</td>
-                <td>Delfante</td>
-                <td>23</td>
-                <td>M</td>
-            </tr>
-            <tr>
-                <td>Guille</td>
-                <td>Delfante</td>
-                <td>21</td>
-                <td>m</td>
-            </tr>
-            <tr>
-                <td>Paolo</td>
-                <td>CHochil</td>
-                <td>26</td>
-                <td>f</td>
-            </tr>
-        </tbody>
-    </table>
 
 
 </body>

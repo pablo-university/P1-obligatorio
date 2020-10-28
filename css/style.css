@@ -30,6 +30,7 @@
     --margen-fuente: 1rem;
 
     /* sombras */
+    --shadow-black: 0 0 10px 0px #00000014;
     --shadow-form: 0 0 5px 3px whitesmoke;
     --shadow-img: 0 0 5px 0px black;
 }
@@ -41,9 +42,6 @@ img {
 img:hover {
     filter: hue-rotate(-30deg);
     box-shadow: var(--shadow-img);
-}
-ul {
-    list-style: none;
 }
 h1,
 h2,
@@ -107,11 +105,7 @@ a:hover {
 }
 /* --- INTERNA GENERAL --- */
 .interna {
-    background: linear-gradient(
-        0deg,
-        rgb(236 236 236 / 48%) 0%,
-        rgb(242 242 242 / 50%) 100%
-    );
+    background: linear-gradient( 0deg, rgb(98 147 152 / 24%) 0%, rgb(224 224 224 / 49%) 100% );
 }
 .contenedor-interna {
     display: grid;
@@ -120,13 +114,20 @@ a:hover {
 
     background-color: var(--color-fondo);
     backdrop-filter: blur(30px);
-    height: 100vh;
+    min-height: 100vh;
 }
 
 /* --- NAV --- */
 .nav{
     display: flex;
     flex-direction: column;
+
+    /* posiciona estatico y define alto max */
+    position: sticky;
+    max-height: 100vh;
+    top: 0;
+    left: 0;
+
     padding: 1rem;
 }
 .nav h2{
@@ -156,7 +157,6 @@ a:hover {
     gap: 1rem;
     grid-template-rows: 1fr 1fr 1fr;
 
-    height: 100vh;
     padding: 1rem;
 }
 /* Header */
@@ -169,6 +169,7 @@ a:hover {
 }
 .section1 header > div{
     background-color: var(--color-fondo-elementos);
+    box-shadow: var(--shadow-black);
 }
 
 /* --- SECTION2 --- */
@@ -178,7 +179,22 @@ se podria mejorar con js */
     display: none;
 }
 /* --- ASIDE --- */
-
+.aside{
+    /* posiciona estatico y define alto max */
+    position: sticky;
+    top: 0;
+    right: 0;
+    
+    max-height: 100vh;
+    overflow-y: auto;
+}
+.pendientes{
+    width: 12rem;
+}
+/* active para tachado */
+.pendientes li.active{
+    text-decoration: line-through;
+}
 
 
 
@@ -216,7 +232,8 @@ tr:nth-child(even) {
 
 /* FORMULARIO GENERAL */
 label {
-    display: inline-block;
+    /* display: inline-block; */
+    display: block;
 }
 label > *:focus {
     outline: 2px solid lightgrey;
@@ -225,7 +242,7 @@ label > *:focus {
 input,
 textarea,
 select {
-    /* display: block; */
+    display: block;
     background-color: white;
     border: 1px solid black;
     padding: 0.5rem;
