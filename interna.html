@@ -47,16 +47,16 @@
         <main class="main">
             <section class="section1">
                 <header class="flex-space-between flex-1 card">
-                    <h1>Hola fulano, bienvenido!</h1>
+                    <h1 id="saludo">Hola fulano, bienvenido!</h1>
                     <div>
-                        <h2>Moneda local</h2>
-                        <p>precio de la moneda local actualmente</p>
-                        <i class="fas fa-dollar-sign fa-3x"></i>
+                        <h2>Femenino</h2>
+                        <p>Porcentaje de personal femenino en la empresa</p>
+                        <h1>35%</h1>
                     </div>
                     <div>
-                        <h2>Personal</h2>
-                        <p>Personal contagiado con covid</p>
-                        <i class="fas fa-head-side-cough fa-3x"></i>
+                        <h2>Edades</h2>
+                        <p>Promedio de edad del personal de trabajo</p>
+                        <h1>32 años</h1>
                     </div>
                 </header>
                 <main>main</main>
@@ -107,11 +107,10 @@
                             <!-- datalist -->
                             <input list="orient" name="orientacion" id="orientacion" placeholder="ingresa orientacion">
                             <datalist id="orient">
-                                <option value="Web">
-                                <option value="Arte">
-                                <option value="Diseño">
-                                <option value="Tecnología">
-                                <option value="Safari">
+                                <option value="web">
+                                <option value="diseño">
+                                <option value="tecnologia">
+                                <option value="app">
                             </datalist>
                             <br>
                             <br>
@@ -170,7 +169,6 @@
         </main>
         <!-- aside -->
         <aside class="aside">
-            <section class="grafico-torta">Plan de carrera</section>
             <canvas id="chart-2" width="400" height="400"></canvas>
             <hr>
             <section class="pendientes">
@@ -180,14 +178,14 @@
                     <!-- 
                     <input type="month" name="" id="">
                     <input type="time" name="" id=""> -->
-                    <input type="button" value="agregar" id="add" class="boton">
+                    <input type="button" value="agregar" class="boton add">
                 </form>
                 <ul>
                     <li>Asignar tareas</li>
                     <li>Llamar consultora</li>
                     <li>Jornal Tito</li>
                 </ul>
-                <i class="fas fa-broom fa-2x" id="remove"></i>
+                <i class="fas fa-broom fa-2x remove"></i>
             </section>
         </aside>
     </section>

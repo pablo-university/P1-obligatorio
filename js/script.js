@@ -16,6 +16,13 @@ personas = [
         orientacion: 'web'
     },
     {
+        nombre: 'guillermina',
+        genero: 'm',
+        feed: '30',
+        media: '50000',
+        orientacion: 'diseño'
+    },
+    {
         nombre: 'paola',
         genero: 'f',
         feed: '90',
@@ -23,7 +30,7 @@ personas = [
         orientacion: 'app'
     }
 ];
-
+const char2Data = [0,0,0,0]
 
 // --- FUNCIONES GLOBALES ---
 
@@ -51,7 +58,31 @@ function navClick(e) {
 
 // .section1 footerClick
 function footerClick(){
+// por definir
+}
 
+// .aside planDeCarrera
+function planDeCarrera(){
+    /* acorde a orientación de personas calcular plan de carrera
+       - deberia recorrer personas[i].orientacion
+       - data : [mi resultado] 
+       'Web','Diseño','Tecnología','Apps'
+       - LISTO funciona*/
+    personas.forEach(function (persona, i, arr){
+        switch(persona.orientacion) {
+            case 'web':
+              char2Data[0]++;
+              break;
+            case 'diseño':
+              char2Data[1]++;
+              break;
+            case 'tecnologia':
+              char2Data[2]++;
+              break;
+            default:
+              char2Data[3]++;
+          }
+    });
 }
 
 // .pendientes, maneja pendientes
@@ -64,9 +95,9 @@ function pendientes() {
     }
 
     //pendientesAdd, agrega elementos
-    $('.pendientes #add').click(pendientesAdd);
+    $('.pendientes .add').click(pendientesAdd);
     function pendientesAdd(e) {
-        let valor = $('.pendientes #add').prev().val();
+        let valor = $('.pendientes .add').prev().val();
         $('.pendientes ul').append(`<li>${valor}</li>`);
         // reparo temita de eventos
         $('.pendientes li').off('click');
@@ -74,7 +105,7 @@ function pendientes() {
     }
 
     //pendientesRemove, borra los tachados
-    $('.pendientes #remove').click(pendientesRemove);
+    $('.pendientes .remove').click(pendientesRemove);
     function pendientesRemove(e) {
 
         $('.pendientes li').each(pendienteRemove);
@@ -114,6 +145,8 @@ function ini() {
     pendientes();
 
     // CHART-2
+    planDeCarrera();//modifica const global char2Data
+    //chart.update(); xra actualizarla uso planDeCarrera y update()
     var ctx = document.getElementById('chart-2').getContext('2d');
     var chart = new Chart(ctx, {
         // The type of chart we want to create
@@ -123,20 +156,23 @@ function ini() {
         data: {
             // These labels appear in the legend and in the tooltips when hovering different arcs
             labels: [
-                'Red',
-                'Yellow',
-                'Blue'
+                'Web',
+                'Diseño',
+                'Tecnología',
+                'Apps'
             ],
             datasets: [{
-                data: [12, 19, 3],
+                data: char2Data,//data: [5, 19, 3, 1],
                 backgroundColor: [
                     'rgba(255, 99, 132)',
                     'rgba(54, 162, 235)',
+                    'rgba(54, 162, 100)',
                     'rgba(255, 206, 86)'
                 ],
                 borderColor: [
                     'rgba(255, 99, 132)',
                     'rgba(54, 162, 235)',
+                    'rgba(54, 162, 100)',
                     'rgba(255, 206, 86)'
                 ],
                 borderWidth: 2

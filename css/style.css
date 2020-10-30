@@ -213,6 +213,7 @@ se podria mejorar con js */
 
     max-height: 100vh;
     overflow-y: auto;
+    padding: 1rem 0 1rem;
 }
 .pendientes {
     width: 12rem;
