@@ -16,8 +16,10 @@ function ini() {
 	// Cuando hace click llama a corroborarUserPass
 	$('.index [type="submit"]').on('click', corrobarUserPass);
 
-	// Si localizacion NO es /index.html ni / (esto genera bucle con rutas absolutas)
-	if (window.location.pathname != '/index.html' && window.location.pathname != '/') {
+	// window.location.pathname != '/index.html' && window.location.pathname != '/'
+
+	// Si localizacion NO contiene index.html
+	if (window.location.pathname.indexOf('index.html') == -1) {
 		// si esta logueado
 		if (localStorage.getItem('logueado') === 'si') {
 			$('.section1 h1').html(`Hola ${localStorage.getItem('nombre')}, bienvenido`);
@@ -43,7 +45,7 @@ function corrobarUserPass(e) {
 		$('.index [type="password"]').val('');
 		$('.index .msg').text('El usuario no existe, intente con otro.');
 		$('.index .msg').show('fast');
-	// si usuario correcto
+		// si usuario correcto
 	} else if (usuarios[u] === p) {
 		$('.index .msg').text('Bienvenid@');
 		//$(this).parent().trigger('submit');
@@ -51,6 +53,9 @@ function corrobarUserPass(e) {
 		localStorage.setItem('nombre', u);
 		// en vez de enviar form modifica location
 		window.location = 'interna.html';
-	// si contraseña incorrecta
-	} else $('.index .msg').text('Contraseña incorrecta');
+		// si contraseña incorrecta
+	} else {
+		$('.index .msg').text('Contraseña incorrecta');
+		$('.index .msg').show('fast');
+	};
 }//fin corrobarUserPass

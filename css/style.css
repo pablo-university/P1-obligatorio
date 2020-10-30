@@ -18,20 +18,19 @@
 }
 :root {
     /* colores */
-    --color-fondo: rgba(255, 255, 255, 0.20);
-    --color-fondo-elementos:white;
-    --color-fuente: rgb(40, 40, 40);
+    --color-fondo: rgb(46 69 89 / 8%);
+    --color-fondo-card: white;
+    --color-fuente: rgb(51, 51, 51);
 
-    --color-link: #5549ff;
-    --hover-link: rgb(162, 176, 255);
+    --color-link: #1a4861;
+    --hover-link: #316d8d;
 
-    --color-tabla: rgb(169, 196, 255);
+    --color-tabla:#1a486121;
 
     --margen-fuente: 1rem;
 
     /* sombras */
     --shadow-black: 0 0 10px 0px #00000014;
-    --shadow-form: 0 0 5px 3px whitesmoke;
     --shadow-img: 0 0 5px 0px black;
 }
 img {
@@ -41,7 +40,7 @@ img {
 }
 img:hover {
     filter: hue-rotate(-30deg);
-    box-shadow: var(--shadow-img);
+    /* box-shadow: var(--shadow-img); */
 }
 h1,
 h2,
@@ -59,6 +58,12 @@ span {
 i[class*="fa"] {
     margin-bottom: 0;
 }
+h1,
+h2,
+h3,
+h4 {
+    font-weight: 700;
+}
 /* Links */
 a {
     color: var(--color-link);
@@ -70,7 +75,19 @@ a:hover {
     color: var(--hover-link);
 }
 /* Boton */
-
+.boton {
+    background: var(--color-link);
+    display: block;
+    /* width: max-content; */
+    color: white;
+    font-weight: 400;
+    /* padding: 0.5em 1.5em; */
+    transition-property: background-color, outline;
+    transition-duration: 0.2s;
+}
+.boton:hover {
+    background-color: var(--hover-link) !important;
+}
 /* ----------- MIS BIBLIOTECAS ------------- */
 /* Mi biblioteca flex */
 .flex-space-between {
@@ -79,9 +96,15 @@ a:hover {
     flex-wrap: wrap;
     justify-content: space-between;
 }
-.flex-1 > *{
+.flex-1 > * {
     flex: 1;
     padding: 1rem;
+}
+/* Mi biblioteca card */
+.card > * {
+    background-color: var(--color-fondo-card);
+    box-shadow: var(--shadow-black);
+    border-radius: 5px;
 }
 /* Mi biblioteca grid? */
 .grid-auto {
@@ -96,7 +119,7 @@ a:hover {
 /* --- LOGIN --- */
 .index {
     height: 100vh;
-    background-color: lightseagreen;
+    background-color: cadetblue;
 
     place-content: center;
 }
@@ -104,21 +127,23 @@ a:hover {
     width: 12rem;
 }
 /* --- INTERNA GENERAL --- */
-.interna {
-    background: linear-gradient( 0deg, rgb(98 147 152 / 24%) 0%, rgb(224 224 224 / 49%) 100% );
+body {
+    background: url("1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
-.contenedor-interna {
+.interna {
     display: grid;
     gap: 2rem;
-    grid-template-columns: 10rem minmax(20rem, 1fr) 20rem;
-
-    background-color: var(--color-fondo);
-    backdrop-filter: blur(30px);
+    grid-template-columns: 14rem minmax(20rem, 1fr) 15rem;
+    /*  */
+    background: var(--color-fondo);
+    backdrop-filter: blur(1px);
     min-height: 100vh;
 }
 
 /* --- NAV --- */
-.nav{
+.nav {
     display: flex;
     flex-direction: column;
 
@@ -129,12 +154,12 @@ a:hover {
     left: 0;
 
     padding: 1rem;
+    box-shadow: var(--shadow-black);
 }
-.nav h2{
-    font-size: 1.5rem;
-    font-weight: 700;
+.nav > :first-child {
+    text-align: center;
 }
-.nav ul{
+.nav ul {
     display: flex;
     gap: 1rem;
     justify-content: space-between;
@@ -147,12 +172,12 @@ a:hover {
     margin-top: auto;
 }
 /* Nav item activo */
-.nav .active{
+.nav .active {
     color: lightseagreen;
 }
 
 /* --- SECTION1 --- */
-.section1{
+.section1 {
     display: grid;
     gap: 1rem;
     grid-template-rows: 1fr 1fr 1fr;
@@ -160,55 +185,42 @@ a:hover {
     padding: 1rem;
 }
 /* Header */
-.section1 h1{
+.section1 h1 {
     font-size: 2rem;
-    font-weight: 700;
+    margin: unset;
 }
-.section1 h2{
-    font-weight: 700;
-}
-.section1 header > div{
-    background-color: var(--color-fondo-elementos);
-    box-shadow: var(--shadow-black);
+.section1 footer .boton{
+    max-width: 12rem;
+    margin-right: auto;
+    margin-bottom: 1rem;
 }
 
 /* --- SECTION2 --- */
 /* por defecto section dos viene sin verse
 se podria mejorar con js */
-.section2{
-    display: none;
+.section2 {
+    display: grid;
+    gap: 1rem;
+    grid-template-rows: 1fr 1fr;
+    padding: 1rem;
 }
 /* --- ASIDE --- */
-.aside{
+.aside {
     /* posiciona estatico y define alto max */
     position: sticky;
     top: 0;
     right: 0;
-    
+
     max-height: 100vh;
     overflow-y: auto;
 }
-.pendientes{
+.pendientes {
     width: 12rem;
 }
 /* active para tachado */
-.pendientes li.active{
+.pendientes li.active {
     text-decoration: line-through;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* ---------- TABLAS Y FORMULARIO ------------ */
 /* TABLAS GENERAL */
@@ -232,22 +244,26 @@ tr:nth-child(even) {
 
 /* FORMULARIO GENERAL */
 label {
-    /* display: inline-block; */
-    display: block;
-}
-label > *:focus {
-    outline: 2px solid lightgrey;
-    box-shadow: var(--shadow-form);
+    /* predefinido son inline */
+    /* display: block; */
 }
 input,
 textarea,
 select {
-    display: block;
+    /* predefinido son inline-block */
+    /* display: block; */
     background-color: white;
-    border: 1px solid black;
     padding: 0.5rem;
     width: 100%;
+
+    outline: none;
+    border: none;
+    border-bottom: 2px solid var(--color-link);
 }
-input[type="submit"] {
-    border: 1px solid black;
+input[type='radio']{
+    width: auto;
+}
+input[type="submit"],
+input[type="button"] {
+    border: none;
 }

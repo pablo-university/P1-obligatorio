@@ -5,9 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interna</title>
+    <!-- Probando boostrap -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+    <!-- ------------------ -->
     <!--Estilos-->
     <link rel="stylesheet" href="css/style.css">
-    <!--cdn-->
+    <!--cdn jQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!--js login-->
     <script src="js/login.js"></script>
@@ -20,12 +23,15 @@
 
     <!-- font-awesome -->
     <script src="https://kit.fontawesome.com/cebf744b85.js" crossorigin="anonymous"></script>
+
+    <!-- Chartjs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 </head>
 
-<body class="interna">
+<body>
 
     <!-- contenedor-interna -->
-    <section class="contenedor-interna">
+    <section class="interna">
         <!-- nav -->
         <nav class="nav">
             <h2>perSystem</h2>
@@ -40,7 +46,7 @@
         <!-- main -->
         <main class="main">
             <section class="section1">
-                <header class="flex-space-between flex-1">
+                <header class="flex-space-between flex-1 card">
                     <h1>Hola fulano, bienvenido!</h1>
                     <div>
                         <h2>Moneda local</h2>
@@ -54,56 +60,128 @@
                     </div>
                 </header>
                 <main>main</main>
-                <footer>footer</footer>
+                <footer>
+                    <h2>Lista de revisión!</h2>
+                    <input type="button" value="agregar" id="add" class="boton">
+                    <div class="flex-space-between flex-1 card">
+                        <div>
+                            <h2>Maria</h2>
+                            <p>Encargada de registos de ingresos y egresos</p>
+                        </div>
+                        <div>
+                            <h2>Marcos</h2>
+                            <p>Encargado de la sección web</p>
+                        </div>
+                        <div>
+                            <h2>Sofia</h2>
+                            <p>Presente en recursos humanos y auxiliar</p>
+                        </div>
+                    </div>
+                </footer>
             </section>
             <section class="section2">
-                <h1>hola seccion dos</h1>
-                <a href="index.html">home</a>
+                <header class="flex-space-between flex-1 card">
+                    <section>
+                        <h2>Ingresar datos</h2>
+                        <form action="#">
+                            <!-- entrada nombre -->
+                            <input type="text" name="" id="" placeholder="ingresa nombre">
 
-                <!-- una simple tablita -->
-                <table id="myTable" class="tablesorter">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>Edad</th>
-                            <th>Sexo</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Pablo</td>
-                            <td>Delfante</td>
-                            <td>23</td>
-                            <td>M</td>
-                        </tr>
-                        <tr>
-                            <td>Guille</td>
-                            <td>Delfante</td>
-                            <td>21</td>
-                            <td>m</td>
-                        </tr>
-                        <tr>
-                            <td>Paolo</td>
-                            <td>CHochil</td>
-                            <td>26</td>
-                            <td>f</td>
-                        </tr>
-                    </tbody>
-                </table>
+                            <!-- entrada sexo -->
+                            <div>
+                                <br>
+                                <input type="radio" id="femenino" name="sexo" value="femenino">
+                                <label for="femenino">Femenino</label>
+
+                                <input type="radio" id="masculino" name="sexo" value="masculino">
+                                <label for="masculino">Masculino</label>
+                                <br>
+                                <br>
+                            </div>
+
+                            <!-- entrada rangos -->
+                            <label for="feed">Feed%:<input type="range" name="feed" id="feed" min="0" max="100"></label>
+                            <label for="feed">Media$:<input type="range" name="media" id="media" min="10000"
+                                    max="100000"></label>
+
+                            <!-- datalist -->
+                            <input list="orient" name="orientacion" id="orientacion" placeholder="ingresa orientacion">
+                            <datalist id="orient">
+                                <option value="Web">
+                                <option value="Arte">
+                                <option value="Diseño">
+                                <option value="Tecnología">
+                                <option value="Safari">
+                            </datalist>
+                            <br>
+                            <br>
+
+                            <!-- boton -->
+                            <input type="button" value="AGREGAR" class="boton">
+                        </form>
+                    </section>
+                    <section>
+                        <h2>hola mensajes</h2>
+                        <p class="msg">Aqui pienso notificar mensajes con alguna clase mensajes perteneciente SOLO a la
+                            seccion
+                            correspondiente, por ende cda seccion puede tener su clase msg</p>
+                        <a href="index.html">home</a>
+                    </section>
+                </header>
+                <main>
+                    <!-- una simple tablita -->
+                    <table id="myTable" class="tablesorter">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Genero</th>
+                                <th>Feed</th>
+                                <th>Media</th>
+                                <th>Orientación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pablo</td>
+                                <td>Delfante</td>
+                                <td>23</td>
+                                <td>M</td>
+                                <td>M</td>
+                            </tr>
+                            <tr>
+                                <td>Guille</td>
+                                <td>Delfante</td>
+                                <td>21</td>
+                                <td>m</td>
+                                <td>m</td>
+                            </tr>
+                            <tr>
+                                <td>Paolo</td>
+                                <td>CHochil</td>
+                                <td>26</td>
+                                <td>f</td>
+                                <td>f</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </main>
+
             </section>
         </main>
         <!-- aside -->
-        <aside class="aside">barra aside
+        <aside class="aside">
+            <section class="grafico-torta">Plan de carrera</section>
+            <canvas id="chart-2" width="400" height="400"></canvas>
+            <hr>
             <section class="pendientes">
                 <h3>Pendientes</h3>
-                    <form action="" class="flex-space-between">
-                        <input type="text" name="tarea" id="tarea" placeholder="agrega tarea">
-                        <!-- 
+                <form action="" class="flex-space-between">
+                    <input type="text" name="tarea" id="tarea" placeholder="agrega tarea">
+                    <!-- 
                     <input type="month" name="" id="">
                     <input type="time" name="" id=""> -->
-                        <input type="button" value="agregar" id="add">
-                    </form>
+                    <input type="button" value="agregar" id="add" class="boton">
+                </form>
                 <ul>
                     <li>Asignar tareas</li>
                     <li>Llamar consultora</li>
@@ -113,8 +191,6 @@
             </section>
         </aside>
     </section>
-
-
 
 
 </body>

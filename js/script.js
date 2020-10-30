@@ -1,5 +1,28 @@
-// --- VARIABLES GLOBALES ---
+/* NOTAS!!
+- msg: los .msg LOCALES serán llamados desde .seccion .msg
+        y los GLOBALES por #msg
+- si tgo tiempo crear un constructor para crear instancias y add personas
+ */
 
+
+// --- VARIABLES GLOBALES ---
+// arr personas con objetos en sus indices
+personas = [
+    {
+        nombre: 'pablo',
+        genero: 'm',
+        feed: '10',
+        media: '30000',
+        orientacion: 'web'
+    },
+    {
+        nombre: 'paola',
+        genero: 'f',
+        feed: '90',
+        media: '40000',
+        orientacion: 'app'
+    }
+];
 
 
 // --- FUNCIONES GLOBALES ---
@@ -25,6 +48,11 @@ function navClick(e) {
         if (confirm("Seguro salir")) { window.location = 'index.html'; }
     }
 }// fin navClick
+
+// .section1 footerClick
+function footerClick(){
+
+}
 
 // .pendientes, maneja pendientes
 function pendientes() {
@@ -63,19 +91,72 @@ function pendientes() {
 
 // --- DOCUMENT READY ---
 $(ini);
-// cuidado dos ini? en diferente js?!!!
+// cuidado dos ini?
 // FUNCIÓN INI
 function ini() {
-    // Probando table sorter
+    // --- Probando table sorter ---
     $("#myTable").tablesorter();
 
-    // navClick menú & secciones
+    // --- navClick menú & secciones ---
+    // oculto todo menos section1
+    $('.main >*:not(.section1)').hide();
     $('.nav li').click(navClick);
 
-    // main secciones...
+    // --- main secciones... ---
 
-    // aside
+    // .section1 slider
+    // .seccion1 footer add
+    $('.section1 .boton').click(footerClick);
+
+    // --- aside ---
+
     // .pendientes, maneja pendientes
     pendientes();
 
+    // CHART-2
+    var ctx = document.getElementById('chart-2').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'doughnut',
+
+        // The data for our dataset
+        data: {
+            // These labels appear in the legend and in the tooltips when hovering different arcs
+            labels: [
+                'Red',
+                'Yellow',
+                'Blue'
+            ],
+            datasets: [{
+                data: [12, 19, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132)',
+                    'rgba(54, 162, 235)',
+                    'rgba(255, 206, 86)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132)',
+                    'rgba(54, 162, 235)',
+                    'rgba(255, 206, 86)'
+                ],
+                borderWidth: 2
+            }]
+
+        },
+
+        // Configuration options go here
+        options: {
+            legend: {
+                display: true,
+                position: 'bottom'
+            },
+            title: {
+                display: true,
+                text: 'Plan de carrera'
+            }
+        }
+    });// fin chart-2
+    // -------------------
+
 }// fin ini
+
