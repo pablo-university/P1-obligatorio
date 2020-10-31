@@ -1,4 +1,4 @@
-/* --- MIS NOTAS ---
+/* --- MIS NOTAS CSS ---
 - usar efecto vidrio?
 - usar .elem.active||.elem .active y no .elem-active||.elem-active,
   asi es solo agregar active en CUALQUIER elemento interactivo
@@ -189,6 +189,18 @@ body {
     font-size: 2rem;
     margin: unset;
 }
+/* - Slider - */
+#sliders{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+}
+#sliders > div{
+    grid-area: 1/1/1/span 4;
+    opacity: 0;
+}
+/* Main */
+
+/* Footer */
 .section1 footer .boton{
     max-width: 12rem;
     margin-right: auto;

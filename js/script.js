@@ -1,7 +1,9 @@
-/* NOTAS!!
-- msg: los .msg LOCALES serán llamados desde .seccion .msg
-        y los GLOBALES por #msg
-- si tgo tiempo crear un constructor para crear instancias y add personas
+/* MIS NOTAS JS!!
+- COMPONENTES: los .msg LOCALES serán llamados desde .seccion .msg
+               y los GLOBALES por #msg, los sliders globales con #slider,
+               botones como .seccion .boton etc
+- SI E TIEMPO crear un constructor para crear instancias y add personas
+- PUSH vs PULL, push sube, pull 'baja' (git)
  */
 
 
@@ -30,7 +32,7 @@ personas = [
         orientacion: 'app'
     }
 ];
-const char2Data = [0,0,0,0]
+const chart2Data = [0, 0, 0, 0]
 
 // --- FUNCIONES GLOBALES ---
 
@@ -56,32 +58,58 @@ function navClick(e) {
     }
 }// fin navClick
 
+// #slider (no he probado para mas de 2 diapo)
+function sliders() {
+    let count = 0;
+    let sliders = $('#sliders > div');
+
+    function cambiaSlider() {
+        //$(sliders).hide();
+        $(sliders).animate({opacity:'0'});
+        if (count < $(sliders).length) {
+            //$(sliders).eq(count).show();
+            $(sliders).eq(count).animate({opacity:'1'});
+            count++;
+        } else {
+            count = 0;
+            $(sliders).eq(count).animate({opacity:'1'});
+            count++;
+        }// QUEDO CARAJO!
+    }
+    
+    // boton avanzar (100% ecologico jajajajaj)
+    $('#sliders .boton').click(cambiaSlider);
+    cambiaSlider(); // primera vez
+    // Esto es Async, explicar con enevent loop etc
+    setInterval(cambiaSlider, 10000);
+}
+
 // .section1 footerClick
-function footerClick(){
-// por definir
+function footerClick() {
+    // por definir
 }
 
 // .aside planDeCarrera
-function planDeCarrera(){
+function planDeCarrera() {
     /* acorde a orientación de personas calcular plan de carrera
        - deberia recorrer personas[i].orientacion
        - data : [mi resultado] 
        'Web','Diseño','Tecnología','Apps'
        - LISTO funciona*/
-    personas.forEach(function (persona, i, arr){
-        switch(persona.orientacion) {
+    personas.forEach(function (persona, i, arr) {
+        switch (persona.orientacion) {
             case 'web':
-              char2Data[0]++;
-              break;
+                chart2Data[0]++;
+                break;
             case 'diseño':
-              char2Data[1]++;
-              break;
+                chart2Data[1]++;
+                break;
             case 'tecnologia':
-              char2Data[2]++;
-              break;
+                chart2Data[2]++;
+                break;
             default:
-              char2Data[3]++;
-          }
+                chart2Data[3]++;
+        }
     });
 }
 
@@ -136,8 +164,15 @@ function ini() {
     // --- main secciones... ---
 
     // .section1 slider
+    /* - seleccionar DIVS a interactuar
+        - todos ocultos
+        - mostrar n
+        - btn avanza muestra if (n+1 != largoSeleccionado) else reset count  */
+    //$('.section1 header .boton')
+    sliders();
+
     // .seccion1 footer add
-    $('.section1 .boton').click(footerClick);
+    $('.section1 footer .boton').click(footerClick);
 
     // --- aside ---
 
@@ -145,7 +180,7 @@ function ini() {
     pendientes();
 
     // CHART-2
-    planDeCarrera();//modifica const global char2Data
+    planDeCarrera();//modifica const global chart2Data
     //chart.update(); xra actualizarla uso planDeCarrera y update()
     var ctx = document.getElementById('chart-2').getContext('2d');
     var chart = new Chart(ctx, {
@@ -162,20 +197,20 @@ function ini() {
                 'Apps'
             ],
             datasets: [{
-                data: char2Data,//data: [5, 19, 3, 1],
+                data: chart2Data,//data: [5, 19, 3, 1],
                 backgroundColor: [
-                    'rgba(255, 99, 132)',
-                    'rgba(54, 162, 235)',
-                    'rgba(54, 162, 100)',
-                    'rgba(255, 206, 86)'
+                    'rgba(255, 99, 132,.5)',
+                    'rgba(54, 162, 235,.5)',
+                    'rgba(54, 162, 100,.5)',
+                    'rgba(255, 206, 86,.5)'
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132)',
-                    'rgba(54, 162, 235)',
-                    'rgba(54, 162, 100)',
-                    'rgba(255, 206, 86)'
+                    'rgba(255, 99, 132,1)',
+                    'rgba(54, 162, 235,1)',
+                    'rgba(54, 162, 100,1)',
+                    'rgba(255, 206, 86,1)'
                 ],
-                borderWidth: 2
+                borderWidth: .5
             }]
 
         },
