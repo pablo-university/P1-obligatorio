@@ -3,9 +3,8 @@
                y los GLOBALES por #msg, los sliders globales con #slider,
                botones como .seccion .boton etc
 - SI E TIEMPO crear un constructor para crear instancias y add personas
-- PUSH vs PULL, push sube, pull 'baja' (git)
+- PUSH vs PULL, push sube, pull 'baja' (git)d
  */
-
 
 // --- VARIABLES GLOBALES ---
 // arr personas con objetos en sus indices
