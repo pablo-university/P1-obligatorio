@@ -190,13 +190,15 @@ body {
     margin: unset;
 }
 /* - Slider - */
-#sliders{
+#slider{
     display: grid;
-    grid-template-columns: repeat(5,1fr);
+    grid-template-columns: repeat(8,1fr);
 }
-#sliders > div{
-    grid-area: 1/1/1/span 4;
+#slider > div{
+    grid-area: 1/1/1/span 7;
     opacity: 0;
+
+    padding: 1rem;
 }
 /* Main */
 
@@ -213,7 +215,7 @@ se podria mejorar con js */
 .section2 {
     display: grid;
     gap: 1rem;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: auto auto;
     padding: 1rem;
 }
 /* --- ASIDE --- */

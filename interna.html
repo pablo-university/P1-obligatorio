@@ -18,8 +18,6 @@
     <script type="text/javascript" src="js/script.js"></script>
 
     <!-- probando table sorter -->
-    <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
 
     <!-- font-awesome -->
     <script src="https://kit.fontawesome.com/cebf744b85.js" crossorigin="anonymous"></script>
@@ -48,7 +46,7 @@
             <section class="section1">
                 <header class="flex-space-between flex-1 card">
                     <h1 id="saludo">Hola fulano, bienvenido!</h1>
-                    <div id="sliders">
+                    <div id="slider">
                         <div>
                             <h2>Femenino</h2>
                             <p>Porcentaje de personal femenino en la empresa</p>
@@ -137,14 +135,14 @@
                 </header>
                 <main>
                     <!-- una simple tablita -->
-                    <table id="myTable" class="tablesorter">
+                    <table id="table" class="#">
                         <thead>
                             <tr>
-                                <th>Nombre</th>
-                                <th>Genero</th>
-                                <th>Feed</th>
-                                <th>Media</th>
-                                <th>Orientación</th>
+                                <th data-head='nombre'>Nombre</th>
+                                <th data-head='genero'>Género</th>
+                                <th data-head='feed'>Feed</th>
+                                <th data-head='media'>Media</th>
+                                <th data-head='orientacion'>Orientación</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -154,20 +152,6 @@
                                 <td>23</td>
                                 <td>M</td>
                                 <td>M</td>
-                            </tr>
-                            <tr>
-                                <td>Guille</td>
-                                <td>Delfante</td>
-                                <td>21</td>
-                                <td>m</td>
-                                <td>m</td>
-                            </tr>
-                            <tr>
-                                <td>Paolo</td>
-                                <td>CHochil</td>
-                                <td>26</td>
-                                <td>f</td>
-                                <td>f</td>
                             </tr>
                         </tbody>
                     </table>
