@@ -3,31 +3,32 @@
                y los GLOBALES por #msg, los sliders globales con #slider,
                botones como .seccion .boton etc
 - SI E TIEMPO crear un constructor para crear instancias y add personas
-- PUSH vs PULL, push sube, pull 'baja' (git)d
+- PUSH vs PULL, push sube, pull 'baja', no modificar el redname de git que desp me rompe las b que actualice local
+- CODICIONAL ? (condificon) ? exp1 : exp2; como es una EXPRESION la resuelve y devuelve
  */
 
 // --- VARIABLES GLOBALES ---
 // arr personas con objetos en sus indices
 personas = [
     {
-        nombre: 'pablo',
+        nombre: 'a',
         genero: 'm',
-        feed: '10',
-        media: '30000',
+        feed: 1,
+        media: 30000,
         orientacion: 'web'
     },
     {
-        nombre: 'guillermina',
+        nombre: 'b',
         genero: 'm',
-        feed: '30',
-        media: '50000',
+        feed: 9,
+        media: 50000,
         orientacion: 'diseño'
     },
     {
-        nombre: 'paola',
+        nombre: 'c',
         genero: 'f',
-        feed: '90',
-        media: '40000',
+        feed: 8,
+        media: 40000,
         orientacion: 'app'
     }
 ];
@@ -57,29 +58,29 @@ function navClick(e) {
     }
 }// fin navClick
 
-// #slider (no he probado para mas de 2 diapo)
-function sliders() {
+// #slider (no he probado para mas de 3 diapo)
+function slider() {
     let count = 0;
-    let sliders = $('#sliders > div');
+    let sliders = $('#slider > div');
 
     function cambiaSlider() {
-        //$(sliders).hide();
-        $(sliders).animate({opacity:'0'});
+        // oculto todo
+        $(sliders).animate({ opacity: '0' });
+        // si no me pasé muestro slider de count
         if (count < $(sliders).length) {
-            //$(sliders).eq(count).show();
-            $(sliders).eq(count).animate({opacity:'1'});
+            $(sliders).eq(count).animate({ opacity: '1' });
             count++;
         } else {
             count = 0;
-            $(sliders).eq(count).animate({opacity:'1'});
-            count++;
-        }// QUEDO CARAJO!
+            $(sliders).eq(count).animate({ opacity: '1' });
+            count++;// QUEDO CARAJO!
+        }
     }
-    
+
     // boton avanzar (100% ecologico jajajajaj)
-    $('#sliders .boton').click(cambiaSlider);
+    $('#slider .boton').click(cambiaSlider);
     cambiaSlider(); // primera vez
-    // Esto es Async, explicar con enevent loop etc
+    // Esto es 'Async', explicar con enevent loop etc
     setInterval(cambiaSlider, 10000);
 }
 
@@ -87,6 +88,90 @@ function sliders() {
 function footerClick() {
     // por definir
 }
+
+
+// #table
+function table() {
+    // tood lo relacionado a tablas
+    let propAnterior = 'vacio';
+    /* con DESESTURACION seria -> const {nombre,genero,feed,media,orientacion} = personas[i] */
+
+    // drawTable
+    function drawTable() {
+        // limpio innerHTML del tbody
+        $('#table tbody').html('');
+        personas.forEach(drawPersonas);
+
+        function drawPersonas(elem, i, array) {
+            $('#table tbody')
+                .append(`<tr>
+                            <td>${elem.nombre}</td>
+                            <td>${elem.genero}</td>
+                            <td>${elem.feed}</td>
+                            <td>${elem.media}</td>
+                            <td>${elem.orientacion}</td>
+                        </tr>`);
+        }
+    };// drawTable se auta ejecuta (una vez)
+
+    // orderTable
+    function orderTable(e) {
+        // prop es tomada del data-head
+        let prop = $(this).attr('data-head');
+
+        if (prop != propAnterior) {
+            // ordena acorode typeof
+            if (typeof personas[0][prop] == 'string') {
+                personas.sort((a, b) => a[prop].localeCompare(b[prop]));
+            } else personas.sort((a, b) => a[prop] - b[prop]);
+
+            // oculta los demas & muestra icono, selecciona fondo etc
+            $('#table thead i').css({'opacity':'0','transform':'rotate(0deg)'});
+            $(this).children('i').css('opacity', 1);
+
+            drawTable();// dibuja tabla
+            propAnterior = prop;
+        } else {
+            personas.reverse();
+
+            // invierte icono
+            $(this).children('i').css('transform','rotate(180deg)');
+            drawTable();// dibuja tabla
+            propAnterior = 'vacio';
+        }
+
+    }// fin orderTable
+
+    // addToTable
+    function addToTable() {
+        /* - cuando este ingresando:
+                - validar cada campo
+                - muestra mensajes de errores
+            - al presionar agregar:
+                - añadir a array
+                - imprimir tabla */
+        const {nombre='err',sexo='err',feed='err',media='err',orientacion='err'} = {
+            nombre: $('.section2 #nombre').val(),
+            sexo: $('.section2 input[name="sexo"]:checked').val(),
+            feed: $('.section2 #feed').val(),
+            media: $('.section2 #media').val(),
+            orientacion: $('.section2 #orientacion').val()
+        }; 
+
+        console.log($('label #perro').html());
+
+        $('.section2 .msg').text(`${nombre}|${sexo}|${feed}|${media}|${orientacion}`);
+    }
+
+    // añade evento click en head
+    $('#table thead th').click(orderTable);
+    // draw #table primera vez
+    drawTable();
+
+    // mas eventos de tabla...
+    $('.section2 .boton').click(addToTable);
+
+}// fin #table
 
 // .aside planDeCarrera
 function planDeCarrera() {
@@ -152,29 +237,30 @@ $(ini);
 // cuidado dos ini?
 // FUNCIÓN INI
 function ini() {
-    // --- Probando table sorter ---
-    $("#myTable").tablesorter();
 
     // --- navClick menú & secciones ---
     // oculto todo menos section1
-    $('.main >*:not(.section1)').hide();
+    // $('.main >*:not(.section1)').hide();
     $('.nav li').click(navClick);
 
     // --- main secciones... ---
 
-    // .section1 slider
+    // .section1 #slider
     /* - seleccionar DIVS a interactuar
         - todos ocultos
         - mostrar n
-        - btn avanza muestra if (n+1 != largoSeleccionado) else reset count  */
-    //$('.section1 header .boton')
-    sliders();
+        - btn avanza if (n+1 < largoSeleccionado) else reset count  */
+    slider();
+
+    // .section1 main
 
     // .seccion1 footer add
     $('.section1 footer .boton').click(footerClick);
 
-    // --- aside ---
+    // .seccion2 main (tabla)
+    table();
 
+    // --- aside ---
     // .pendientes, maneja pendientes
     pendientes();
 
