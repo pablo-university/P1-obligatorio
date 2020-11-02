@@ -95,7 +95,7 @@ function footerClick() {
 function table() {
     // tood lo relacionado a tablas
     let propAnterior = 'vacio';
-    /* con DESESTURACION seria -> const {nombre,genero,feed,media,orientacion} = elemento */
+    /* con DESESTURACION seria -> const {nombre,genero,feed,media,orientacion} = personas[i] */
 
     // drawTable
     function drawTable() {
@@ -117,7 +117,7 @@ function table() {
 
     // orderTable
     function orderTable(e) {
-        // !!! revisar esto y sintetizarlo
+        // prop es tomada del data-head
         let prop = $(this).attr('data-head');
 
         if (propAnterior != prop) {
@@ -126,10 +126,19 @@ function table() {
                 personas.sort((a, b) => a[prop].localeCompare(b[prop]));
             } else personas.sort((a, b) => a[prop] - b[prop]);
 
-            propAnterior = prop;
+            // VAMOOOOOOOOOOO!!!!
+            // oculta los demas & muestra icono, selecciona fondo etc
+            $('#table thead i').css({'opacity':'0','transform':'rotate(0deg)'});
+            // console.log(e.target.localName);
+            $(this).children('i').css('opacity',1);
+
             drawTable();// dibuja tabla
+            propAnterior = prop;
         } else {
             personas.reverse();
+
+            // invierte icono
+            $(this).children('i').css('transform','rotate(180deg)');
             drawTable();
             propAnterior = 'vacio';
         }
