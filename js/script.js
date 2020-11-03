@@ -32,7 +32,7 @@ personas = [
         orientacion: 'app'
     }
 ];
-const chart2Data = [0, 0, 0, 0]
+const chart2Data = [0, 0, 0, 0, 0]
 
 // --- FUNCIONES GLOBALES ---
 
@@ -126,7 +126,7 @@ function table() {
             } else personas.sort((a, b) => a[prop] - b[prop]);
 
             // oculta los demas & muestra icono, selecciona fondo etc
-            $('#table thead i').css({'opacity':'0','transform':'rotate(0deg)'});
+            $('#table thead i').css({ 'opacity': '0', 'transform': 'rotate(0deg)' });
             $(this).children('i').css('opacity', 1);
 
             drawTable();// dibuja tabla
@@ -135,7 +135,7 @@ function table() {
             personas.reverse();
 
             // invierte icono
-            $(this).children('i').css('transform','rotate(180deg)');
+            $(this).children('i').css('transform', 'rotate(180deg)');
             drawTable();// dibuja tabla
             propAnterior = 'vacio';
         }
@@ -144,32 +144,64 @@ function table() {
 
     // addToTable
     function addToTable() {
-        /* - cuando este ingresando:
-                - validar cada campo
-                - muestra mensajes de errores
-            - al presionar agregar:
-                - añadir a array
-                - imprimir tabla */
-        const {nombre='err',sexo='err',feed='err',media='err',orientacion='err'} = {
+        // obtengo newPersona
+        const newPersona = {
             nombre: $('.section2 #nombre').val(),
-            sexo: $('.section2 input[name="sexo"]:checked').val(),
+            genero: $('.section2 input[type="radio"]:checked').val(),
             feed: $('.section2 #feed').val(),
             media: $('.section2 #media').val(),
             orientacion: $('.section2 #orientacion').val()
-        }; 
+        };
+        // desestructuro newPersona
+        const { nombre = 'err', genero = 'err', feed = 'err', media = 'err', orientacion = 'err' } = newPersona;
 
-        console.log($('label #perro').html());
-
-        $('.section2 .msg').text(`${nombre}|${sexo}|${feed}|${media}|${orientacion}`);
+        // controla que nombre&orientación NO sean vacíos
+        if (nombre == orientacion){
+            $('.section2 .msg').html('El campo <mark>nombre y orientación</mark> son vacíos')
+        } else if (nombre == '') {
+            $('.section2 .msg').html('El campo <mark>ingresa nombre</mark> es vacío')
+        } else if (orientacion == ''){
+            $('.section2 .msg').html('El campo <mark>orientación</mark> es vacío')
+        } else {
+            // push al arreglo personas & draw
+            personas.push(newPersona);
+            drawTable();
+            $('.section2 #nombre,.section2 #orientacion').val('');
+            $('.section2 .msg').html('Los datos fueron gregados <mark>correctamente</mark>')
+        }
+        
+        //console.log(nombre,orientacion);
+        //$('.section2 .msg').text(`${nombre}|${genero}|${feed}|${media}|${orientacion}`);
     }
 
-    // añade evento click en head
+    // checkForm
+    function checkForm() {
+        // añade escucha click addtoTable...
+        $('.section2 .boton').click(addToTable);
+
+        // añade escucha focusout a nombre
+        $('.section2 #orientacion, .section2 #nombre').focusout(function () {
+            console.log(this.value == '')
+            if (this.value == '') {
+                $('.section2 .msg').html(`campo <mark>${$(this).attr('placeholder')}</mark> se encuentra vacío`);
+            } else $('.section2 .msg').text('...')
+        });
+
+        // añade escucha change(cambio) a range
+        $('.section2 [type="range"]').change(function () {
+            $(this).prev().text($(this).val());
+        });
+    }
+
+    // - Eventos Form -
+    checkForm();
+
+
+    // - Eventos Table -
+    // añade escucha click en head
     $('#table thead th').click(orderTable);
     // draw #table primera vez
     drawTable();
-
-    // mas eventos de tabla...
-    $('.section2 .boton').click(addToTable);
 
 }// fin #table
 
@@ -191,8 +223,11 @@ function planDeCarrera() {
             case 'tecnologia':
                 chart2Data[2]++;
                 break;
-            default:
+            case 'app':
                 chart2Data[3]++;
+                break;
+            default:
+                chart2Data[4]++;
         }
     });
 }
@@ -279,21 +314,24 @@ function ini() {
                 'Web',
                 'Diseño',
                 'Tecnología',
-                'Apps'
+                'Apps',
+                'Otro'
             ],
             datasets: [{
-                data: chart2Data,//data: [5, 19, 3, 1],
+                data: chart2Data,//data: [5, 19, 3, 1, otro],
                 backgroundColor: [
                     'rgba(255, 99, 132,.5)',
                     'rgba(54, 162, 235,.5)',
                     'rgba(54, 162, 100,.5)',
-                    'rgba(255, 206, 86,.5)'
+                    'rgba(255, 206, 86,.5)',
+                    'rgba(255, 100, 86,.5)'
                 ],
                 borderColor: [
                     'rgba(255, 99, 132,1)',
                     'rgba(54, 162, 235,1)',
                     'rgba(54, 162, 100,1)',
-                    'rgba(255, 206, 86,1)'
+                    'rgba(255, 206, 86,.5)',
+                    'rgba(255, 100, 86,.5)'
                 ],
                 borderWidth: .5
             }]

@@ -95,20 +95,22 @@
                             <!-- entrada sexo -->
                             <div>
                                 <br>
-                                <input type="radio" id="femenino" name="sexo" value="f" checked>
+                                <input type="radio" id="femenino" name="genero" value="f" checked>
                                 <label for="femenino">Femenino</label>
 
-                                <input type="radio" id="masculino" name="sexo" value="m">
+                                <input type="radio" id="masculino" name="genero" value="m">
                                 <label for="masculino">Masculino</label>
                                 <br>
                                 <br>
                             </div>
                             <!-- entrada rangos -->
-                            <label for="feed" id="perro">Feed%:<input type="range" name="feed" id="feed" min="0" max="100"></label>
-                            <label for="feed">Media$:<input type="range" name="media" id="media" min="10000"
-                                    max="100000"></label>
+                            <label for="feed">Feed%: </label><span>50</span>
+                            <input type="range" name="feed" id="feed" min="0" max="100">
+
+                            <label for="media">Media$: </label><span>50000</span>
+                            <input type="range" name="media" id="media" min="10000" max="100000">
                             <!-- datalist -->
-                            <input list="orient" name="orientacion" id="orientacion" placeholder="ingresa orientacion">
+                            <input list="orient" name="orientacion" id="orientacion" placeholder="selecciona orientacion">
                             <datalist id="orient">
                                 <option value="web">
                                 <option value="diseño">
@@ -122,11 +124,8 @@
                         </form>
                     </section>
                     <section>
-                        <h2>hola mensajes</h2>
-                        <p class="msg">Aqui pienso notificar mensajes con alguna clase mensajes perteneciente SOLO a la
-                            seccion
-                            correspondiente, por ende cda seccion puede tener su clase msg</p>
-                        <a href="index.html">home</a>
+                        <h2>Mensajes</h2>
+                        <p class="msg">...</p>
                     </section>
                 </header>
                 <main>
