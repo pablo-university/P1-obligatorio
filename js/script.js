@@ -91,7 +91,7 @@ function footerClick() {
 
 
 // #table
-function table() {
+function table(chart2) {
     // tood lo relacionado a tablas
     let propAnterior = 'vacio';
     /* con DESESTURACION seria -> const {nombre,genero,feed,media,orientacion} = personas[i] */
@@ -153,23 +153,25 @@ function table() {
             orientacion: $('.section2 #orientacion').val()
         };
         // desestructuro newPersona
-        const { nombre = 'err', genero = 'err', feed = 'err', media = 'err', orientacion = 'err' } = newPersona;
+        const { nombre = 'err', genero = 'err', feed = 0, media = 0, orientacion = 'err' } = newPersona;
 
         // controla que nombre&orientación NO sean vacíos
-        if (nombre == orientacion){
+        if (nombre == orientacion) {
             $('.section2 .msg').html('El campo <mark>nombre y orientación</mark> están vacíos')
         } else if (nombre == '') {
             $('.section2 .msg').html('El campo <mark>ingresa nombre</mark> está vacío')
-        } else if (orientacion == ''){
+        } else if (orientacion == '') {
             $('.section2 .msg').html('El campo <mark>orientación</mark> está vacío')
         } else {
-            // push al arreglo personas & draw
+            // push al arreglo newPersona & draw
             personas.push(newPersona);
             drawTable();
+            // limpio algunos campos, y aviso que todo ok
             $('.section2 #nombre,.section2 #orientacion').val('');
             $('.section2 .msg').html('Los datos fueron gregados <mark>correctamente</mark>')
         }
-        // resolver updatear la grafica
+        // resolver updatear la grafica RESUELTO
+        planDeCarrera(chart2)
         //$('.section2 .msg').text(`${nombre}|${genero}|${feed}|${media}|${orientacion}`);
     }
 
@@ -195,7 +197,6 @@ function table() {
     // - Eventos Form -
     checkForm();
 
-
     // - Eventos Table -
     // añade escucha click en head
     $('#table thead th').click(orderTable);
@@ -205,12 +206,14 @@ function table() {
 }// fin #table
 
 // .aside planDeCarrera
-function planDeCarrera() {
-    /* acorde a orientación de personas calcular plan de carrera
-       - deberia recorrer personas[i].orientacion
+function planDeCarrera(chart2) {
+    /* acorde a orientación de personas:
+       - recorro personas[i].orientacion
        - data : [mi resultado] 
        'Web','Diseño','Tecnología','Apps'
        - LISTO funciona*/
+    chart2Data.fill(0);// reseteo char2Data
+
     personas.forEach(function (persona, i, arr) {
         switch (persona.orientacion) {
             case 'web':
@@ -225,10 +228,11 @@ function planDeCarrera() {
             case 'app':
                 chart2Data[3]++;
                 break;
-            default:
+            default:// 'otra' orientacion
                 chart2Data[4]++;
         }
     });
+    chart2.update();// updateo grafica
 }
 
 // .pendientes, maneja pendientes
@@ -271,44 +275,15 @@ $(ini);
 // cuidado dos ini?
 // FUNCIÓN INI
 function ini() {
-
-    // --- navClick menú & secciones ---
-    // oculto todo menos section1
-    // $('.main >*:not(.section1)').hide();
-    $('.nav li').click(navClick);
-
-    // --- main secciones... ---
-
-    // .section1 #slider
-    /* - seleccionar DIVS a interactuar
-        - todos ocultos
-        - mostrar n
-        - btn avanza if (n+1 < largoSeleccionado) else reset count  */
-    slider();
-
-    // .section1 main
-
-    // .seccion1 footer add
-    $('.section1 footer .boton').click(footerClick);
-
-    // .seccion2 main (tabla)
-    table();
-
-    // --- aside ---
-    // .pendientes, maneja pendientes
-    pendientes();
-
     // CHART-2
-    planDeCarrera();//modifica const global chart2Data
-    //chart.update(); xra actualizarla uso planDeCarrera y update()
-    var ctx = document.getElementById('chart-2').getContext('2d');
-    var chart = new Chart(ctx, {
-        // The type of chart we want to create
+    var ct2 = document.getElementById('chart-2').getContext('2d');
+    var chart2 = new Chart(ct2, {
+        // Tipo de grafica
         type: 'doughnut',
 
-        // The data for our dataset
+        // Conjunto de datos
         data: {
-            // These labels appear in the legend and in the tooltips when hovering different arcs
+            // Etiquetas al hacer hover
             labels: [
                 'Web',
                 'Diseño',
@@ -336,8 +311,7 @@ function ini() {
             }]
 
         },
-
-        // Configuration options go here
+        // Configuraciones
         options: {
             legend: {
                 display: true,
@@ -349,7 +323,34 @@ function ini() {
             }
         }
     });// fin chart-2
+    planDeCarrera(chart2);//modifica const global chart2Data + chart.update();
     // -------------------
+
+    // --- navClick menú & secciones ---
+    // oculto todo menos section1
+    // $('.main >*:not(.section1)').hide();
+    $('.nav li').click(navClick);
+
+    // --- main secciones... ---
+
+    // .section1 #slider
+    /* - seleccionar DIVS a interactuar
+        - todos ocultos
+        - mostrar n
+        - btn avanza if (n+1 < largoSeleccionado) else reset count  */
+    slider();
+
+    // .section1 main
+
+    // .seccion1 footer add
+    $('.section1 footer .boton').click(footerClick);
+
+    // .seccion2 main (tabla)
+    table(chart2);
+
+    // --- aside ---
+    // .pendientes, maneja pendientes
+    pendientes();
 
 }// fin ini
 
