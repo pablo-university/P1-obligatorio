@@ -46,17 +46,16 @@ h1,
 h2,
 h3,
 p,
-i,
 span {
     color: var(--color-fuente);
     margin-bottom: var(--margen-fuente);
-    /* white-space: pre-line; */
     /* transisiones de color en texto */
     transition: color 0.5s;
 }
-/*reset margin ico*/
-i[class*="fa"] {
-    margin-bottom: 0;
+/* conservan color pero no margen */
+li, i[class*="fa"]{
+    color: var(--color-fuente);
+    transition: color 0.5s;
 }
 h1,
 h2,
@@ -235,10 +234,23 @@ se podria mejorar con js */
 .pendientes {
     width: 12rem;
 }
-/* active para tachado */
+.pendientes ul{
+    display: grid;
+    gap: .5rem;
+
+    padding: .5rem 0 .5rem;
+}
+/* - active para tachado - */
 .pendientes li.active {
     text-decoration: line-through;
 }
+.pendientes li i{
+    opacity: 0;
+}
+.pendientes li.active i{
+    opacity: .8;
+}
+/* --- */
 
 /* ---------- TABLAS Y FORMULARIO ------------ */
 /* TABLAS GENERAL */
@@ -282,8 +294,8 @@ select {
     border: none;
     border-bottom: 2px solid var(--color-link);
 }
-/* --- mini personalización --- */
-input[type="radio"] {
+/* --- mini personalización (mejorar selectores)--- */
+input[type="radio"], input[type="checkbox"] {
     width: auto;
 }
 input[type="range"]{

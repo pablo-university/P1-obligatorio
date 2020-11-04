@@ -239,7 +239,7 @@ function planDeCarrera(chart2) {
 function pendientes() {
 
     // pendientesClick, tacha/destacha
-    $('.pendientes li').click(pendientesClick);
+    $('.pendientes li, .pendientes li > input').click(pendientesClick);
     function pendientesClick(e) {
         $(this).toggleClass('active');
     }
@@ -248,7 +248,7 @@ function pendientes() {
     $('.pendientes .add').click(pendientesAdd);
     function pendientesAdd(e) {
         let valor = $('.pendientes .add').prev().val();
-        $('.pendientes ul').append(`<li>${valor}</li>`);
+        $('.pendientes ul').append(`<li>${valor}<i class="fas fa-check"></i></li>`);
         // reparo temita de eventos
         $('.pendientes li').off('click');
         $('.pendientes li').click(pendientesClick);
@@ -257,7 +257,6 @@ function pendientes() {
     //pendientesRemove, borra los tachados
     $('.pendientes .remove').click(pendientesRemove);
     function pendientesRemove(e) {
-
         $('.pendientes li').each(pendienteRemove);
         function pendienteRemove(i, elem) {
             if (elem.className == 'active') {
@@ -271,9 +270,8 @@ function pendientes() {
 
 
 // --- DOCUMENT READY ---
-$(ini);
-// cuidado dos ini?
-// FUNCIÓN INI
+$(ini);// cuidado dos ini?
+// --- FUNCIÓN INI ---
 function ini() {
     // CHART-2
     var ct2 = document.getElementById('chart-2').getContext('2d');
@@ -294,20 +292,20 @@ function ini() {
             datasets: [{
                 data: chart2Data,//data: [5, 19, 3, 1, otro],
                 backgroundColor: [
-                    'rgba(255, 99, 132,.5)',
-                    'rgba(54, 162, 235,.5)',
-                    'rgba(54, 162, 100,.5)',
-                    'rgba(255, 206, 86,.5)',
-                    'rgba(255, 100, 86,.5)'
+                    'rgba(38, 180, 172, 1)',
+                    'rgba(26, 80, 97, 1)',
+                    'rgba(38, 150, 172, 1)',
+                    'rgba(26, 60, 97, 1)',
+                    'rgba(38, 150, 172, 1)'
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132,1)',
-                    'rgba(54, 162, 235,1)',
-                    'rgba(54, 162, 100,1)',
-                    'rgba(255, 206, 86,.5)',
-                    'rgba(255, 100, 86,.5)'
+                    'rgba(40, 40, 40, .5)',
+                    'rgba(40, 40, 40, .5)',
+                    'rgba(40, 40, 40, .5)',
+                    'rgba(40, 40, 40, .5)',
+                    'rgba(40, 40, 40, .5)'
                 ],
-                borderWidth: .5
+                borderWidth: 1
             }]
 
         },
