@@ -148,8 +148,8 @@ function table() {
         const newPersona = {
             nombre: $('.section2 #nombre').val(),
             genero: $('.section2 input[type="radio"]:checked').val(),
-            feed: $('.section2 #feed').val(),
-            media: $('.section2 #media').val(),
+            feed: parseInt($('.section2 #feed').val()),
+            media: parseInt($('.section2 #media').val()),
             orientacion: $('.section2 #orientacion').val()
         };
         // desestructuro newPersona
@@ -157,11 +157,11 @@ function table() {
 
         // controla que nombre&orientación NO sean vacíos
         if (nombre == orientacion){
-            $('.section2 .msg').html('El campo <mark>nombre y orientación</mark> son vacíos')
+            $('.section2 .msg').html('El campo <mark>nombre y orientación</mark> están vacíos')
         } else if (nombre == '') {
-            $('.section2 .msg').html('El campo <mark>ingresa nombre</mark> es vacío')
+            $('.section2 .msg').html('El campo <mark>ingresa nombre</mark> está vacío')
         } else if (orientacion == ''){
-            $('.section2 .msg').html('El campo <mark>orientación</mark> es vacío')
+            $('.section2 .msg').html('El campo <mark>orientación</mark> está vacío')
         } else {
             // push al arreglo personas & draw
             personas.push(newPersona);
@@ -169,8 +169,7 @@ function table() {
             $('.section2 #nombre,.section2 #orientacion').val('');
             $('.section2 .msg').html('Los datos fueron gregados <mark>correctamente</mark>')
         }
-        
-        //console.log(nombre,orientacion);
+        // resolver updatear la grafica
         //$('.section2 .msg').text(`${nombre}|${genero}|${feed}|${media}|${orientacion}`);
     }
 
@@ -183,7 +182,7 @@ function table() {
         $('.section2 #orientacion, .section2 #nombre').focusout(function () {
             console.log(this.value == '')
             if (this.value == '') {
-                $('.section2 .msg').html(`campo <mark>${$(this).attr('placeholder')}</mark> se encuentra vacío`);
+                $('.section2 .msg').html(`El campo <mark>${$(this).attr('placeholder')}</mark> se encuentra vacío`);
             } else $('.section2 .msg').text('...')
         });
 

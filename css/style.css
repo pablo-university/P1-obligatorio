@@ -140,6 +140,9 @@ body {
     background: var(--color-fondo);
     backdrop-filter: blur(1px);
     min-height: 100vh;
+    /* Auxiliares para que no se agrande mucho, cambiarlo */
+    max-width: 1280px;
+    margin: auto;
 }
 
 /* --- NAV --- */
@@ -279,9 +282,14 @@ select {
     border: none;
     border-bottom: 2px solid var(--color-link);
 }
+/* --- mini personalización --- */
 input[type="radio"] {
     width: auto;
 }
+input[type="range"]{
+    padding: inherit;
+}
+/* -------- */
 input[type="submit"],
 input[type="button"] {
     border: none;
