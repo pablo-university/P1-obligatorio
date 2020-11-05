@@ -110,7 +110,8 @@
                             <label for="media">Media$: </label><span>10000</span>
                             <input type="range" name="media" id="media" min="10000" max="100000" value="10000">
                             <!-- datalist -->
-                            <input list="orient" name="orientacion" id="orientacion" placeholder="selecciona orientacion">
+                            <input list="orient" name="orientacion" id="orientacion"
+                                placeholder="selecciona orientacion">
                             <datalist id="orient">
                                 <option value="web">
                                 <option value="diseño">
@@ -162,21 +163,37 @@
             <section class="pendientes">
                 <h3>Pendientes</h3>
                 <form action="" class="flex-space-between">
-                    <input type="text" name="tarea" id="tarea" placeholder="agrega tarea">
-                    <!-- 
-                    <input type="month" name="" id="">
-                    <input type="time" name="" id=""> -->
-                    <input type="button" value="agregar" class="boton add">
+                    <!-- entrada de pendiente -->
+                    <input type="text" name="pendiente" id="pendiente" placeholder="agrega pendiente">
+                    <!-- .add -->
+                    <input type="button" value="Agregar" class="boton add">
+                    <!-- .remove -->
+                    <input type="button" value="Limpiar" class="remove boton">
                 </form>
-                <ul> 
-                    <li>Asignar tareas<i class="fas fa-check"></i></li>
-                    <li>Llamar consultora<i class="fas fa-check"></i></li>
+                <ul>
+                    <li><i class="far fa-sticky-note"></i>Asignar tareas<i class="fas fa-check"></i></li>
+                    <li><i class="far fa-sticky-note"></i></i>Llamar consultora<i class="fas fa-check"></i></li>
                 </ul>
-                <i class="fas fa-broom fa-2x remove"><span>Limpiar</span></i>
+
+
             </section>
         </aside>
-    </section>
+    </section><!-- contenedor principal de interna -->
 
+    <!-- Modal, absoluto -->
+    <div id="modal" class="card">
+        <!-- flex-1 por el padding y card por el fondo y sombrita -->
+        <section>
+            <head>
+                <h2>Titulo de mi modal</h2><i class="far fa-window-close fa-lg"></i>
+            </head>
+            <main>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, omnis! Ullam molestias dolor aperiam
+                    iusto consequuntur ea temporibus quae nemo cum? Id beatae accusamus repellat, nesciunt quae sapiente
+                    repudiandae rem!</p>
+            </main>
+        </section>
+    </div>
 
 </body>
 

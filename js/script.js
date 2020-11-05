@@ -2,13 +2,30 @@
 - COMPONENTES: los .msg LOCALES serán llamados desde .seccion .msg
                y los GLOBALES por #msg, los sliders globales con #slider,
                botones como .seccion .boton etc
-- SI E TIEMPO crear un constructor para crear instancias y add personas
-- PUSH vs PULL, push sube, pull 'baja', no modificar el redname de git que desp me rompe las b que actualice local
-- CODICIONAL ? (condificon) ? exp1 : exp2; como es una EXPRESION la resuelve y devuelve
  */
 
 // --- VARIABLES GLOBALES ---
 // arr personas con objetos en sus indices
+
+/*  Me tiro un error como que no captaba
+    el responseJSON
+    personasData = obtenerPersonas();
+    personas = personasData.responseJSON; */
+/* var personas;
+function obtenerPersonas(){
+    $.ajax({
+        type:"GET",
+        url:"js/personas.json",
+        dataType: "json",
+        async:false,
+        success: function (dato){
+            personas = dato;
+        } 
+    })
+} */
+/* Oculte esto porque lo de CORs me bloqueaba
+ cuando abría el index */
+
 personas = [
     {
         nombre: 'a',
@@ -86,9 +103,10 @@ function slider() {
 
 // .section1 footerClick
 function footerClick() {
-    // por definir
-}
+    // modal(titulo,contenido);
+    modal('hola modal','<p>hola contenido</p>');
 
+}
 
 // #table
 function table(chart2) {
@@ -239,7 +257,7 @@ function planDeCarrera(chart2) {
 function pendientes() {
 
     // pendientesClick, tacha/destacha
-    $('.pendientes li, .pendientes li > input').click(pendientesClick);
+    $('.pendientes li').click(pendientesClick);
     function pendientesClick(e) {
         $(this).toggleClass('active');
     }
@@ -247,8 +265,9 @@ function pendientes() {
     //pendientesAdd, agrega elementos
     $('.pendientes .add').click(pendientesAdd);
     function pendientesAdd(e) {
-        let valor = $('.pendientes .add').prev().val();
-        $('.pendientes ul').append(`<li>${valor}<i class="fas fa-check"></i></li>`);
+        let valor = $('.pendientes #pendiente').val();
+        let elem = `<li><i class="far fa-sticky-note"></i>${valor}<i class="fas fa-check"></i></li>`;
+        $('.pendientes ul').append(elem);
         // reparo temita de eventos
         $('.pendientes li').off('click');
         $('.pendientes li').click(pendientesClick);
@@ -266,6 +285,30 @@ function pendientes() {
     }
 }// fin pendientes
 
+// Modal, sintaxis: modal(titulo,contenido);
+function modal(titulo,contenido) {
+    
+    // abre modal cuando el padre es llamado
+    $('#modal').slideDown();
+
+    // vacio & inserto contenido
+    $('#modal h2').html('').append(titulo);
+    $('#modal main').html('').append(contenido);
+
+    // cierra modal
+
+    $('#modal, #modal [class*="far"]').click(cierraModal);
+
+    function cierraModal(e) {
+        let elem = $(e.target);
+        let esModal = elem.attr('id') == 'modal';
+        // console.log(e.target.localName);
+        if (esModal || e.target.localName == 'i'){
+            $('#modal').slideUp()} 
+    }
+}// fin modal
+
+
 // fin funciones
 
 
@@ -273,6 +316,10 @@ function pendientes() {
 $(ini);// cuidado dos ini?
 // --- FUNCIÓN INI ---
 function ini() {
+    // traer personas
+    // obtenerPersonas();
+    // CHART-1
+    
     // CHART-2
     var ct2 = document.getElementById('chart-2').getContext('2d');
     var chart2 = new Chart(ct2, {
@@ -292,11 +339,11 @@ function ini() {
             datasets: [{
                 data: chart2Data,//data: [5, 19, 3, 1, otro],
                 backgroundColor: [
-                    'rgba(38, 180, 172, 1)',
-                    'rgba(26, 80, 97, 1)',
-                    'rgba(38, 150, 172, 1)',
-                    'rgba(26, 60, 97, 1)',
-                    'rgba(38, 150, 172, 1)'
+                    'rgba(235, 65, 65, 0.8)',
+                    'rgba(20, 184, 220, 0.8)',
+                    'rgba(20, 184, 220, 0.8)',
+                    'rgba(239, 196, 42, 0.8)',
+                    'rgba(20, 184, 220, 0.8)'
                 ],
                 borderColor: [
                     'rgba(40, 40, 40, .5)',

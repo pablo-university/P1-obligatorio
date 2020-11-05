@@ -1,0 +1,23 @@
+[
+    {
+        "nombre": "a",
+        "genero": "m",
+        "feed": 1,
+        "media": 30000,
+        "orientacion": "web"
+    },
+    {
+        "nombre": "b",
+        "genero": "m",
+        "feed": 9,
+        "media": 50000,
+        "orientacion": "diseño"
+    },
+    {
+        "nombre": "c",
+        "genero": "f",
+        "feed": 8,
+        "media": 40000,
+        "orientacion": "app"
+    }
+]

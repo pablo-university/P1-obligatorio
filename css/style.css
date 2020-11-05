@@ -22,8 +22,8 @@
     --color-fondo-card: white;
     --color-fuente: rgb(51, 51, 51);
 
-    --color-link: #1a4861;
-    --hover-link: #316d8d;
+    --color-link: lightseagreen;
+    --hover-link: mediumturquoise;
 
     --color-tabla: #1a486121;
 
@@ -33,6 +33,25 @@
     --shadow-black: 0 0 10px 0px #00000014;
     --shadow-img: 0 0 5px 0px black;
 }
+/* --- SCROLL --- */
+/* Tamaño del scroll */
+body::-webkit-scrollbar,
+aside::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Estilos barra (thumb) de scroll */
+body::-webkit-scrollbar-thumb,
+aside::-webkit-scrollbar-thumb{
+    background: #ccc;
+    border-radius: 5px;
+}
+/* Hover */
+body::-webkit-scrollbar-thumb:hover,
+aside::-webkit-scrollbar-thumb:hover {
+    background: var(--hover-link);
+}
+/* --- */
 img {
     width: 100%;
     object-fit: cover;
@@ -53,7 +72,8 @@ span {
     transition: color 0.5s;
 }
 /* conservan color pero no margen */
-li, i[class*="fa"]{
+li,
+i[class*="fa"] {
     color: var(--color-fuente);
     transition: color 0.5s;
 }
@@ -118,7 +138,7 @@ a:hover {
 /* --- LOGIN --- */
 .index {
     height: 100vh;
-    background-color: cadetblue;
+    background-color: darkgray;
 
     place-content: center;
 }
@@ -194,13 +214,18 @@ body {
 /* - Slider - */
 #slider {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(10, 1fr);
+
+    padding: 0;
 }
 #slider > div {
-    grid-area: 1/1/1 / span 7;
+    grid-area: 1/1/1 / span 9;
     opacity: 0;
 
     padding: 1rem;
+}
+#slider .boton:last-child {
+    border-radius: 0 5px 5px 0;
 }
 /* Main */
 
@@ -234,25 +259,31 @@ se podria mejorar con js */
 .pendientes {
     width: 12rem;
 }
-.pendientes ul{
+.pendientes ul {
     display: grid;
-    gap: .5rem;
+    gap: 0.5rem;
 
-    padding: .5rem 0 .5rem;
+    padding: 0.5rem 0 0.5rem;
 }
-/* - active para tachado - */
+.pendientes li {
+    background-color: white;
+    padding: 0.3rem;
+    border-radius: 3px;
+}
+/* - .active para tachado - */
 .pendientes li.active {
     text-decoration: line-through;
 }
-.pendientes li i{
+/* .active click correcto */
+.pendientes li i:last-child {
     opacity: 0;
 }
-.pendientes li.active i{
-    opacity: .8;
+.pendientes li.active i:last-child {
+    opacity: 0.8;
 }
 /* --- */
 
-/* ---------- TABLAS Y FORMULARIO ------------ */
+/* ---------- TABLAS, FORMULARIO Y MODAL ------------ */
 /* TABLAS GENERAL */
 table {
     font-family: arial, sans-serif;
@@ -295,10 +326,11 @@ select {
     border-bottom: 2px solid var(--color-link);
 }
 /* --- mini personalización (mejorar selectores)--- */
-input[type="radio"], input[type="checkbox"] {
+input[type="radio"],
+input[type="checkbox"] {
     width: auto;
 }
-input[type="range"]{
+input[type="range"] {
     padding: inherit;
 }
 /* -------- */
@@ -306,3 +338,27 @@ input[type="submit"],
 input[type="button"] {
     border: none;
 }
+
+/* MODAL */
+#modal {
+    position: fixed;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+
+    display: none;
+}
+#modal > * {
+    margin: 3rem auto;
+    width: 50vw;
+    padding: 3rem;
+
+    position: relative;
+}
+#modal [class*="far"]{
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+}
+
