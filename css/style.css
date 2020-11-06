@@ -138,7 +138,8 @@ a:hover {
 /* --- LOGIN --- */
 .index {
     height: 100vh;
-    background-color: darkgray;
+    background: url(../img/1.jpg);
+    background-size: cover;
 
     place-content: center;
 }
@@ -147,7 +148,7 @@ a:hover {
 }
 /* --- INTERNA GENERAL --- */
 body {
-    background: url("1.jpg");
+    background: url("../img/1.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -194,15 +195,20 @@ body {
     margin-top: auto;
 }
 /* Nav item activo */
-.nav .active {
+.nav .active, .nav .active i {
     color: lightseagreen;
+}
+.nav i{
+    margin-right: .5rem;
+    opacity: .8;
 }
 
 /* --- SECTION1 --- */
 .section1 {
     display: grid;
     gap: 1rem;
-    grid-template-rows: 1fr 1fr 1fr;
+    /* grid-template-rows: 1fr 1fr 1fr; */
+    grid-template-rows: auto auto auto;
 
     padding: 1rem;
 }
@@ -237,14 +243,25 @@ body {
 }
 
 /* --- SECTION2 --- */
-/* por defecto section dos viene sin verse
-se podria mejorar con js */
 .section2 {
     display: grid;
     gap: 1rem;
     grid-template-rows: auto auto;
     padding: 1rem;
+    margin-bottom: 50vh;
 }
+/* header */
+
+/* main */
+.section2 .search{
+    /* tiene clase flex space between */
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+.section2 .search >*{
+    max-width: 15rem;
+}
+
 /* --- ASIDE --- */
 .aside {
     /* posiciona estatico y define alto max */
@@ -267,8 +284,11 @@ se podria mejorar con js */
 }
 .pendientes li {
     background-color: white;
-    padding: 0.3rem;
+    padding: .3rem;
     border-radius: 3px;
+}
+.pendientes li i{
+    margin-right: .3rem;
 }
 /* - .active para tachado - */
 .pendientes li.active {
@@ -288,6 +308,7 @@ se podria mejorar con js */
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
+    width: 100%;
 }
 th,
 caption {
@@ -333,6 +354,9 @@ input[type="checkbox"] {
 input[type="range"] {
     padding: inherit;
 }
+/* input[type=search]:after{
+    content : url("#");
+} */
 /* -------- */
 input[type="submit"],
 input[type="button"] {

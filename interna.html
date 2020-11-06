@@ -34,11 +34,11 @@
         <nav class="nav">
             <h2>perSystem</h2>
             <ul>
-                <li class="active">Dashboard</li>
-                <li>Personal</li>
-                <li>Detalles</li>
-                <li>Configuraciones</li>
-                <li>Salir</li>
+                <li class="active"><i class="fas fa-chart-pie"></i>Dashboard</li>
+                <li><i class="fas fa-users"></i>Personal</li>
+                <li><i class="fas fa-stream"></i>Detalles</li>
+                <li><i class="fas fa-users-cog"></i>Configuraciones</li>
+                <li><i class="fas fa-sign-out-alt"></i>Salir</li>
             </ul>
         </nav>
         <!-- main -->
@@ -58,14 +58,14 @@
                             <h1>32 años</h1>
                         </div>
                         <div>
-                            <h2>OTRO SLIDER</h2>
-                            <p>Promedio de edadomedio de edadomedio de edadomedio de edad del personal de trabajo</p>
-                            <h1>32 años</h1>
+                            <h2>Proyección</h2>
+                            <p>Proyección de crecimiento anual con el equipo actual</p>
+                            <h1>10%</h1>
                         </div>
                         <input type="button" value=">" class="boton">
                     </div>
                 </header>
-                <main>main</main>
+                <main><canvas id="chart-1" width="400" height="400"></canvas></main>
                 <footer>
                     <h2>Lista de revisión!</h2>
                     <input type="button" value="agregar" class="boton">
@@ -129,28 +129,43 @@
                         <p class="msg">...</p>
                     </section>
                 </header>
-                <main>
-                    <!-- una simple tablita -->
-                    <table id="table" class="#">
-                        <thead>
-                            <tr>
-                                <th data-head='nombre'>Nombre<i class="fas fa-angle-down"></i></th>
-                                <th data-head='genero'>Género<i class="fas fa-angle-down"></i></th>
-                                <th data-head='feed'>Feed<i class="fas fa-angle-down"></i></th>
-                                <th data-head='media'>Media<i class="fas fa-angle-down"></i></th>
-                                <th data-head='orientacion'>Orientación<i class="fas fa-angle-down"></i></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Pablo</td>
-                                <td>Delfante</td>
-                                <td>23</td>
-                                <td>M</td>
-                                <td>M</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <main class="card flex-1">
+                    <div><!-- card -->
+                        <!-- buscador -->
+                        <section class="search flex-space-between">
+                            <input type="search" name="search" id="search" placeholder="buscar fila">
+                            <select name="search-target" id="search-target">
+                                <option value="nombre" selected disabled>Filtro</option>
+                                <option value="nombre">Nombre</option>
+                                <option value="genero">Genero</option>
+                                <option value="feed">Feed</option>
+                                <option value="media">Media</option>
+                                <option value="orientacion">orientacion</option>
+                            </select>
+                        </section>
+
+                        <!-- una simple tablita -->
+                        <table id="table" class="#">
+                            <thead>
+                                <tr>
+                                    <th data-head='nombre'>Nombre<i class="fas fa-angle-down"></i></th>
+                                    <th data-head='genero'>Género<i class="fas fa-angle-down"></i></th>
+                                    <th data-head='feed'>Feed<i class="fas fa-angle-down"></i></th>
+                                    <th data-head='media'>Media<i class="fas fa-angle-down"></i></th>
+                                    <th data-head='orientacion'>Orientación<i class="fas fa-angle-down"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Pablo</td>
+                                    <td>Delfante</td>
+                                    <td>23</td>
+                                    <td>M</td>
+                                    <td>M</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </main>
 
             </section>
@@ -184,6 +199,7 @@
     <div id="modal" class="card">
         <!-- flex-1 por el padding y card por el fondo y sombrita -->
         <section>
+
             <head>
                 <h2>Titulo de mi modal</h2><i class="far fa-window-close fa-lg"></i>
             </head>

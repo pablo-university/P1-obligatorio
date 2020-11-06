@@ -104,13 +104,19 @@ function slider() {
 // .section1 footerClick
 function footerClick() {
     // modal(titulo,contenido);
-    modal('hola modal','<p>hola contenido</p>');
+    modal('hola modal', '<p>hola contenido</p>');
 
 }
 
 // #table
 function table(chart2) {
-    // tood lo relacionado a tablas
+    /* CONTENIDO:
+        - drawTable
+        - orderTable
+        - addToTable
+        - checkForm
+        - search
+        - */
     let propAnterior = 'vacio';
     /* con DESESTURACION seria -> const {nombre,genero,feed,media,orientacion} = personas[i] */
 
@@ -212,8 +218,40 @@ function table(chart2) {
         });
     }
 
+    // search
+    function searchInTable(){
+
+        $('.section2 #search').keyup(buscar);
+        function buscar(){
+            let search = $('.section2 #search').val().toLocaleLowerCase();
+            let target = $('.section2 #search-target').val();
+            let rows = $('#table tbody tr');
+
+            // si es null dale nombre, sino target, esto x el disabled del select
+            target = target == null ? 'nombre' : target;
+
+            // buscando en personas
+            $(personas).each(buscando);
+            function buscando(i,persona){
+                
+                // pasa a string la clave de persona, y pregunta si coincide con search
+                let match = String(persona[target]).toLocaleLowerCase().indexOf(search) != -1;
+
+                // si encuentra muestra
+                if (match){$(rows[i]).slideDown();}
+                // sino oculta
+                else $(rows[i]).slideUp();
+            }
+
+        }
+        
+    }
+
     // - Eventos Form -
     checkForm();
+
+    // - Eventos search -
+    searchInTable();
 
     // - Eventos Table -
     // añade escucha click en head
@@ -286,8 +324,8 @@ function pendientes() {
 }// fin pendientes
 
 // Modal, sintaxis: modal(titulo,contenido);
-function modal(titulo,contenido) {
-    
+function modal(titulo, contenido) {
+
     // abre modal cuando el padre es llamado
     $('#modal').slideDown();
 
@@ -303,8 +341,9 @@ function modal(titulo,contenido) {
         let elem = $(e.target);
         let esModal = elem.attr('id') == 'modal';
         // console.log(e.target.localName);
-        if (esModal || e.target.localName == 'i'){
-            $('#modal').slideUp()} 
+        if (esModal || e.target.localName == 'i') {
+            $('#modal').slideUp()
+        }
     }
 }// fin modal
 
@@ -319,7 +358,35 @@ function ini() {
     // traer personas
     // obtenerPersonas();
     // CHART-1
-    
+    var ct1 = document.getElementById('chart-1').getContext('2d');
+    var char1 = new Chart(ct1, {
+        type: 'radar',
+        data: {
+            labels: ['1Trabajo en equipo', '2Compañerismo', '3Otro', '4Perfil'],
+            datasets: [{
+                label: 'titulografica',
+                data: [7,8,5,4],
+                pointRadius: 5,
+                backgroundColor:'rgba(200, 111, 111, 0.1)',
+                borderColor:'rgba(200, 111, 111, 0.5)',
+                // laburando aqui lo de la grafica radar
+            }]
+            
+        },
+        options : {
+            scale: {
+                angleLines: {
+                    display: true
+                },
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 10
+                }
+            }
+        }
+    });
+
+
     // CHART-2
     var ct2 = document.getElementById('chart-2').getContext('2d');
     var chart2 = new Chart(ct2, {
@@ -339,11 +406,11 @@ function ini() {
             datasets: [{
                 data: chart2Data,//data: [5, 19, 3, 1, otro],
                 backgroundColor: [
-                    'rgba(235, 65, 65, 0.8)',
-                    'rgba(20, 184, 220, 0.8)',
-                    'rgba(20, 184, 220, 0.8)',
-                    'rgba(239, 196, 42, 0.8)',
-                    'rgba(20, 184, 220, 0.8)'
+                    'rgba(235, 65, 65, 0.4)',
+                    'rgba(20, 184, 220, 0.4)',
+                    'rgba(20, 184, 220, 0.4)',
+                    'rgba(239, 196, 42, 0.4)',
+                    'rgba(20, 184, 220, 0.4)'
                 ],
                 borderColor: [
                     'rgba(40, 40, 40, .5)',
