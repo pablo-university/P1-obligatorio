@@ -1,9 +1,13 @@
 @charset "UTF-8";
 /* --- MIS NOTAS CSS ---
-- usar efecto vidrio?
+
 - usar .elem.active||.elem .active y no .elem-active||.elem-active,
   asi es solo agregar active en CUALQUIER elemento interactivo
--
+
+  SASS
+- @use "src/corners" as c; para cargar corners como c
+- @use "src/corners" as *; para cargar y tener acceso a todos los miembros
+- Acceder a elementos de otra hoja traida con @use: p {corners.elemento;}
 */
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
 /* ----------- GLOBALES ------------- */
@@ -19,7 +23,7 @@
 
 :root {
   /* colores */
-  --color-fondo: rgb(46 69 89 / 8%);
+  --color-fondo: rgb(46 69 89 / 3%);
   --color-fondo-card: white;
   --color-fuente: rgb(51, 51, 51);
   --color-link: lightseagreen;
@@ -150,8 +154,6 @@ a:hover {
 /* --- LOGIN --- */
 .index {
   height: 100vh;
-  background: url(../img/1.jpg);
-  background-size: cover;
   place-content: center;
 }
 
@@ -160,8 +162,9 @@ a:hover {
 }
 
 /* --- INTERNA GENERAL --- */
+/* hablo a todos los body! */
 body {
-  background: url("../img/1.jpg");
+  background: var(--color-fondo) url("../img/1.png");
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -170,9 +173,6 @@ body {
   display: grid;
   gap: 2rem;
   grid-template-columns: 14rem minmax(20rem, 1fr) 15rem;
-  /*  */
-  background: var(--color-fondo);
-  backdrop-filter: blur(1px);
   min-height: 100vh;
   /* Auxiliares para que no se agrande mucho, cambiarlo */
   max-width: 1280px;
@@ -403,14 +403,12 @@ input[type=button] {
   height: 100vh;
   display: none;
 }
-
 #modal > * {
   margin: 3rem auto;
   width: 50vw;
   padding: 3rem;
   position: relative;
 }
-
 #modal [class*=far] {
   position: absolute;
   top: 2rem;

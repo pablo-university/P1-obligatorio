@@ -6,8 +6,6 @@
 /* --- LOGIN --- */
 .index {
     height: 100vh;
-    background: url(../img/1.jpg);
-    background-size: cover;
 
     place-content: center;
 }
@@ -15,8 +13,9 @@
     width: 12rem;
 }
 /* --- INTERNA GENERAL --- */
+/* hablo a todos los body! */
 body {
-    background: url("../img/1.jpg");
+    background: var(--color-fondo) url("../img/1.png");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -24,9 +23,7 @@ body {
     display: grid;
     gap: 2rem;
     grid-template-columns: 14rem minmax(20rem, 1fr) 15rem;
-    /*  */
-    background: var(--color-fondo);
-    backdrop-filter: blur(1px);
+    
     min-height: 100vh;
     /* Auxiliares para que no se agrande mucho, cambiarlo */
     max-width: 1280px;
@@ -240,17 +237,21 @@ input[type="button"] {
     height: 100vh;
 
     display: none;
-}
-#modal > * {
-    margin: 3rem auto;
-    width: 50vw;
-    padding: 3rem;
 
-    position: relative;
+    & > * {
+        margin: 3rem auto;
+        width: 50vw;
+        padding: 3rem;
+    
+        position: relative;
+    }
+
+    & [class*="far"]{
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+    }
 }
-#modal [class*="far"]{
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
-}
+
+
 

@@ -1,9 +1,13 @@
 @charset "UTF-8";
 /* --- MIS NOTAS CSS ---
-- usar efecto vidrio?
+
 - usar .elem.active||.elem .active y no .elem-active||.elem-active,
   asi es solo agregar active en CUALQUIER elemento interactivo
--
+
+  SASS
+- @use "src/corners" as c; para cargar corners como c
+- @use "src/corners" as *; para cargar y tener acceso a todos los miembros
+- Acceder a elementos de otra hoja traida con @use: p {corners.elemento;}
 */
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
 /* ----------- GLOBALES ------------- */
@@ -19,7 +23,7 @@
 
 :root {
   /* colores */
-  --color-fondo: rgb(46 69 89 / 8%);
+  --color-fondo: rgb(46 69 89 / 3%);
   --color-fondo-card: white;
   --color-fuente: rgb(51, 51, 51);
   --color-link: lightseagreen;
