@@ -1,0 +1,109 @@
+/* --- MIS NOTAS CSS ---
+- usar efecto vidrio?
+- usar .elem.active||.elem .active y no .elem-active||.elem-active,
+  asi es solo agregar active en CUALQUIER elemento interactivo
+-
+*/
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
+/* ----------- GLOBALES ------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans", sans-serif;
+    font-weight: 400;
+    list-style: none;
+
+    user-select: none;
+}
+:root {
+    /* colores */
+    --color-fondo: rgb(46 69 89 / 8%);
+    --color-fondo-card: white;
+    --color-fuente: rgb(51, 51, 51);
+
+    --color-link: lightseagreen;
+    --hover-link: mediumturquoise;
+
+    --color-tabla: #1a486121;
+
+    --margen-fuente: 1rem;
+
+    /* sombras */
+    --shadow-black: 0 0 10px 0px #00000014;
+    --shadow-img: 0 0 5px 0px black;
+}
+/* --- SCROLL --- */
+/* Tamaño del scroll */
+body::-webkit-scrollbar,
+aside::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Estilos barra (thumb) de scroll */
+body::-webkit-scrollbar-thumb,
+aside::-webkit-scrollbar-thumb{
+    background: #ccc;
+    border-radius: 5px;
+}
+/* Hover */
+body::-webkit-scrollbar-thumb:hover,
+aside::-webkit-scrollbar-thumb:hover {
+    background: var(--hover-link);
+}
+/* --- */
+img {
+    width: 100%;
+    object-fit: cover;
+    transition: filter 0.5s, box-shadow 0.5s;
+}
+img:hover {
+    filter: hue-rotate(-30deg);
+    /* box-shadow: var(--shadow-img); */
+}
+h1,
+h2,
+h3,
+p,
+span {
+    color: var(--color-fuente);
+    margin-bottom: var(--margen-fuente);
+    /* transisiones de color en texto */
+    transition: color 0.5s;
+}
+/* conservan color pero no margen */
+li,
+i[class*="fa"] {
+    color: var(--color-fuente);
+    transition: color 0.5s;
+}
+h1,
+h2,
+h3,
+h4 {
+    font-weight: 700;
+}
+/* Links */
+a {
+    color: var(--color-link);
+    text-decoration: none;
+    transition: color 0.5s;
+}
+/* Hover Links */
+a:hover {
+    color: var(--hover-link);
+}
+/* Boton */
+.boton {
+    background: var(--color-link);
+    display: block;
+    /* width: max-content; */
+    color: white;
+    font-weight: 400;
+    /* padding: 0.5em 1.5em; */
+    transition-property: background-color, outline;
+    transition-duration: 0.2s;
+}
+.boton:hover {
+    background-color: var(--hover-link) !important;
+}

@@ -1,0 +1,29 @@
+/* ----------- MIS BIBLIOTECAS ------------- */
+/* Mi biblioteca flex */
+.flex-space-between {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.flex-1 > * {
+  flex: 1;
+  padding: 1rem;
+}
+
+/* Mi biblioteca card */
+.card > * {
+  background-color: var(--color-fondo-card);
+  box-shadow: var(--shadow-black);
+  border-radius: 5px;
+}
+
+/* Mi biblioteca grid? */
+.grid-auto {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+  grid-auto-rows: 12rem;
+  grid-auto-flow: row dense;
+}

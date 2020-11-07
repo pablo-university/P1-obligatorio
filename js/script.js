@@ -246,7 +246,7 @@ function table(chart2) {
         }
         
     }
-
+// ORDENAR ESTAS FUNCIONES
     // - Eventos Form -
     checkForm();
 

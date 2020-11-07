@@ -1,0 +1,256 @@
+@use 'globales';
+@use 'bibliotecas';
+
+
+/* ----------- CUERPO DE PAGINAS ------------- */
+/* --- LOGIN --- */
+.index {
+    height: 100vh;
+    background: url(../img/1.jpg);
+    background-size: cover;
+
+    place-content: center;
+}
+.contenedor-login {
+    width: 12rem;
+}
+/* --- INTERNA GENERAL --- */
+body {
+    background: url("../img/1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.interna {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 14rem minmax(20rem, 1fr) 15rem;
+    /*  */
+    background: var(--color-fondo);
+    backdrop-filter: blur(1px);
+    min-height: 100vh;
+    /* Auxiliares para que no se agrande mucho, cambiarlo */
+    max-width: 1280px;
+    margin: auto;
+}
+
+/* --- NAV --- */
+.nav {
+    display: flex;
+    flex-direction: column;
+
+    /* posiciona estatico y define alto max */
+    position: sticky;
+    max-height: 100vh;
+    top: 0;
+    left: 0;
+
+    padding: 1rem;
+    box-shadow: var(--shadow-black);
+}
+.nav > :first-child {
+    text-align: center;
+}
+.nav ul {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    flex-flow: column wrap;
+    place-content: center start;
+    /* como padre es flex estira ul */
+    flex-grow: 1;
+}
+.nav ul :last-child {
+    margin-top: auto;
+}
+/* Nav item activo */
+.nav .active, .nav .active i {
+    color: lightseagreen;
+}
+.nav i{
+    margin-right: .5rem;
+    opacity: .8;
+}
+
+/* --- SECTION1 --- */
+.section1 {
+    display: grid;
+    gap: 1rem;
+    /* grid-template-rows: 1fr 1fr 1fr; */
+    grid-template-rows: auto auto auto;
+
+    padding: 1rem;
+}
+/* Header */
+.section1 h1 {
+    font-size: 2rem;
+    margin: unset;
+}
+/* - Slider - */
+#slider {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+
+    padding: 0;
+}
+#slider > div {
+    grid-area: 1/1/1 / span 9;
+    opacity: 0;
+
+    padding: 1rem;
+}
+#slider .boton:last-child {
+    border-radius: 0 5px 5px 0;
+}
+/* Main */
+
+/* Footer */
+.section1 footer .boton {
+    max-width: 12rem;
+    margin-right: auto;
+    margin-bottom: 1rem;
+}
+
+/* --- SECTION2 --- */
+.section2 {
+    display: grid;
+    gap: 1rem;
+    grid-template-rows: auto auto;
+    padding: 1rem;
+    margin-bottom: 50vh;
+}
+/* header */
+
+/* main */
+.section2 .search{
+    /* tiene clase flex space between */
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+.section2 .search >*{
+    max-width: 15rem;
+}
+
+/* --- ASIDE --- */
+.aside {
+    /* posiciona estatico y define alto max */
+    position: sticky;
+    top: 0;
+    right: 0;
+
+    max-height: 100vh;
+    overflow-y: auto;
+    padding: 1rem 0 1rem;
+}
+.pendientes {
+    width: 12rem;
+}
+.pendientes ul {
+    display: grid;
+    gap: 0.5rem;
+
+    padding: 0.5rem 0 0.5rem;
+}
+.pendientes li {
+    background-color: white;
+    padding: .3rem;
+    border-radius: 3px;
+}
+.pendientes li i{
+    margin-right: .3rem;
+}
+/* - .active para tachado - */
+.pendientes li.active {
+    text-decoration: line-through;
+}
+/* .active click correcto */
+.pendientes li i:last-child {
+    opacity: 0;
+}
+.pendientes li.active i:last-child {
+    opacity: 0.8;
+}
+/* --- */
+
+/* ---------- TABLAS, FORMULARIO Y MODAL ------------ */
+/* TABLAS GENERAL */
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+th,
+caption {
+    font-weight: 700;
+}
+td,
+th {
+    border: 1px solid var(--color-tabla);
+    text-align: left;
+    padding: 0.5rem;
+}
+th i {
+    opacity: 0;
+    margin-left: 1rem;
+}
+tr:nth-child(even) {
+    background-color: var(--color-tabla);
+}
+
+/* FORMULARIO GENERAL */
+label {
+    /* predefinido son inline */
+    /* display: block; */
+}
+input,
+textarea,
+select {
+    /* predefinido son inline-block */
+    /* display: block; */
+    background-color: white;
+    padding: 0.5rem;
+    width: 100%;
+
+    outline: none;
+    border: none;
+    border-bottom: 2px solid var(--color-link);
+}
+/* --- mini personalización (mejorar selectores)--- */
+input[type="radio"],
+input[type="checkbox"] {
+    width: auto;
+}
+input[type="range"] {
+    padding: inherit;
+}
+/* input[type=search]:after{
+    content : url("#");
+} */
+/* -------- */
+input[type="submit"],
+input[type="button"] {
+    border: none;
+}
+
+/* MODAL */
+#modal {
+    position: fixed;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+
+    display: none;
+}
+#modal > * {
+    margin: 3rem auto;
+    width: 50vw;
+    padding: 3rem;
+
+    position: relative;
+}
+#modal [class*="far"]{
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+}
+
