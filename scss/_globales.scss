@@ -35,6 +35,7 @@
 
     /* sombras */
     --shadow-black: 0 0 10px 0px #00000014;
+    --shadow-black-hover: 0 0 10px 0px #00000020;
     --shadow-img: 0 0 5px 0px black;
 }
 /* --- SCROLL --- */
@@ -96,18 +97,4 @@ a {
 /* Hover Links */
 a:hover {
     color: var(--hover-link);
-}
-/* Boton */
-.boton {
-    background: var(--color-link);
-    display: block;
-    /* width: max-content; */
-    color: white;
-    font-weight: 400;
-    /* padding: 0.5em 1.5em; */
-    transition-property: background-color, outline;
-    transition-duration: 0.2s;
-}
-.boton:hover {
-    background-color: var(--hover-link) !important;
 }
