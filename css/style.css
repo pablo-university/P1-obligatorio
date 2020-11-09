@@ -32,7 +32,7 @@
   --margen-fuente: 1rem;
   /* sombras */
   --shadow-black: 0 0 10px 0px #00000014;
-  --shadow-black-hover: 0 0 10px 0px #00000020;
+  --shadow-black-hover: 0 0 10px 0px #00000030;
   --shadow-img: 0 0 5px 0px black;
 }
 
@@ -128,7 +128,7 @@ a:hover {
   grid-auto-flow: row dense;
 }
 
-/* ------------------------------- */
+/* ---- COMPONENTES ---- */
 /* Mi biblioteca card */
 .card > * {
   background-color: var(--color-fondo-card);
@@ -150,11 +150,34 @@ a:hover {
   font-weight: 400;
   /* padding: 0.5em 1.5em; */
   transition-property: background-color, outline;
-  transition-duration: 0.2s;
+  transition-duration: 0.3s;
 }
 
 .boton:hover {
   background-color: var(--hover-link) !important;
+}
+
+/* Mi biblioteca MODAL */
+#modal {
+  position: fixed;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  display: none;
+}
+#modal > * {
+  margin: 3rem auto;
+  max-height: 80vh;
+  width: 50vw;
+  padding: 3rem;
+  overflow-y: overlay;
+  position: relative;
+}
+#modal [class*=far] {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
 }
 
 /* ----------- CUERPO DE PAGINAS ------------- */
@@ -260,11 +283,23 @@ body {
 }
 
 /* Main */
+.section1 main .chart-1 {
+  /*  anulando tamaño
+      natural del canvas */
+  margin: auto;
+  width: 80%;
+}
+
 /* Footer */
 .section1 footer .boton {
   max-width: 12rem;
   margin-right: auto;
   margin-bottom: 1rem;
+}
+
+/* reglas a los .active de list */
+.section1 .list .active {
+  background: rgba(255, 67, 101, 0.3);
 }
 
 /* --- SECTION2 --- */
@@ -377,6 +412,7 @@ select {
   background-color: white;
   padding: 0.5rem;
   width: 100%;
+  resize: none;
   outline: none;
   border: none;
   border-bottom: 2px solid var(--color-link);
@@ -399,25 +435,4 @@ input[type=range] {
 input[type=submit],
 input[type=button] {
   border: none;
-}
-
-/* MODAL */
-#modal {
-  position: fixed;
-  top: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  width: 100vw;
-  height: 100vh;
-  display: none;
-}
-#modal > * {
-  margin: 3rem auto;
-  width: 50vw;
-  padding: 3rem;
-  position: relative;
-}
-#modal [class*=far] {
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
 }

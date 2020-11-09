@@ -99,6 +99,12 @@ body {
     border-radius: 0 5px 5px 0;
 }
 /* Main */
+.section1 main .chart-1{
+    /*  anulando tamaño
+        natural del canvas */
+    margin: auto;
+    width: 80%;
+}
 
 /* Footer */
 .section1 footer .boton {
@@ -106,6 +112,13 @@ body {
     margin-right: auto;
     margin-bottom: 1rem;
 }
+/* reglas a los .active de list */
+.section1 .list .active{
+    background: rgba(255, 67, 101, .3);
+
+
+}
+// #modal .contenedor-lista-agregar?
 
 /* --- SECTION2 --- */
 .section2 {
@@ -206,6 +219,7 @@ select {
     background-color: white;
     padding: 0.5rem;
     width: 100%;
+    resize: none;
 
     outline: none;
     border: none;
@@ -228,30 +242,6 @@ input[type="button"] {
     border: none;
 }
 
-/* MODAL */
-#modal {
-    position: fixed;
-    top: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    width: 100vw;
-    height: 100vh;
-
-    display: none;
-
-    & > * {
-        margin: 3rem auto;
-        width: 50vw;
-        padding: 3rem;
-    
-        position: relative;
-    }
-
-    & [class*="far"]{
-        position: absolute;
-        top: 2rem;
-        right: 2rem;
-    }
-}
 
 
 

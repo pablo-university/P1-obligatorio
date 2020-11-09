@@ -20,7 +20,7 @@
     grid-auto-flow: row dense;
 }
 
-/* ------------------------------- */
+/* ---- COMPONENTES ---- */
 
 /* Mi biblioteca card */
 .card > * {
@@ -43,8 +43,34 @@
     font-weight: 400;
     /* padding: 0.5em 1.5em; */
     transition-property: background-color, outline;
-    transition-duration: 0.2s;
+    transition-duration: 0.3s;
 }
 .boton:hover {
     background-color: var(--hover-link) !important;
+}
+
+/* Mi biblioteca MODAL */
+#modal {
+    position: fixed;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+
+    display: none;
+
+    & > * {
+        margin: 3rem auto;
+        max-height: 80vh;
+        width: 50vw;
+        padding: 3rem;
+        overflow-y: overlay;
+        position: relative;
+    }
+
+    & [class*="far"]{
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+    }
 }

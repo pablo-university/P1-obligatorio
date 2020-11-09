@@ -65,11 +65,15 @@
                         <input type="button" value=">" class="boton">
                     </div>
                 </header>
-                <main><canvas id="chart-1" width="400" height="400"></canvas></main>
+                <main>
+                    <div class="chart-1">
+                        <canvas id="chart-1" width="400" height="400"><!--  width="400" height="400" --></canvas>
+                    </div>
+                </main>
                 <footer>
                     <h2>Lista de revisión!</h2>
                     <input type="button" value="agregar" class="boton">
-                    <div class="flex-space-between flex-1 card">
+                    <div class="list flex-space-between flex-1 card">
                         <div>
                             <h2>Maria</h2>
                             <p>Encargada de registos de ingresos y egresos</p>
@@ -83,6 +87,7 @@
                             <p>Presente en recursos humanos y auxiliar</p>
                         </div>
                     </div>
+                    <em>...doble click para borrar, solo puedes seleccionar dos para comparar!</em>
                 </footer>
             </section>
             <section class="section2">
@@ -130,7 +135,8 @@
                     </section>
                 </header>
                 <main class="card flex-1">
-                    <div><!-- card -->
+                    <div>
+                        <!-- card -->
                         <!-- buscador -->
                         <section class="search flex-space-between">
                             <input type="search" name="search" id="search" placeholder="buscar fila">

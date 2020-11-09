@@ -101,12 +101,100 @@ function slider() {
     setInterval(cambiaSlider, 10000);
 }
 
-// .section1 footerClick
-function footerClick() {
-    // modal(titulo,contenido);
-    modal('hola modal', '<p>hola contenido</p>');
+// .section1 footer lista
+function lista() {
+    // - variables -
 
-}
+    // - funciones -
+    // manageLista
+    function manageList() {
+
+        // modal(titulo,contenido);
+        modal('Selecciona alguien para la lista',
+            `<input list="list-personas" placeholder="selecciona persona">
+            <datalist id="list-personas">
+                <!-- agrego dinamicamente nombres de mi array -->
+            </datalist>
+            <input type="button" value="Agregar" class="boton">
+            <p class='msg'></p>`);
+
+        // oculta y vacia msg
+        $('#modal .msg').html('').hide();
+
+        // imprime lista de personas
+        personas.forEach(recorrePersonas);
+        function recorrePersonas(elem) {
+            $('#modal #list-personas').append(`<option value="${elem.nombre}">`);
+        };
+
+        // escucha en agregar addToList
+        $('#modal .boton').click(addToList);
+    }//fin maneja lista
+
+    // addToList
+    function addToList() {
+
+        // nombre del input Datalist
+        let nombre = $('#modal input*[list="list-personas"]').val();
+        // pregunta si ya está agregado
+        let personaRepetida = $(`.list [data-nombre*="${nombre}"]`).length > 0;
+        // cubre campo vacío y agregar mal el nombre
+        let personaNoExiste = $(`#modal option[value*="${nombre}"]`).length == 0;
+
+        // oculta y vacia msg
+        $('#modal .msg').html('').hide();
+
+        // personaRepetida o personaNoExiste?
+        if (personaRepetida || personaNoExiste) {
+            let mensaje = personaRepetida ?
+                'El nombre <mark>ya está asignado</mark>' :
+                'Campo está <mark>vacío o incorrecto</mark>';
+            $('#modal .msg').show().html(mensaje);
+            $('#modal input*[list="list-personas"]').val('');
+        } else {
+            // agregar a lista persona
+            $('.section1 .list').append(
+                `<div data-nombre='${nombre}'>
+                    <h2>${nombre}</h2>
+                    <p>Descripcion de la persona?</p>
+                </div>`);
+            $('#modal input*[list="list-personas"]').val('');
+
+            // resetear y agregar evento a las card's
+            $('.section1 .list > *').off();
+            $('.section1 .list > *').dblclick(removeItemList);//borrar
+            $('.section1 .list > *').click(selectItemList);//select
+        }
+
+
+    }// fin addToList
+
+    // removeItemList
+    function removeItemList(e) {
+        this.remove();
+    }
+
+    // selectItemList
+    function selectItemList() {
+        // console.log(this);
+        let cantActive = $('.section1 .list .active').length;
+        let miBoolean = cantActive < 2;//primera vez cant = 0 => true
+        if (miBoolean) {
+            this.classList.toggle('active');
+        } else {
+            this.classList.toggle('active', miBoolean);
+        }
+
+    }
+
+    // - ejecución -
+    // manageList
+    $('.section1 footer .boton').click(manageList);
+
+    // removeItemList
+
+
+}// fin lista
 
 // #table
 function table(chart2) {
@@ -219,10 +307,10 @@ function table(chart2) {
     }
 
     // search
-    function searchInTable(){
+    function searchInTable() {
 
         $('.section2 #search').keyup(buscar);
-        function buscar(){
+        function buscar() {
             let search = $('.section2 #search').val().toLocaleLowerCase();
             let target = $('.section2 #search-target').val();
             let rows = $('#table tbody tr');
@@ -232,21 +320,21 @@ function table(chart2) {
 
             // buscando en personas
             $(personas).each(buscando);
-            function buscando(i,persona){
-                
+            function buscando(i, persona) {
+
                 // pasa a string la clave de persona, y pregunta si coincide con search
                 let match = String(persona[target]).toLocaleLowerCase().indexOf(search) != -1;
 
                 // si encuentra muestra
-                if (match){$(rows[i]).slideDown();}
+                if (match) { $(rows[i]).slideDown(); }
                 // sino oculta
                 else $(rows[i]).slideUp();
             }
 
         }
-        
+
     }
-// ORDENAR ESTAS FUNCIONES
+    // ORDENAR ESTAS FUNCIONES
     // - Eventos Form -
     checkForm();
 
@@ -356,36 +444,65 @@ $(ini);// cuidado dos ini?
 // --- FUNCIÓN INI ---
 function ini() {
     // traer personas
-    // obtenerPersonas();
+    // obtenerPersonas(); lo de ajax
     // CHART-1
     var ct1 = document.getElementById('chart-1').getContext('2d');
     var char1 = new Chart(ct1, {
         type: 'radar',
         data: {
-            labels: ['1Trabajo en equipo', '2Compañerismo', '3Otro', '4Perfil'],
+            labels: ['Media de sueldo', 'Match empresa', 'P.de capacitación', 'Ranking'],
             datasets: [{
-                label: 'titulografica',
-                data: [7,8,5,4],
+                // Persona 1
+                label: 'Persona1',
+                data: [74, 82, 45, 94],
                 pointRadius: 5,
-                backgroundColor:'rgba(200, 111, 111, 0.1)',
-                borderColor:'rgba(200, 111, 111, 0.5)',
-                // laburando aqui lo de la grafica radar
-            }]
-            
+                backgroundColor: 'rgba(20, 184, 220, .1)',
+                borderColor: 'rgba(20, 184, 220, 1)',
+                pointBackgroundColor: 'rgba(20, 184, 220, 1)',
+                pointBorderColor: 'rgba(255, 255, 255, 1)'
+            },
+            {
+                // Persona 2
+                label: 'Persona2',
+                data: [40, 24, 60, 84],
+                pointRadius: 5,
+                backgroundColor: 'rgba(255, 67, 101, .1)',
+                borderColor: 'rgba(255, 67, 101, 1)',
+                pointBackgroundColor: 'rgba(255, 67, 101, 1)',
+                pointBorderColor: 'rgba(255, 255, 255, 1)'
+            },
+            {
+                // Persona 3
+                label: 'Persona3',
+                data: [62, 45, 34, 54],
+                pointRadius: 5,
+                backgroundColor: 'rgba(248, 207, 62, .1)',
+                borderColor: 'rgba(248, 207, 62, 1)',
+                pointBackgroundColor: 'rgba(248, 207, 62, 1)',
+                pointBorderColor: 'rgba(255, 255, 255, 1)'
+            }]//fin datasets
+
         },
-        options : {
+        options: {
             scale: {
                 angleLines: {
                     display: true
                 },
                 ticks: {
                     suggestedMin: 0,
-                    suggestedMax: 10
+                    suggestedMax: 100
                 }
+            },
+            legend: {
+                display: true,
+                position: 'bottom'
+            },
+            title: {
+                display: true,
+                text: 'Análisis de perfiles'
             }
         }
     });
-
 
     // CHART-2
     var ct2 = document.getElementById('chart-2').getContext('2d');
@@ -396,29 +513,17 @@ function ini() {
         // Conjunto de datos
         data: {
             // Etiquetas al hacer hover
-            labels: [
-                'Web',
-                'Diseño',
-                'Tecnología',
-                'Apps',
-                'Otro'
-            ],
+            labels: ['Web', 'Diseño', 'Tecnología', 'Apps', 'Otro'],
             datasets: [{
                 data: chart2Data,//data: [5, 19, 3, 1, otro],
                 backgroundColor: [
-                    'rgba(235, 65, 65, 0.4)',
-                    'rgba(20, 184, 220, 0.4)',
-                    'rgba(20, 184, 220, 0.4)',
-                    'rgba(239, 196, 42, 0.4)',
-                    'rgba(20, 184, 220, 0.4)'
+                    'rgba(20, 184, 220, 1)',
+                    'rgba(255, 67, 101, .5)',
+                    'rgba(20, 184, 220, .5)',
+                    'rgba(248, 207, 62, .5)',
+                    'rgba(100, 100, 100, .5)'
                 ],
-                borderColor: [
-                    'rgba(40, 40, 40, .5)',
-                    'rgba(40, 40, 40, .5)',
-                    'rgba(40, 40, 40, .5)',
-                    'rgba(40, 40, 40, .5)',
-                    'rgba(40, 40, 40, .5)'
-                ],
+                borderColor: 'rgba(255, 255, 255, 1)',
                 borderWidth: 1
             }]
 
@@ -455,7 +560,7 @@ function ini() {
     // .section1 main
 
     // .seccion1 footer add
-    $('.section1 footer .boton').click(footerClick);
+    lista();
 
     // .seccion2 main (tabla)
     table(chart2);
