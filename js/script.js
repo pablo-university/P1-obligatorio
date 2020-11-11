@@ -2,6 +2,10 @@
 - COMPONENTES: los .msg LOCALES serán llamados desde .seccion .msg
                y los GLOBALES por #msg, los sliders globales con #slider,
                botones como .seccion .boton etc
+- DESESTRUCTURACION: es lo moderno de let a = arr[1] y... let b = arr[2]... etc
+                     const [a,b,c] = [1,2,3]; || [a,b,c] = [1,2,3]; sin declarar
+                     const {apellido, nombre} = objeto;
+- recorrerPersonas(personas, callback)?...
  */
 
 // --- VARIABLES GLOBALES ---
@@ -102,7 +106,7 @@ function slider() {
 }
 
 // .section1 footer lista
-function lista() {
+function lista(chart1) {
     // - variables -
 
     // - funciones -
@@ -172,7 +176,7 @@ function lista() {
     // removeItemList
     function removeItemList(e) {
         this.remove();
-    }
+    }// fin removeItemList
 
     // selectItemList
     function selectItemList() {
@@ -185,13 +189,67 @@ function lista() {
             this.classList.toggle('active', miBoolean);
         }
 
-    }
+        // nombre de personas que haya seleccionado
+        const personasSeleccionadas = [];
+
+        // obtener nombres seleccionados, 0, 1, o 2
+        $('.section1 .list .active').each(function (i) {
+            let nombre = $(this).attr('data-nombre');
+            // asumo que llegado aca no hay gente SIN data-nombre
+            personasSeleccionadas.push(nombre);
+        });
+
+        // arr con personasAInsertar
+        const personasAInsertar = [];
+        // recorro personas & si hay personas seleccionadas las agrega a personasAInsertar
+        personas.forEach(recorroPersonas);
+        function recorroPersonas(persona) {
+            // personasSeleccionadas incluye persona.nombre?
+            if (personasSeleccionadas.includes(persona.nombre)) {
+                // arr con datos de la persona a insertar
+                const personaAInsertar = [];
+                personaAInsertar.push((persona.media / 1000), (persona.feed * 10), parseInt(Math.random() * 100), parseInt(Math.random() * 100));
+                personasAInsertar.push(personaAInsertar);
+            }
+        }
+
+        /* - Estructura de datos en este scope -
+            personaAInsertar = [
+                personaAInsertar = [1,1,1,1...]
+                .
+                .
+        ] */
+
+        // si hay dos personas
+        if (personasAInsertar.length > 0) {
+
+            // vacío chart1 -> datasets
+            chart1.data.datasets = [];
+
+            // recorro personasAInsertar
+            personasAInsertar.forEach(recorroPersonasAInsertar);
+            function recorroPersonasAInsertar (persona,i,arr){
+                chart1.data.datasets.push({
+                    // Persona x
+                    label: 'Nombre de persona aqui',
+                    data: persona,
+                    pointRadius: 5,
+                    backgroundColor: 'rgba(248, 207, 62, .1)',
+                    borderColor: 'rgba(248, 207, 62, 1)',
+                    pointBackgroundColor: 'rgba(248, 207, 62, 1)',
+                    pointBorderColor: 'rgba(255, 255, 255, 1)'
+                });// fin pusheo persona
+            }
+        }// fin if
+
+
+        chart1.update();
+    }// fin selectItemList
 
     // - ejecución -
     // manageList
     $('.section1 footer .boton').click(manageList);
 
-    // removeItemList
 
 
 }// fin lista
@@ -447,10 +505,10 @@ function ini() {
     // obtenerPersonas(); lo de ajax
     // CHART-1
     var ct1 = document.getElementById('chart-1').getContext('2d');
-    var char1 = new Chart(ct1, {
+    var chart1 = new Chart(ct1, {
         type: 'radar',
         data: {
-            labels: ['Media de sueldo', 'Match empresa', 'P.de capacitación', 'Ranking'],
+            labels: ['Media de sueldo', 'Feed con empresa', 'P.de capacitación', 'Ranking'],
             datasets: [{
                 // Persona 1
                 label: 'Persona1',
@@ -464,16 +522,6 @@ function ini() {
             {
                 // Persona 2
                 label: 'Persona2',
-                data: [40, 24, 60, 84],
-                pointRadius: 5,
-                backgroundColor: 'rgba(255, 67, 101, .1)',
-                borderColor: 'rgba(255, 67, 101, 1)',
-                pointBackgroundColor: 'rgba(255, 67, 101, 1)',
-                pointBorderColor: 'rgba(255, 255, 255, 1)'
-            },
-            {
-                // Persona 3
-                label: 'Persona3',
                 data: [62, 45, 34, 54],
                 pointRadius: 5,
                 backgroundColor: 'rgba(248, 207, 62, .1)',
@@ -560,7 +608,7 @@ function ini() {
     // .section1 main
 
     // .seccion1 footer add
-    lista();
+    lista(chart1);
 
     // .seccion2 main (tabla)
     table(chart2);
