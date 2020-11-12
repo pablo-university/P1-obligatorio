@@ -100,10 +100,11 @@ body {
 }
 /* Main */
 .section1 main .chart-1{
-    /*  anulando tamaño
-        natural del canvas */
-    margin: auto;
     width: 80%;
+    /* anulando tamaño natural del canvasmargen
+    para que quede mas apretada la grafica
+    ya que configurarla manualmanente es mas huevo */
+    margin: -2rem auto -2rem;
 }
 
 /* Footer */
@@ -205,6 +206,11 @@ th i {
 tr:nth-child(even) {
     background-color: var(--color-tabla);
 }
+// ----- mini personalización ----
+tbody tr:hover {
+    background: var(--color-tabla-hover);
+}
+// ------------
 
 /* FORMULARIO GENERAL */
 label {

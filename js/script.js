@@ -6,15 +6,19 @@
                      const [a,b,c] = [1,2,3]; || [a,b,c] = [1,2,3]; sin declarar
                      const {apellido, nombre} = objeto;
 - recorrerPersonas(personas, callback)?...
+
+--- MI ESTRUCTURA GENERAL ---
+  @Cuando la estructura es grande:
+  - Variables
+  - Funciones
+    -mini intro
+  - Ejecuciones
+  @Cuando estructura es chica:
+  - Similar a como haciamos en clase
  */
 
 // --- VARIABLES GLOBALES ---
-// arr personas con objetos en sus indices
 
-/*  Me tiro un error como que no captaba
-    el responseJSON
-    personasData = obtenerPersonas();
-    personas = personasData.responseJSON; */
 /* var personas;
 function obtenerPersonas(){
     $.ajax({
@@ -24,7 +28,7 @@ function obtenerPersonas(){
         async:false,
         success: function (dato){
             personas = dato;
-        } 
+        }
     })
 } */
 /* Oculte esto porque lo de CORs me bloqueaba
@@ -34,21 +38,21 @@ personas = [
     {
         nombre: 'a',
         genero: 'm',
-        feed: 1,
+        feed: 10,
         media: 30000,
         orientacion: 'web'
     },
     {
         nombre: 'b',
         genero: 'm',
-        feed: 9,
+        feed: 90,
         media: 50000,
         orientacion: 'diseño'
     },
     {
         nombre: 'c',
         genero: 'f',
-        feed: 8,
+        feed: 80,
         media: 40000,
         orientacion: 'app'
     }
@@ -79,8 +83,11 @@ function navClick(e) {
     }
 }// fin navClick
 
-// #slider (no he probado para mas de 3 diapo)
+// #slider
 function slider() {
+    /*  - oculta todos los DIVS a interactuar
+        - mostrar n
+        - btn avanza if (n+1 < largoSeleccionado) else reset count  */
     let count = 0;
     let sliders = $('#slider > div');
 
@@ -101,7 +108,7 @@ function slider() {
     // boton avanzar (100% ecologico jajajajaj)
     $('#slider .boton').click(cambiaSlider);
     cambiaSlider(); // primera vez
-    // Esto es 'Async', explicar con enevent loop etc
+    // Esto es 'Async'
     setInterval(cambiaSlider, 10000);
 }
 
@@ -114,8 +121,8 @@ function lista(chart1) {
     function manageList() {
 
         // modal(titulo,contenido);
-        modal('Selecciona alguien para la lista',
-            `<input list="list-personas" placeholder="selecciona persona">
+        modal('Selecciona alguien para la lista',`
+            <input list="list-personas" placeholder="selecciona persona">
             <datalist id="list-personas">
                 <!-- agrego dinamicamente nombres de mi array -->
             </datalist>
@@ -157,10 +164,10 @@ function lista(chart1) {
             $('#modal input*[list="list-personas"]').val('');
         } else {
             // agregar a lista persona
-            $('.section1 .list').append(
-                `<div data-nombre='${nombre}'>
+            $('.section1 .list').append(`
+                <div data-nombre='${nombre}'>
                     <h2>${nombre}</h2>
-                    <p>Descripcion de la persona?</p>
+                    <p>Perfil profesional</p>
                 </div>`);
             $('#modal input*[list="list-personas"]').val('');
 
@@ -189,6 +196,7 @@ function lista(chart1) {
             this.classList.toggle('active', miBoolean);
         }
 
+        // ---
         // nombre de personas que haya seleccionado
         const personasSeleccionadas = [];
 
@@ -199,44 +207,65 @@ function lista(chart1) {
             personasSeleccionadas.push(nombre);
         });
 
-        // arr con personasAInsertar
-        const personasAInsertar = [];
-        // recorro personas & si hay personas seleccionadas las agrega a personasAInsertar
-        personas.forEach(recorroPersonas);
-        function recorroPersonas(persona) {
-            // personasSeleccionadas incluye persona.nombre?
-            if (personasSeleccionadas.includes(persona.nombre)) {
-                // arr con datos de la persona a insertar
-                const personaAInsertar = [];
-                personaAInsertar.push((persona.media / 1000), (persona.feed * 10), parseInt(Math.random() * 100), parseInt(Math.random() * 100));
-                personasAInsertar.push(personaAInsertar);
+        // si hay 1, 2... personas
+        if (personasSeleccionadas.length > 0) {
+
+            // arr con personasAInsertar
+            const personasAInsertar = [];
+
+            // controla color
+            let colorAnterior = 0;
+
+            // recorro personas & si hay personasSeleccionadas las agrega a personasAInsertar
+            personas.forEach(recorroPersonas);
+            function recorroPersonas(persona, i) {
+                // personasSeleccionadas incluye persona.nombre?
+                if (personasSeleccionadas.includes(persona.nombre)) {
+                    // arr con datos de la persona a insertar
+                    const data = [];
+                    // según mis super cuentas si ganas poco & poco feed tas in the horno
+                    data.push(persona.media / 1000, persona.feed, persona.media / 1000 + persona.feed, (persona.media / 100000 + persona.feed) / 2);
+
+                    colorAnterior = colorAnterior == 0 ? 1 : 0;
+                    // si es par azul, sino amarella, dandole colorcito a la vidax
+                    personasAInsertar.push({
+                        label: persona.nombre,
+                        data: data,
+                        background: colorAnterior == 0 ? 'rgba(20, 184, 220, .1)' : 'rgba(248, 207, 62, .1)',
+                        border: colorAnterior == 0 ? 'rgba(20, 184, 220, 1)' : 'rgba(248, 207, 62, 1)'
+                    });
+                    // 'rgba(248, 207, 62, 1)' amarillo
+                    // 'rgba(20, 184, 220, 1)' azul
+                }
             }
-        }
+            /* NOTAS
+            - alternar colores
+             */
+            /* - Estructura de datos en este scope -
+                personasSeleccionadas []
 
-        /* - Estructura de datos en este scope -
-            personaAInsertar = [
-                personaAInsertar = [1,1,1,1...]
-                .
-                .
-        ] */
-
-        // si hay dos personas
-        if (personasAInsertar.length > 0) {
+                personasAInsertar[
+                    personaAInsertar[]
+                    personaAInsertar[]
+                    .
+                    .
+                ]
+            ] */
 
             // vacío chart1 -> datasets
             chart1.data.datasets = [];
 
             // recorro personasAInsertar
             personasAInsertar.forEach(recorroPersonasAInsertar);
-            function recorroPersonasAInsertar (persona,i,arr){
+            function recorroPersonasAInsertar(persona, i, arr) {
                 chart1.data.datasets.push({
                     // Persona x
-                    label: 'Nombre de persona aqui',
-                    data: persona,
+                    label: persona.label,
+                    data: persona.data,
                     pointRadius: 5,
-                    backgroundColor: 'rgba(248, 207, 62, .1)',
-                    borderColor: 'rgba(248, 207, 62, 1)',
-                    pointBackgroundColor: 'rgba(248, 207, 62, 1)',
+                    backgroundColor: persona.background,
+                    borderColor: persona.border,
+                    pointBackgroundColor: persona.border,
                     pointBorderColor: 'rgba(255, 255, 255, 1)'
                 });// fin pusheo persona
             }
@@ -256,15 +285,16 @@ function lista(chart1) {
 
 // #table
 function table(chart2) {
-    /* CONTENIDO:
+    /*  @Variables:
+        - propAnterior
+        @Funciones:
         - drawTable
         - orderTable
         - addToTable
         - checkForm
         - search
-        - */
+        @Ejecuciones */
     let propAnterior = 'vacio';
-    /* con DESESTURACION seria -> const {nombre,genero,feed,media,orientacion} = personas[i] */
 
     // drawTable
     function drawTable() {
@@ -282,7 +312,7 @@ function table(chart2) {
                             <td>${elem.orientacion}</td>
                         </tr>`);
         }
-    };// drawTable se auta ejecuta (una vez)
+    };// drawTable se auta ejecuta (al menos una vez)
 
     // orderTable
     function orderTable(e) {
@@ -326,7 +356,7 @@ function table(chart2) {
         const { nombre = 'err', genero = 'err', feed = 0, media = 0, orientacion = 'err' } = newPersona;
 
         // controla que nombre&orientación NO sean vacíos
-        if (nombre == orientacion) {
+        if (nombre == '' & orientacion == nombre) {
             $('.section2 .msg').html('El campo <mark>nombre y orientación</mark> están vacíos')
         } else if (nombre == '') {
             $('.section2 .msg').html('El campo <mark>ingresa nombre</mark> está vacío')
@@ -340,9 +370,8 @@ function table(chart2) {
             $('.section2 #nombre,.section2 #orientacion').val('');
             $('.section2 .msg').html('Los datos fueron gregados <mark>correctamente</mark>')
         }
-        // resolver updatear la grafica RESUELTO
+        // planDeCarrera actualiza chart2 del aside
         planDeCarrera(chart2)
-        //$('.section2 .msg').text(`${nombre}|${genero}|${feed}|${media}|${orientacion}`);
     }
 
     // checkForm
@@ -392,28 +421,28 @@ function table(chart2) {
         }
 
     }
-    // ORDENAR ESTAS FUNCIONES
+
+    // draw #table primera vez
+    drawTable();
+
+    // - Eventos Table -
+    // añade escucha click en head
+    $('#table thead th').click(orderTable);
+
     // - Eventos Form -
     checkForm();
 
     // - Eventos search -
     searchInTable();
 
-    // - Eventos Table -
-    // añade escucha click en head
-    $('#table thead th').click(orderTable);
-    // draw #table primera vez
-    drawTable();
-
 }// fin #table
 
 // .aside planDeCarrera
 function planDeCarrera(chart2) {
     /* acorde a orientación de personas:
-       - recorro personas[i].orientacion
-       - data : [mi resultado] 
-       'Web','Diseño','Tecnología','Apps'
-       - LISTO funciona*/
+     - recorro personas[i].orientacion
+     - 'Web','Diseño','Tecnología','Apps'
+     - asigno resultados a pasarle a chart2*/
     chart2Data.fill(0);// reseteo char2Data
 
     personas.forEach(function (persona, i, arr) {
@@ -480,13 +509,11 @@ function modal(titulo, contenido) {
     $('#modal main').html('').append(contenido);
 
     // cierra modal
-
     $('#modal, #modal [class*="far"]').click(cierraModal);
 
     function cierraModal(e) {
         let elem = $(e.target);
         let esModal = elem.attr('id') == 'modal';
-        // console.log(e.target.localName);
         if (esModal || e.target.localName == 'i') {
             $('#modal').slideUp()
         }
@@ -502,31 +529,20 @@ $(ini);// cuidado dos ini?
 // --- FUNCIÓN INI ---
 function ini() {
     // traer personas
-    // obtenerPersonas(); lo de ajax
     // CHART-1
     var ct1 = document.getElementById('chart-1').getContext('2d');
     var chart1 = new Chart(ct1, {
         type: 'radar',
         data: {
-            labels: ['Media de sueldo', 'Feed con empresa', 'P.de capacitación', 'Ranking'],
+            labels: ['Media de sueldo ($)', 'Feed con empresa (%)', 'Prov. de capacitación (%)', 'Posible aumento (%)'],
             datasets: [{
                 // Persona 1
-                label: 'Persona1',
-                data: [74, 82, 45, 94],
+                label: 'Selecciona personas...',
+                data: [100, 100, 100, 100],
                 pointRadius: 5,
                 backgroundColor: 'rgba(20, 184, 220, .1)',
                 borderColor: 'rgba(20, 184, 220, 1)',
                 pointBackgroundColor: 'rgba(20, 184, 220, 1)',
-                pointBorderColor: 'rgba(255, 255, 255, 1)'
-            },
-            {
-                // Persona 2
-                label: 'Persona2',
-                data: [62, 45, 34, 54],
-                pointRadius: 5,
-                backgroundColor: 'rgba(248, 207, 62, .1)',
-                borderColor: 'rgba(248, 207, 62, 1)',
-                pointBackgroundColor: 'rgba(248, 207, 62, 1)',
                 pointBorderColor: 'rgba(255, 255, 255, 1)'
             }]//fin datasets
 
@@ -547,7 +563,8 @@ function ini() {
             },
             title: {
                 display: true,
-                text: 'Análisis de perfiles'
+                text: 'Análisis de perfiles',
+                padding: -50
             }
         }
     });
@@ -599,10 +616,6 @@ function ini() {
     // --- main secciones... ---
 
     // .section1 #slider
-    /* - seleccionar DIVS a interactuar
-        - todos ocultos
-        - mostrar n
-        - btn avanza if (n+1 < largoSeleccionado) else reset count  */
     slider();
 
     // .section1 main
@@ -616,6 +629,16 @@ function ini() {
     // --- aside ---
     // .pendientes, maneja pendientes
     pendientes();
+
+    // joyita
+    // ---------
+    $('main').append(`
+    <audio id="audio" controls style="display: none;">
+        <source type="audio/wav" src="sound/go.mp3">
+    </audio>`);
+    var audio = document.getElementById("audio");
+    //audio.play();
+    // -----------
 
 }// fin ini
 
