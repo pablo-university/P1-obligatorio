@@ -121,7 +121,7 @@ function lista(chart1) {
     function manageList() {
 
         // modal(titulo,contenido);
-        modal('Selecciona alguien para la lista',`
+        modal('Selecciona alguien para la lista', `
             <input list="list-personas" placeholder="selecciona persona">
             <datalist id="list-personas">
                 <!-- agrego dinamicamente nombres de mi array -->
@@ -291,6 +291,8 @@ function table(chart2) {
         - drawTable
         - orderTable
         - addToTable
+        - edit
+        - remove
         - checkForm
         - search
         @Ejecuciones */
@@ -312,6 +314,9 @@ function table(chart2) {
                             <td>${elem.orientacion}</td>
                         </tr>`);
         }
+        // limpio escuchas en las row's & re-agrego remove & edit
+        $('#table tbody tr').off();
+        $('#table tbody tr').click(removePerson);//dbl
     };// drawTable se auta ejecuta (al menos una vez)
 
     // orderTable
@@ -374,14 +379,54 @@ function table(chart2) {
         planDeCarrera(chart2)
     }
 
+    // editPerson
+    function editPerson() {
+        /* 
+        - seleccionar row OK
+        - captar quién es esa persona
+        - insertar datos de person[x] in formulario
+        - cuando click en add, borro de la tabla, del array
+            y personas.push(newPerson), drawTable */
+        $('#table tbody tr').click(clickInPerson);
+        function clickInPerson() {
+
+            /*   modal('this clickeado', `<p>hice click en fila ${this}
+                                  y su primer hijo es ${this}</p>`); */
+
+        }
+
+    }
+
+    // removePerson
+    function removePerson() {
+        /* 
+        - remover item con dbl click
+        - 2da opcion seria lo del arrastre */
+        let buscado = this.children[0].innerText;
+
+        personas.forEach(buscoQuienEliminar);
+        function buscoQuienEliminar(elem, i) {
+            if (elem.nombre == buscado) {
+                // splice(indice, elemsARemover)
+                personas.splice(i, 1);
+            }
+        }
+        // remuevo nodo del DOM
+        this.remove();
+
+        // planDeCarrera actualiza chart2 del aside
+        planDeCarrera(chart2)
+    }
+
     // checkForm
     function checkForm() {
+        // !depende de addtoTable
+
         // añade escucha click addtoTable...
         $('.section2 .boton').click(addToTable);
 
         // añade escucha focusout a nombre
         $('.section2 #orientacion, .section2 #nombre').focusout(function () {
-            console.log(this.value == '')
             if (this.value == '') {
                 $('.section2 .msg').html(`El campo <mark>${$(this).attr('placeholder')}</mark> se encuentra vacío`);
             } else $('.section2 .msg').text('...')
@@ -417,17 +462,17 @@ function table(chart2) {
                 // sino oculta
                 else $(rows[i]).slideUp();
             }
-
         }
-
     }
 
     // draw #table primera vez
     drawTable();
 
     // - Eventos Table -
-    // añade escucha click en head
+    // orderTable
     $('#table thead th').click(orderTable);
+    // editPerson
+    editPerson();
 
     // - Eventos Form -
     checkForm();
