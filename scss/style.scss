@@ -59,15 +59,34 @@ body {
 
 .nav > :first-child {
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* oculto icono cuando screen crece */
+    @media screen and (min-width: 768px) {
+        &>:first-child {
+            display: none;
+        }
+    }
+    /* icono:hover muestro menu */
+    &:hover + ul{
+        display: flex;
+    }
 }
 .nav ul {
-    display: flex;
+    display: none;
     gap: 1rem;
     justify-content: space-between;
     flex-flow: column wrap;
     place-content: center start;
     /* como padre es flex estira ul */
     flex-grow: 1;
+    /* muestro menu lateral cuando screen ecrece */
+    @media screen and (min-width: 768px) {
+        & {
+            display: flex;
+        }
+    }
 }
 .nav ul :last-child {
     margin-top: auto;

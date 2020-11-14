@@ -82,7 +82,9 @@ span {
 
 /* conservan color pero no margen */
 li,
-i[class*=fa] {
+i[class*=fa],
+span[class*=material] {
+  margin-bottom: 0;
   color: var(--color-fuente);
   transition: color 0.5s;
 }
@@ -235,16 +237,35 @@ body {
 
 .nav > :first-child {
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* oculto icono cuando screen crece */
+  /* icono:hover muestro menu */
+}
+@media screen and (min-width: 768px) {
+  .nav > :first-child > :first-child {
+    display: none;
+  }
+}
+.nav > :first-child:hover + ul {
+  display: flex;
 }
 
 .nav ul {
-  display: flex;
+  display: none;
   gap: 1rem;
   justify-content: space-between;
   flex-flow: column wrap;
   place-content: center start;
   /* como padre es flex estira ul */
   flex-grow: 1;
+  /* muestro menu lateral cuando screen ecrece */
+}
+@media screen and (min-width: 768px) {
+  .nav ul {
+    display: flex;
+  }
 }
 
 .nav ul :last-child {

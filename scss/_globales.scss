@@ -79,7 +79,9 @@ span {
 }
 /* conservan color pero no margen */
 li,
-i[class*="fa"] {
+i[class*="fa"],
+span[class*="material"] {
+    margin-bottom: 0;
     color: var(--color-fuente);
     transition: color 0.5s;
 }
