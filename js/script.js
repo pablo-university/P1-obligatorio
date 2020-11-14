@@ -314,9 +314,12 @@ function table(chart2) {
                             <td>${elem.orientacion}</td>
                         </tr>`);
         }
+
         // limpio escuchas en las row's & re-agrego remove & edit
         $('#table tbody tr').off();
-        $('#table tbody tr').click(removePerson);//dbl
+        $('#table tbody tr').dblclick(removePerson);// removePerson
+        $('#table tbody tr').click(editPerson);// editPerson
+
     };// drawTable se auta ejecuta (al menos una vez)
 
     // orderTable
@@ -349,35 +352,62 @@ function table(chart2) {
 
     // addToTable
     function addToTable() {
-        // obtengo newPersona
-        const newPersona = {
-            nombre: $('.section2 #nombre').val(),
-            genero: $('.section2 input[type="radio"]:checked').val(),
-            feed: parseInt($('.section2 #feed').val()),
-            media: parseInt($('.section2 #media').val()),
-            orientacion: $('.section2 #orientacion').val()
-        };
-        // desestructuro newPersona
-        const { nombre = 'err', genero = 'err', feed = 0, media = 0, orientacion = 'err' } = newPersona;
-
-        // controla que nombre&orientación NO sean vacíos
-        if (nombre == '' & orientacion == nombre) {
-            $('.section2 .msg').html('El campo <mark>nombre y orientación</mark> están vacíos')
-        } else if (nombre == '') {
-            $('.section2 .msg').html('El campo <mark>ingresa nombre</mark> está vacío')
-        } else if (orientacion == '') {
-            $('.section2 .msg').html('El campo <mark>orientación</mark> está vacío')
-        } else {
-            // push al arreglo newPersona & draw
-            personas.push(newPersona);
-            drawTable();
-            // limpio algunos campos, y aviso que todo ok
-            $('.section2 #nombre,.section2 #orientacion').val('');
-            $('.section2 .msg').html('Los datos fueron gregados <mark>correctamente</mark>')
+        /*  @Funciones
+            - obtieneNewPerson
+            - checkForm
+            - add
+            @escuchas */
+        // obtieneNewPerson
+        function obtenerNewPersona() {
+            const newPersona = {
+                nombre: $('.section2 #nombre').val(),
+                genero: $('.section2 input[type="radio"]:checked').val(),
+                feed: parseInt($('.section2 #feed').val()),
+                media: parseInt($('.section2 #media').val()),
+                orientacion: $('.section2 #orientacion').val()
+            };
+            return newPersona;
         }
-        // planDeCarrera actualiza chart2 del aside
-        planDeCarrera(chart2)
-    }
+        // checkForm
+        function checkForm() {
+            const {nombre, orientacion} = obtenerNewPersona();
+
+            // controla que nombre&orientación NO sean vacíos
+            if (nombre == '' || orientacion == '') {
+                $('.section2 .msg').html(`El campo <mark>${nombre == orientacion ? 'nombre y orientación están vacíos': nombre == '' ? 'nombre es vacío' : 'orientación es vacío'}</mark>`);
+                return false;
+            } else return true;
+            // ---
+        }
+        // add
+        function add() {
+            let ok = checkForm();
+            if (ok) {
+                let newPersona = obtenerNewPersona();
+
+                // push al arreglo newPersona & draw
+                personas.push(newPersona);
+                drawTable();
+
+                // limpio algunos campos, y aviso que todo ok
+                $('.section2 #nombre,.section2 #orientacion').val('');
+                $('.section2 .msg').html('Los datos fueron gregados <mark>correctamente</mark>')
+
+                // planDeCarrera actualiza chart2 del aside
+                planDeCarrera(chart2)
+            }
+        }
+        // añade escucha focusout a nombre
+        $('.section2 #orientacion, .section2 #nombre').focusout(checkForm);
+
+        // añade escucha change(cambio) a range
+        $('.section2 [type="range"]').change(function () {
+            $(this).prev().text($(this).val());});
+
+        // añade escucha click add...
+        $('.section2 .boton').click(add);
+
+    }// fin addToTable
 
     // editPerson
     function editPerson() {
@@ -387,21 +417,18 @@ function table(chart2) {
         - insertar datos de person[x] in formulario
         - cuando click en add, borro de la tabla, del array
             y personas.push(newPerson), drawTable */
-        $('#table tbody tr').click(clickInPerson);
-        function clickInPerson() {
 
-            /*   modal('this clickeado', `<p>hice click en fila ${this}
-                                  y su primer hijo es ${this}</p>`); */
+        let buscado = this.children[0].innerText;
 
-        }
-
+        // find retorna primer valor que retornemos verdadero
+        pepe = personas.find(persona => persona.nombre == buscado);
+        console.log(pepe);
     }
 
     // removePerson
     function removePerson() {
-        /* 
-        - remover item con dbl click
-        - 2da opcion seria lo del arrastre */
+        /*  - remover item con dbl click
+            - 2da opcion seria lo del arrastre */
         let buscado = this.children[0].innerText;
 
         personas.forEach(buscoQuienEliminar);
@@ -416,26 +443,6 @@ function table(chart2) {
 
         // planDeCarrera actualiza chart2 del aside
         planDeCarrera(chart2)
-    }
-
-    // checkForm
-    function checkForm() {
-        // !depende de addtoTable
-
-        // añade escucha click addtoTable...
-        $('.section2 .boton').click(addToTable);
-
-        // añade escucha focusout a nombre
-        $('.section2 #orientacion, .section2 #nombre').focusout(function () {
-            if (this.value == '') {
-                $('.section2 .msg').html(`El campo <mark>${$(this).attr('placeholder')}</mark> se encuentra vacío`);
-            } else $('.section2 .msg').text('...')
-        });
-
-        // añade escucha change(cambio) a range
-        $('.section2 [type="range"]').change(function () {
-            $(this).prev().text($(this).val());
-        });
     }
 
     // search
@@ -471,11 +478,9 @@ function table(chart2) {
     // - Eventos Table -
     // orderTable
     $('#table thead th').click(orderTable);
-    // editPerson
-    editPerson();
 
     // - Eventos Form -
-    checkForm();
+    addToTable();
 
     // - Eventos search -
     searchInTable();
