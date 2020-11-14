@@ -116,7 +116,7 @@ a:hover {
 }
 
 .flex-1 > * {
-  flex: 1;
+  flex: 1 12rem;
   padding: 1rem;
 }
 
@@ -203,11 +203,15 @@ body {
 .interna {
   display: grid;
   gap: 2rem;
-  grid-template-columns: 14rem minmax(20rem, 1fr) 15rem;
   min-height: 100vh;
   /* Auxiliares para que no se agrande mucho, cambiarlo */
   max-width: 1280px;
   margin: auto;
+}
+@media screen and (min-width: 768px) {
+  .interna {
+    grid-template-columns: 14rem minmax(20rem, 1fr) 15rem;
+  }
 }
 
 /* --- NAV --- */
@@ -220,7 +224,13 @@ body {
   top: 0;
   left: 0;
   padding: 1rem;
+  background-color: whitesmoke;
   box-shadow: var(--shadow-black);
+}
+@media screen and (min-width: 768px) {
+  .nav {
+    background-color: transparent;
+  }
 }
 
 .nav > :first-child {
@@ -242,7 +252,8 @@ body {
 }
 
 /* Nav item activo */
-.nav .active, .nav .active i {
+.nav .active,
+.nav .active i {
   color: lightseagreen;
 }
 
@@ -255,8 +266,6 @@ body {
 .section1 {
   display: grid;
   gap: 1rem;
-  /* grid-template-rows: 1fr 1fr 1fr; */
-  grid-template-rows: auto auto auto;
   padding: 1rem;
 }
 
@@ -285,11 +294,19 @@ body {
 
 /* Main */
 .section1 main .chart-1 {
-  width: 80%;
-  /* anulando tamaño natural del canvasmargen
-  para que quede mas apretada la grafica
-  ya que configurarla manualmanente es mas huevo */
-  margin: -2rem auto -2rem;
+  width: 22rem;
+  margin: auto;
+}
+@media screen and (min-width: 768px) {
+  .section1 main .chart-1 {
+    /* anulando tamaño natural del canvas-margen
+    para que quede mas apretada la grafica
+    ya que configurarla manualmanente es mas huevo */
+  }
+  .section1 main .chart-1 {
+    width: 80%;
+    margin: -2rem auto -2rem;
+  }
 }
 
 /* Footer */
@@ -308,9 +325,13 @@ body {
 .section2 {
   display: grid;
   gap: 1rem;
-  grid-template-rows: auto auto;
+  grid-auto-columns: 100%;
   padding: 1rem;
-  margin-bottom: 50vh;
+}
+@media screen and (min-width: 768px) {
+  .section2 {
+    margin-bottom: 50vh;
+  }
 }
 
 /* header */
@@ -338,6 +359,7 @@ body {
 
 .pendientes {
   width: 12rem;
+  margin: auto;
 }
 
 .pendientes ul {
@@ -377,6 +399,8 @@ table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
+  /* fuente responsiva */
+  font-size: min(1rem, 2vw);
 }
 
 th,

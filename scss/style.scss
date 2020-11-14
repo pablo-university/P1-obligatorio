@@ -1,7 +1,6 @@
 @use 'globales';
 @use 'bibliotecas';
 
-
 /* ----------- CUERPO DE PAGINAS ------------- */
 /* --- LOGIN --- */
 .index {
@@ -22,13 +21,19 @@ body {
 .interna {
     display: grid;
     gap: 2rem;
-    grid-template-columns: 14rem minmax(20rem, 1fr) 15rem;
-    
+
     min-height: 100vh;
     /* Auxiliares para que no se agrande mucho, cambiarlo */
     max-width: 1280px;
     margin: auto;
+
+    @media screen and (min-width: 768px) {
+        & {
+            grid-template-columns: 14rem minmax(20rem, 1fr) 15rem;
+        }
+    }
 }
+
 
 /* --- NAV --- */
 .nav {
@@ -42,8 +47,16 @@ body {
     left: 0;
 
     padding: 1rem;
+    background-color: whitesmoke;
     box-shadow: var(--shadow-black);
+
+    @media screen and (min-width: 768px) {
+        & {
+            background-color: transparent;
+        }
+    }
 }
+
 .nav > :first-child {
     text-align: center;
 }
@@ -60,20 +73,19 @@ body {
     margin-top: auto;
 }
 /* Nav item activo */
-.nav .active, .nav .active i {
+.nav .active,
+.nav .active i {
     color: lightseagreen;
 }
-.nav i{
-    margin-right: .5rem;
-    opacity: .8;
+.nav i {
+    margin-right: 0.5rem;
+    opacity: 0.8;
 }
 
 /* --- SECTION1 --- */
 .section1 {
     display: grid;
     gap: 1rem;
-    /* grid-template-rows: 1fr 1fr 1fr; */
-    grid-template-rows: auto auto auto;
 
     padding: 1rem;
 }
@@ -99,13 +111,21 @@ body {
     border-radius: 0 5px 5px 0;
 }
 /* Main */
-.section1 main .chart-1{
-    width: 80%;
-    /* anulando tamaño natural del canvasmargen
-    para que quede mas apretada la grafica
-    ya que configurarla manualmanente es mas huevo */
-    margin: -2rem auto -2rem;
+.section1 main .chart-1 {
+    width: 22rem;
+    margin: auto;
+
+    @media screen and (min-width: 768px) {
+        /* anulando tamaño natural del canvas-margen
+        para que quede mas apretada la grafica
+        ya que configurarla manualmanente es mas huevo */
+        & {
+            width: 80%;
+            margin: -2rem auto -2rem;
+        }
+    }
 }
+
 
 /* Footer */
 .section1 footer .boton {
@@ -114,10 +134,8 @@ body {
     margin-bottom: 1rem;
 }
 /* reglas a los .active de list */
-.section1 .list .active{
-    background: rgba(255, 67, 101, .3);
-
-
+.section1 .list .active {
+    background: rgba(255, 67, 101, 0.3);
 }
 // #modal .contenedor-lista-agregar?
 
@@ -125,19 +143,24 @@ body {
 .section2 {
     display: grid;
     gap: 1rem;
-    grid-template-rows: auto auto;
+    grid-auto-columns: 100%;
+
     padding: 1rem;
-    margin-bottom: 50vh;
+
+    @media screen and (min-width: 768px) {
+        & {margin-bottom: 50vh;}
+    }
 }
+
 /* header */
 
 /* main */
-.section2 .search{
+.section2 .search {
     /* tiene clase flex space between */
     justify-content: flex-start;
     margin-bottom: 1rem;
 }
-.section2 .search >*{
+.section2 .search > * {
     max-width: 15rem;
 }
 
@@ -154,6 +177,7 @@ body {
 }
 .pendientes {
     width: 12rem;
+    margin: auto;
 }
 .pendientes ul {
     display: grid;
@@ -163,11 +187,11 @@ body {
 }
 .pendientes li {
     background-color: white;
-    padding: .3rem;
+    padding: 0.3rem;
     border-radius: 3px;
 }
-.pendientes li i{
-    margin-right: .3rem;
+.pendientes li i {
+    margin-right: 0.3rem;
 }
 /* - .active para tachado - */
 .pendientes li.active {
@@ -188,6 +212,8 @@ table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
+    /* fuente responsiva */
+    font-size: min(1rem, 2vw);
 }
 th,
 caption {
@@ -247,7 +273,3 @@ input[type="submit"],
 input[type="button"] {
     border: none;
 }
-
-
-
-
