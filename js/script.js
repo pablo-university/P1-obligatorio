@@ -33,8 +33,9 @@ function obtenerPersonas(){
 } */
 /* Oculte esto porque lo de CORs me bloqueaba
  cuando abría el index */
-
-personas = [
+import {personas} from './traePersonas.js';
+console.log(personas);
+/* personas = [
     {
         nombre: 'a',
         genero: 'm',
@@ -56,7 +57,7 @@ personas = [
         media: 40000,
         orientacion: 'app'
     }
-];
+]; */
 const chart2Data = [0, 0, 0, 0, 0]
 
 // --- FUNCIONES GLOBALES ---
@@ -238,19 +239,6 @@ function lista(chart1) {
                     // 'rgba(20, 184, 220, 1)' azul
                 }
             }
-            /* NOTAS
-            - alternar colores
-             */
-            /* - Estructura de datos en este scope -
-                personasSeleccionadas []
-
-                personasAInsertar[
-                    personaAInsertar[]
-                    personaAInsertar[]
-                    .
-                    .
-                ]
-            ] */
 
             // vacío chart1 -> datasets
             chart1.data.datasets = [];
@@ -279,8 +267,6 @@ function lista(chart1) {
     // manageList
     $('.section1 footer .boton').click(manageList);
 
-
-
 }// fin lista
 
 // #table
@@ -291,8 +277,7 @@ function table(chart2) {
         - drawTable
         - orderTable
         - addToTable
-        - edit
-        - remove
+        - edit/remove
         - checkForm
         - search
         @Ejecuciones */
@@ -317,8 +302,7 @@ function table(chart2) {
 
         // limpio escuchas en las row's & re-agrego remove & edit
         $('#table tbody tr').off();
-        $('#table tbody tr').dblclick(removePerson);// removePerson
-        $('#table tbody tr').click(editPerson);// editPerson
+        $('#table tbody tr').dblclick(editPerson);// editPerson
 
     };// drawTable se auta ejecuta (al menos una vez)
 
@@ -347,7 +331,6 @@ function table(chart2) {
             drawTable();// dibuja tabla
             propAnterior = 'vacio';
         }
-
     }// fin orderTable
 
     // addToTable
@@ -370,13 +353,13 @@ function table(chart2) {
         }
         // checkForm
         function checkForm() {
-            const {nombre, orientacion} = obtenerNewPersona();
+            const { nombre, orientacion } = obtenerNewPersona();
 
             // controla que nombre&orientación NO sean vacíos
             if (nombre == '' || orientacion == '') {
-                $('.section2 .msg').html(`El campo <mark>${nombre == orientacion ? 'nombre y orientación están vacíos': nombre == '' ? 'nombre es vacío' : 'orientación es vacío'}</mark>`);
+                $('.section2 .msg').html(`El campo <mark>${nombre == orientacion ? 'nombre y orientación están vacíos' : nombre == '' ? 'nombre es vacío' : 'orientación es vacío'}</mark>`);
                 return false;
-            } else return true;
+            } else {$('.section2 .msg').html('Todo en orden queen');return true}
             // ---
         }
         // add
@@ -384,7 +367,6 @@ function table(chart2) {
             let ok = checkForm();
             if (ok) {
                 let newPersona = obtenerNewPersona();
-
                 // push al arreglo newPersona & draw
                 personas.push(newPersona);
                 drawTable();
@@ -402,7 +384,8 @@ function table(chart2) {
 
         // añade escucha change(cambio) a range
         $('.section2 [type="range"]').change(function () {
-            $(this).prev().text($(this).val());});
+            $(this).prev().text($(this).val());
+        });
 
         // añade escucha click add...
         $('.section2 .boton').click(add);
@@ -411,37 +394,22 @@ function table(chart2) {
 
     // editPerson
     function editPerson() {
-        /* 
-        - seleccionar row OK
-        - captar quién es esa persona
-        - insertar datos de person[x] in formulario
-        - cuando click en add, borro de la tabla, del array
-            y personas.push(newPerson), drawTable */
+        /* !Cumple dos funcionalidades, borra y edita... */
+        const buscado = this.children[0].innerText;
 
-        let buscado = this.children[0].innerText;
-
-        // find retorna primer valor que retornemos verdadero
-        pepe = personas.find(persona => persona.nombre == buscado);
-        console.log(pepe);
-    }
-
-    // removePerson
-    function removePerson() {
-        /*  - remover item con dbl click
-            - 2da opcion seria lo del arrastre */
-        let buscado = this.children[0].innerText;
-
-        personas.forEach(buscoQuienEliminar);
-        function buscoQuienEliminar(elem, i) {
-            if (elem.nombre == buscado) {
-                // splice(indice, elemsARemover)
-                personas.splice(i, 1);
-            }
-        }
-        // remuevo nodo del DOM
+        // findIndex retorna el índice del primer elemento que retornemos verdadero
+        const i = personas.findIndex(elem => elem.nombre == buscado);
+        const newPersona = personas[i];
+        const { nombre, genero, feed, media, orientacion } = newPersona;
+        $('.section2 #nombre').val(nombre);
+        $('.section2 input[type="radio"]:checked').val(genero);
+        $('.section2 #feed').val(feed);
+        $('.section2 #media').val(media);
+        $('.section2 #orientacion').val(orientacion);
+        // remueve persona en personas & nodo
+        personas.splice(i, 1);
         this.remove();
-
-        // planDeCarrera actualiza chart2 del aside
+        //planDeCarrera actualiza chart2 del aside
         planDeCarrera(chart2)
     }
 
