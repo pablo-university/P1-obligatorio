@@ -1,0 +1,24 @@
+@keyframes snippet {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#snippet {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    place-items: center;
+    place-content: center;
+    background-color: whitesmoke;
+    & > * {
+        font-size: 5rem;
+        animation: snippet 1s infinite;
+        color: slategray;
+    }
+}

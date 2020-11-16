@@ -10,6 +10,8 @@
     flex: 1 12rem;
     padding: 1rem;
 }
+/* Metodología BEM */
+
 
 /* Mi biblioteca grid? */
 .grid-auto {
@@ -27,7 +29,7 @@
     background-color: var(--color-fondo-card);
     box-shadow: var(--shadow-black);
     border-radius: 5px;
-    transition: box-shadow .3s;
+    transition: box-shadow 0.3s;
     /* hover */
     &:hover {
         box-shadow: var(--shadow-black-hover);
@@ -68,7 +70,7 @@
         position: relative;
     }
 
-    & [class*="far"]{
+    & [class*="far"] {
         position: absolute;
         top: 2rem;
         right: 2rem;

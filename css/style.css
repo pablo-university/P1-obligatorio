@@ -122,6 +122,7 @@ a:hover {
   padding: 1rem;
 }
 
+/* Metodología BEM */
 /* Mi biblioteca grid? */
 .grid-auto {
   display: grid;
@@ -183,6 +184,30 @@ a:hover {
   right: 2rem;
 }
 
+@keyframes snippet {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+#snippet {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  place-items: center;
+  place-content: center;
+  background-color: whitesmoke;
+}
+#snippet > * {
+  font-size: 5rem;
+  animation: snippet 1s infinite;
+  color: slategray;
+}
+
 /* ----------- CUERPO DE PAGINAS ------------- */
 /* --- LOGIN --- */
 .index {
@@ -200,6 +225,7 @@ body {
   background: var(--color-fondo) url("../img/1.png");
   background-repeat: no-repeat;
   background-size: cover;
+  box-shadow: var(--shadow-black);
 }
 
 .interna {
@@ -340,6 +366,13 @@ body {
 /* reglas a los .active de list */
 .section1 .list .active {
   background: rgba(255, 67, 101, 0.3);
+}
+
+.section1 .list {
+  justify-content: flex-start;
+}
+.section1 .list > * {
+  flex-grow: 0;
 }
 
 /* --- SECTION2 --- */

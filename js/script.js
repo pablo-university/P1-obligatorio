@@ -5,7 +5,6 @@
 - DESESTRUCTURACION: es lo moderno de let a = arr[1] y... let b = arr[2]... etc
                      const [a,b,c] = [1,2,3]; || [a,b,c] = [1,2,3]; sin declarar
                      const {apellido, nombre} = objeto;
-- recorrerPersonas(personas, callback)?...
 
 --- MI ESTRUCTURA GENERAL ---
   @Cuando la estructura es grande:
@@ -16,48 +15,39 @@
   @Cuando estructura es chica:
   - Similar a como haciamos en clase
  */
-
+// snippet de carga a huevo
+$('body').append(`<div id="snippet"><span class="material-icons md-48">cached</span></div>`);
 // --- VARIABLES GLOBALES ---
+const personas = [];
+$.ajax({
+    type: "GET",
+    url: "js/personas.json",
+    dataType: "json",
+    // caso reject
+    error: function (xhr) {
+        alert(`Error:${xhr.status}, seguramente un buen problema con CORS`);
+    },
+    // caso resolve
+    success: function (dato) {
+        // for of para objeto iterable
+        for (let persona of dato) {
+            personas.push(persona)
+        }/*
+        luego de obtener personas
+        ejecuto ini cuando haya leido el DOM */
 
-/* var personas;
-function obtenerPersonas(){
-    $.ajax({
-        type:"GET",
-        url:"js/personas.json",
-        dataType: "json",
-        async:false,
-        success: function (dato){
-            personas = dato;
-        }
-    })
-} */
-/* Oculte esto porque lo de CORs me bloqueaba
- cuando abría el index */
-import {personas} from './traePersonas.js';
-console.log(personas);
-/* personas = [
-    {
-        nombre: 'a',
-        genero: 'm',
-        feed: 10,
-        media: 30000,
-        orientacion: 'web'
-    },
-    {
-        nombre: 'b',
-        genero: 'm',
-        feed: 90,
-        media: 50000,
-        orientacion: 'diseño'
-    },
-    {
-        nombre: 'c',
-        genero: 'f',
-        feed: 80,
-        media: 40000,
-        orientacion: 'app'
+        $(ini);
     }
-]; */
+})
+/* quito snippet de carga, debe ir fuera de todo sino al
+cargarse pasa el evento onload y esto n hace nada */
+window.onload = function () { $('#snippet').fadeOut() };
+
+
+/* Para importarme modulos: .mjs */
+// import {personas} from './traePersonas.js';
+
+// manejador de chart2Data
 const chart2Data = [0, 0, 0, 0, 0]
 
 // --- FUNCIONES GLOBALES ---
@@ -359,7 +349,7 @@ function table(chart2) {
             if (nombre == '' || orientacion == '') {
                 $('.section2 .msg').html(`El campo <mark>${nombre == orientacion ? 'nombre y orientación están vacíos' : nombre == '' ? 'nombre es vacío' : 'orientación es vacío'}</mark>`);
                 return false;
-            } else {$('.section2 .msg').html('Todo en orden queen');return true}
+            } else { $('.section2 .msg').html('Todo en orden queen'); return true }
             // ---
         }
         // add
@@ -543,10 +533,10 @@ function modal(titulo, contenido) {
 
 
 // --- DOCUMENT READY ---
-$(ini);// cuidado dos ini?
+//$(ini);// cuidado dos ini? !Ahora ini inicia si resolve(ok)
 // --- FUNCIÓN INI ---
 function ini() {
-    // traer personas
+
     // CHART-1
     var ct1 = document.getElementById('chart-1').getContext('2d');
     var chart1 = new Chart(ct1, {

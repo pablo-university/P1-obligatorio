@@ -1,5 +1,6 @@
 @use 'globales';
 @use 'bibliotecas';
+@use 'snippet';
 
 /* ----------- CUERPO DE PAGINAS ------------- */
 /* --- LOGIN --- */
@@ -17,6 +18,7 @@ body {
     background: var(--color-fondo) url("../img/1.png");
     background-repeat: no-repeat;
     background-size: cover;
+    box-shadow: var(--shadow-black);
 }
 .interna {
     display: grid;
@@ -156,7 +158,10 @@ body {
 .section1 .list .active {
     background: rgba(255, 67, 101, 0.3);
 }
-// #modal .contenedor-lista-agregar?
+.section1 .list{
+    justify-content: flex-start;
+    & > * {flex-grow: 0;}
+}
 
 /* --- SECTION2 --- */
 .section2 {
