@@ -1,10 +1,11 @@
-/* MIS NOTAS JS!!
+/* --- MIS NOTAS JS!! ---
 - COMPONENTES: los .msg LOCALES serán llamados desde .seccion .msg
                y los GLOBALES por #msg, los sliders globales con #slider,
                botones como .seccion .boton etc
 - DESESTRUCTURACION: es lo moderno de let a = arr[1] y... let b = arr[2]... etc
                      const [a,b,c] = [1,2,3]; || [a,b,c] = [1,2,3]; sin declarar
                      const {apellido, nombre} = objeto;
+- MODULOS .MJS: Resolver asincronía de modulos
 
 --- MI ESTRUCTURA GENERAL ---
   @Cuando la estructura es grande:
@@ -15,8 +16,9 @@
   @Cuando estructura es chica:
   - Similar a como haciamos en clase
  */
-// snippet de carga a huevo
-$('body').append(`<div id="snippet"><span class="material-icons md-48">cached</span></div>`);
+// --- IMPORTACIONES (pendiente) ---
+// import { chart0 } from './chart0.mjs';
+
 // --- VARIABLES GLOBALES ---
 const personas = [];
 $.ajax({
@@ -39,13 +41,6 @@ $.ajax({
         $(ini);
     }
 })
-/* quito snippet de carga, debe ir fuera de todo sino al
-cargarse pasa el evento onload y esto n hace nada */
-window.onload = function () { $('#snippet').fadeOut() };
-
-
-/* Para importarme modulos: .mjs */
-// import {personas} from './traePersonas.js';
 
 // manejador de chart2Data
 const chart2Data = [0, 0, 0, 0, 0]
@@ -73,6 +68,17 @@ function navClick(e) {
         if (confirm("Seguro salir")) { window.location = 'index.html'; }
     }
 }// fin navClick
+
+// mediaDeSueldo
+function mediaDeSueldo(chart0){
+    /* 
+    @ OBJETIVOS:
+    -obtener media de sueldo por profesión
+    -> recorrer personas
+    -> por cda profesion anotar sueldo
+    -> hacer media  */
+    console.log('hola media de sueldos');
+}
 
 // #slider
 function slider() {
@@ -135,9 +141,12 @@ function lista(chart1) {
 
     // addToList
     function addToList() {
-
         // nombre del input Datalist
         let nombre = $('#modal input*[list="list-personas"]').val();
+
+        // obtengo persona seleccionada (xra saber su orientación)
+        const personaSeleccionada = personas.find((persona) => persona.nombre == nombre);
+
         // pregunta si ya está agregado
         let personaRepetida = $(`.list [data-nombre*="${nombre}"]`).length > 0;
         // cubre campo vacío y agregar mal el nombre
@@ -158,8 +167,9 @@ function lista(chart1) {
             $('.section1 .list').append(`
                 <div data-nombre='${nombre}'>
                     <h2>${nombre}</h2>
-                    <p>Perfil profesional</p>
+                    <p>Orientación del perfil: ${personaSeleccionada.orientacion}</p>
                 </div>`);
+            // limpia input datalist
             $('#modal input*[list="list-personas"]').val('');
 
             // resetear y agregar evento a las card's
@@ -533,9 +543,52 @@ function modal(titulo, contenido) {
 
 
 // --- DOCUMENT READY ---
-//$(ini);// cuidado dos ini? !Ahora ini inicia si resolve(ok)
+//$(ini);// cuidado dos ini? !Ahora ini inicia si personas resolve(ok)
 // --- FUNCIÓN INI ---
 function ini() {
+
+    // CHART-0 ?probando
+    var ct0 = document.getElementById('chart-0');
+    var chart0 = new Chart(ct0, {
+        type: 'line',
+        data: {
+            labels: ['Mas bajo', 'Medio', 'Alto', 'Gold'],
+            datasets: [{
+                label: 'Media de sueldo',
+                data: [25, 45, 70, 80],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            legend: {
+                display: false
+            }
+        }
+    });
+    mediaDeSueldo(chart0);
 
     // CHART-1
     var ct1 = document.getElementById('chart-1').getContext('2d');
@@ -638,15 +691,6 @@ function ini() {
     // .pendientes, maneja pendientes
     pendientes();
 
-    // joyita
-    // ---------
-    $('main').append(`
-    <audio id="audio" controls style="display: none;">
-        <source type="audio/wav" src="sound/go.mp3">
-    </audio>`);
-    var audio = document.getElementById("audio");
-    //audio.play();
-    // -----------
 
 }// fin ini
 

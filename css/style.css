@@ -108,6 +108,13 @@ a:hover {
   color: var(--hover-link);
 }
 
+hr {
+  border: none;
+  border-bottom: 1px solid #00000017;
+  width: 80%;
+  margin: auto;
+}
+
 /* ----------- MIS BIBLIOTECAS ------------- */
 /* Mi biblioteca flex */
 .flex-space-between {
@@ -201,6 +208,7 @@ a:hover {
   place-items: center;
   place-content: center;
   background-color: whitesmoke;
+  z-index: 1;
 }
 #snippet > * {
   font-size: 5rem;
@@ -230,10 +238,10 @@ body {
 
 .interna {
   display: grid;
-  gap: 2rem;
+  gap: 1rem;
   min-height: 100vh;
   /* Auxiliares para que no se agrande mucho, cambiarlo */
-  max-width: 1280px;
+  max-width: 1380px;
   margin: auto;
 }
 @media screen and (min-width: 768px) {
@@ -340,8 +348,10 @@ body {
 }
 
 /* Main */
+/* cotenedor del chart1 */
 .section1 main .chart-1 {
-  width: 22rem;
+  width: 90vw;
+  height: auto;
   margin: auto;
 }
 @media screen and (min-width: 768px) {
@@ -454,7 +464,7 @@ table {
   border-collapse: collapse;
   width: 100%;
   /* fuente responsiva */
-  font-size: min(1rem, 2vw);
+  font-size: clamp(0.5rem, 2vw, 1rem);
 }
 
 th,

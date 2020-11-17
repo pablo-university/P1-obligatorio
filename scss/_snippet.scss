@@ -16,6 +16,7 @@
     place-items: center;
     place-content: center;
     background-color: whitesmoke;
+    z-index: 1;
     & > * {
         font-size: 5rem;
         animation: snippet 1s infinite;

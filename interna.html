@@ -15,9 +15,7 @@
     <!--js login-->
     <script src="js/login.js"></script>
     <!-- script general -->
-    <script type="module" src="js/script.js"></script><!-- type="text/javascript"-->
-
-    <!-- probando table sorter -->
+    <script type="text/javascript" src="js/script.js"></script><!-- type="module" -->
 
     <!-- font-awesome -->
     <script src="https://kit.fontawesome.com/cebf744b85.js" crossorigin="anonymous"></script>
@@ -30,6 +28,9 @@
 </head>
 
 <body>
+
+    <!-- Snippet -->
+    <script src="js/snippet.js"></script>
 
     <!-- contenedor-interna -->
     <section class="interna">
@@ -48,7 +49,12 @@
         <main class="main">
             <section class="section1">
                 <header class="flex-space-between flex-1 card">
-                    <h1 id="saludo">Hola fulano, bienvenido!</h1>
+                    <div>
+                        <h1 id="saludo">Hola fulano, bienvenido!</h1>
+                        <!-- chart0 -->
+                        <canvas id="chart-0"></canvas>
+                    </div>
+
                     <div id="slider">
                         <div>
                             <h2>Femenino</h2>
@@ -188,7 +194,6 @@
                 </form>
                 <ul>
                     <li><i class="far fa-sticky-note"></i>Asignar tareas<i class="fas fa-check"></i></li>
-                    <li><i class="far fa-sticky-note"></i></i>Llamar consultora<i class="fas fa-check"></i></li>
                 </ul>
 
 

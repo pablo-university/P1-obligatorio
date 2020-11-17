@@ -101,3 +101,9 @@ a {
 a:hover {
     color: var(--hover-link);
 }
+hr{
+    border: none;
+    border-bottom: 1px solid #00000017;
+    width: 80%;
+    margin: auto;
+}
