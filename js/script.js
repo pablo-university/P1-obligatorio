@@ -71,13 +71,38 @@ function navClick(e) {
 
 // mediaDeSueldo
 function mediaDeSueldo(chart0){
-    /* 
-    @ OBJETIVOS:
-    -obtener media de sueldo por profesión
-    -> recorrer personas
-    -> por cda profesion anotar sueldo
-    -> hacer media  */
-    console.log('hola media de sueldos');
+    // - variables -
+    const orientaciones = [];
+    const promedios = [];
+
+    // recorro personas xra obtener perfiles existentes
+    personas.forEach(function(persona,i){
+        // si orientaciones NO tiene orientacion la agrego xra analizar
+        if(!orientaciones.includes(persona.orientacion)){
+            orientaciones.push(persona.orientacion);
+        }
+    });
+
+    // recorro orientaciones para hacer promedios
+    orientaciones.forEach(function(orientacion,i){
+        let total = 0, cont = 0;
+        // por cada persona pregunto si es de la orientación y voy haciendo promedio
+        personas.forEach(function(persona,i){
+            if(persona.orientacion == orientacion){
+                total += parseInt(persona.media);
+                cont++;}
+        });
+        promedios.push(total / cont);
+    });
+    console.log('Orientaciones y promedios: ',orientaciones,promedios);
+    // inyecto en chart0 los datos
+    chart0.data.labels = [...orientaciones];
+    chart0.data.datasets[0].data = [...promedios];
+/*     chart0.data.labels.push(...orientaciones);
+    chart0.data.datasets[0].data.push(...promedios); */
+
+    // updateo chart0
+    chart0.update();
 }
 
 // #slider
@@ -270,7 +295,7 @@ function lista(chart1) {
 }// fin lista
 
 // #table
-function table(chart2) {
+function table(chart2, chart0) {
     /*  @Variables:
         - propAnterior
         @Funciones:
@@ -377,6 +402,8 @@ function table(chart2) {
 
                 // planDeCarrera actualiza chart2 del aside
                 planDeCarrera(chart2)
+                // mediaDeSueldo actualiza chart0
+                mediaDeSueldo(chart0);
             }
         }
         // añade escucha focusout a nombre
@@ -411,6 +438,8 @@ function table(chart2) {
         this.remove();
         //planDeCarrera actualiza chart2 del aside
         planDeCarrera(chart2)
+        // mediaDeSueldo actualiza chart0
+        mediaDeSueldo(chart0);
     }
 
     // search
@@ -429,7 +458,7 @@ function table(chart2) {
             $(personas).each(buscando);
             function buscando(i, persona) {
 
-                // pasa a string la clave de persona, y pregunta si coincide con search
+                // pasa a string la clave de persona, y pregunta si coincide con search (boolean)
                 let match = String(persona[target]).toLocaleLowerCase().indexOf(search) != -1;
 
                 // si encuentra muestra
@@ -552,10 +581,10 @@ function ini() {
     var chart0 = new Chart(ct0, {
         type: 'line',
         data: {
-            labels: ['Mas bajo', 'Medio', 'Alto', 'Gold'],
+            labels: [],
             datasets: [{
                 label: 'Media de sueldo',
-                data: [25, 45, 70, 80],
+                data: [],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -685,7 +714,7 @@ function ini() {
     lista(chart1);
 
     // .seccion2 main (tabla)
-    table(chart2);
+    table(chart2, chart0);
 
     // --- aside ---
     // .pendientes, maneja pendientes
