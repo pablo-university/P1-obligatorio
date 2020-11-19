@@ -6,15 +6,14 @@
                      const [a,b,c] = [1,2,3]; || [a,b,c] = [1,2,3]; sin declarar
                      const {apellido, nombre} = objeto;
 - MODULOS .MJS: Resolver asincronía de modulos
-
+-------------------------------------------------------------------------------
 --- MI ESTRUCTURA GENERAL ---
   @Cuando la estructura es grande:
   - Variables
   - Funciones
-    -mini intro
   - Ejecuciones
   @Cuando estructura es chica:
-  - Similar a como haciamos en clase
+  - Como haciamos en clase
  */
 // --- IMPORTACIONES (pendiente) ---
 // import { chart0 } from './chart0.mjs';
@@ -42,10 +41,48 @@ $.ajax({
     }
 })
 
-// manejador de chart2Data
-const chart2Data = [0, 0, 0, 0, 0]
 
 // --- FUNCIONES GLOBALES ---
+
+// Migré el modal a una Clase (exploración?)
+class Modal {// new Modal('titulo','contenido');
+    constructor(titulo, contenido) {
+        // Modal.titulo = titulo
+        this.titulo = titulo;
+        this.contenido = contenido;
+        // si no está, incrusto huesos del modal en dom
+        if ($('#modal').length < 1 ) {
+            $('body').append(`
+            <!-- Modal, absoluto -->
+            <div id="modal" class="card">
+                <section>
+                    <head><h2>Titulo modal</h2><i class="far fa-window-close fa-lg"></i></head>
+                    <main>cuerpo modal</main>
+                </section>
+            </div>`);}
+    }
+    // #cierra modal (metodo #privado según mozilla, experimental)
+    #cierra(e) {
+        let elem = $(e.target);
+        // si e.target tiene id modal O es un i(icono cerrar)
+        let esModal = elem.attr('id') == 'modal';
+        if (esModal || e.target.localName == 'i') {
+            $('#modal').slideUp()
+        }
+    }
+    // abre modal
+    abre() {
+        // abre modal
+        $('#modal').slideDown();
+
+        // vacio & inserto contenido
+        $('#modal h2').html('').append(this.titulo);
+        $('#modal main').html('').append(this.contenido);
+
+        // cierra modal (debo referirme al objeto primero(this))
+        $('#modal, #modal [class*="far"]').click(this.#cierra);
+    }
+}// fin Class Modal
 
 // navClick menú & secciones
 function navClick(e) {
@@ -69,11 +106,11 @@ function navClick(e) {
     }
 }// fin navClick
 
-// mediaDeSueldo
-function mediaDeSueldo(chart0,chart2){
+// planDeCarrera$MediaDeSueldo
+function planDeCarrera$MediaDeSueldo(chart0, chart2) {
     // - variables -
     const orientaciones = [], promedios = [], planDeCarrera = [];
-    
+
     // FILTRO personas con orientaciones sin incluir + MAP me retorna orientación de esas personas.
     const orientacionesSinIncluir = personas
         .filter(persona => !orientaciones.includes(persona.orientacion))
@@ -82,21 +119,21 @@ function mediaDeSueldo(chart0,chart2){
     orientaciones.push(...orientacionesSinIncluir);
 
     // recorro orientaciones para hacer promedios
-    orientaciones.forEach(function(orientacion,i){
+    orientaciones.forEach(function (orientacion, i) {
         let total = 0, cont = 0;
         // por cada persona pregunto si es de la orientación y voy haciendo promedio
-        personas.forEach(function(persona,i){
-            if(persona.orientacion == orientacion){
+        personas.forEach(function (persona, i) {
+            if (persona.orientacion == orientacion) {
                 total += parseInt(persona.media);
-                cont++;}
+                cont++;
+            }
         });
         promedios.push(total / cont);
         planDeCarrera.push(cont);
     });
     // DEBUG---
-    console.log('Orientaciones y promedios: ',orientaciones,promedios);
-    console.log('planDeCarrera: ',planDeCarrera);
-    console.log('las charts',chart0,chart2);
+    console.log('Orientaciones y promedios: ', orientaciones, promedios);
+    console.log('planDeCarrera: ', planDeCarrera);
 
     // inyecto en chart0 los datos
     chart0.data.labels = [...orientaciones];
@@ -129,7 +166,7 @@ function slider() {
         } else {
             count = 0;
             $(sliders).eq(count).animate({ opacity: '1' });
-            count++;// QUEDO CARAJO!
+            count++;
         }
     }
 
@@ -148,14 +185,15 @@ function lista(chart1) {
     // manageLista
     function manageList() {
 
-        // modal(titulo,contenido);
-        modal('Selecciona alguien para la lista', `
+        // new Modal(titulo,contenido); (inicia html en el constructor, charro? y bueno anda jjajjaa)
+        const modal = new Modal('Selecciona alguien para la lista', `
             <input list="list-personas" placeholder="selecciona persona">
             <datalist id="list-personas">
                 <!-- agrego dinamicamente nombres de mi array -->
             </datalist>
             <input type="button" value="Agregar" class="boton">
             <p class='msg'></p>`);
+        modal.abre();
 
         // oculta y vacia msg
         $('#modal .msg').html('').hide();
@@ -227,7 +265,6 @@ function lista(chart1) {
         } else {
             this.classList.toggle('active', miBoolean);
         }
-
         // ---
         // nombre de personas que haya seleccionado
         const personasSeleccionadas = [];
@@ -301,7 +338,7 @@ function lista(chart1) {
 }// fin lista
 
 // #table
-function table(chart0,chart2) {
+function table(chart0, chart2) {
     /*  @Variables:
         - propAnterior
         @Funciones:
@@ -374,7 +411,7 @@ function table(chart0,chart2) {
             @escuchas */
 
         // randomId
-        function randomId(){
+        function randomId() {
             // mapeo y obtengo todos los ids
             const ids = personas.map(persona => persona.id);
             let randomId = 0, idsIncluyeNewId = true;
@@ -382,7 +419,7 @@ function table(chart0,chart2) {
             do {
                 randomId = Math.random();
                 idsIncluyeNewId = ids.includes(randomId);
-            } while(idsIncluyeNewId)
+            } while (idsIncluyeNewId)
             return randomId;
         }
         // obtieneNewPerson
@@ -421,10 +458,8 @@ function table(chart0,chart2) {
                 $('.section2 #nombre,.section2 #orientacion').val('');
                 $('.section2 .msg').html('Los datos fueron gregados <mark>correctamente</mark>')
 
-                // planDeCarrera actualiza chart2 del aside
-                //planDeCarrera(chart2)
-                // mediaDeSueldo actualiza chart0
-                mediaDeSueldo(chart0,chart2);
+                // planDeCarrera$MediaDeSueldo actualiza chart0
+                planDeCarrera$MediaDeSueldo(chart0, chart2);
             }
         }
         // añade escucha focusout a nombre
@@ -459,10 +494,9 @@ function table(chart0,chart2) {
         // remueve persona en personas & nodo DOM
         personas.splice(i, 1);
         this.remove();
-        //planDeCarrera actualiza chart2 del aside
-        //planDeCarrera(chart2)
-        // mediaDeSueldo actualiza chart0
-        mediaDeSueldo(chart0,chart2);
+
+        // planDeCarrera$MediaDeSueldo actualiza chart0
+        planDeCarrera$MediaDeSueldo(chart0, chart2);
     }
 
     // search
@@ -479,7 +513,7 @@ function table(chart0,chart2) {
 
             // buscando en personas
             $(personas).each(buscando);
- 
+
             function buscando(i, persona) {
                 // pasa a string la clave de persona, y pregunta si coincide con search (boolean)
                 let match = String(persona[target]).toLocaleLowerCase().indexOf(search) != -1;
@@ -569,31 +603,7 @@ function pendientes() {
     }
 }// fin pendientes
 
-// Modal, sintaxis: modal(titulo,contenido);
-function modal(titulo, contenido) {
-
-    // abre modal cuando el padre es llamado
-    $('#modal').slideDown();
-
-    // vacio & inserto contenido
-    $('#modal h2').html('').append(titulo);
-    $('#modal main').html('').append(contenido);
-
-    // cierra modal
-    $('#modal, #modal [class*="far"]').click(cierraModal);
-
-    function cierraModal(e) {
-        let elem = $(e.target);
-        let esModal = elem.attr('id') == 'modal';
-        if (esModal || e.target.localName == 'i') {
-            $('#modal').slideUp()
-        }
-    }
-}// fin modal
-
-
 // fin funciones
-
 
 // --- DOCUMENT READY ---
 //$(ini);// cuidado dos ini? !Ahora ini inicia si personas resolve(ok)
@@ -609,7 +619,7 @@ function ini() {
             datasets: [{
                 label: 'Media de sueldo',
                 data: [],
-                backgroundColor:'rgba(255, 67, 101, .2)',
+                backgroundColor: 'rgba(255, 67, 101, .2)',
                 borderColor: 'rgba(255, 67, 101, 1)',
                 pointBackgroundColor: 'rgba(255, 67, 101, 1)',
                 pointBorderColor: 'rgba(255, 255, 255, 1)',
@@ -706,8 +716,7 @@ function ini() {
             }
         }
     });// fin chart-2
-    //planDeCarrera(chart2);//modifica const global chart2Data + chart.update();
-    mediaDeSueldo(chart0,chart2);
+    planDeCarrera$MediaDeSueldo(chart0, chart2);
     // -------------------
 
     // --- navClick menú & secciones ---
@@ -726,12 +735,11 @@ function ini() {
     lista(chart1);
 
     // .seccion2 main (tabla)
-    table(chart0,chart2);
+    table(chart0, chart2);
 
     // --- aside ---
     // .pendientes, maneja pendientes
     pendientes();
-
 
 }// fin ini
 

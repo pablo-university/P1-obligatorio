@@ -114,6 +114,8 @@ body {
 .section1 h1 {
     font-size: 2rem;
     margin: unset;
+    
+    margin-bottom: .5rem;
 }
 /* - Slider - */
 #slider {
@@ -123,13 +125,14 @@ body {
     padding: 0;
 }
 #slider > div {
-    grid-area: 1/1/1 / span 9;
+    grid-area: 1/1/1/span 8;
     opacity: 0;
 
-    padding: 1rem;
+    padding: 2rem 2rem 1.5rem;
 }
 #slider .boton:last-child {
     border-radius: 0 5px 5px 0;
+    grid-column-start: 10;
 }
 /* Main */
 
