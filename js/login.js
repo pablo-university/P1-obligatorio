@@ -22,7 +22,7 @@ function ini() {
 	if (window.location.pathname.indexOf('index.html') == -1) {
 		// si esta logueado
 		if (localStorage.getItem('logueado') === 'si') {
-			$('.section1 h1#saludo').html(`Hola ${localStorage.getItem('nombre')}, bienvenido`);
+			$('.section1 h1#saludo').html(`Bienvenid@ ${localStorage.getItem('nombre')}`);
 		} else {
 			window.location = 'index.html';
 		}

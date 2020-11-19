@@ -70,18 +70,16 @@ function navClick(e) {
 }// fin navClick
 
 // mediaDeSueldo
-function mediaDeSueldo(chart0){
+function mediaDeSueldo(chart0,chart2){
     // - variables -
-    const orientaciones = [];
-    const promedios = [];
-
-    // recorro personas xra obtener perfiles existentes
-    personas.forEach(function(persona,i){
-        // si orientaciones NO tiene orientacion la agrego xra analizar
-        if(!orientaciones.includes(persona.orientacion)){
-            orientaciones.push(persona.orientacion);
-        }
-    });
+    const orientaciones = [], promedios = [], planDeCarrera = [];
+    
+    // FILTRO personas con orientaciones sin incluir + MAP me retorna orientación de esas personas.
+    const orientacionesSinIncluir = personas
+        .filter(persona => !orientaciones.includes(persona.orientacion))
+        .map(persona => persona.orientacion);
+    // agrego esas orientaciones que estaban sin incluir
+    orientaciones.push(...orientacionesSinIncluir);
 
     // recorro orientaciones para hacer promedios
     orientaciones.forEach(function(orientacion,i){
@@ -93,16 +91,24 @@ function mediaDeSueldo(chart0){
                 cont++;}
         });
         promedios.push(total / cont);
+        planDeCarrera.push(cont);
     });
+    // DEBUG---
     console.log('Orientaciones y promedios: ',orientaciones,promedios);
+    console.log('planDeCarrera: ',planDeCarrera);
+    console.log('las charts',chart0,chart2);
+
     // inyecto en chart0 los datos
     chart0.data.labels = [...orientaciones];
     chart0.data.datasets[0].data = [...promedios];
-/*     chart0.data.labels.push(...orientaciones);
-    chart0.data.datasets[0].data.push(...promedios); */
 
-    // updateo chart0
+    // inyecto en chart2 los datos
+    chart2.data.labels = [...orientaciones];
+    chart2.data.datasets[0].data = [...planDeCarrera];
+
+    // updateo chart's
     chart0.update();
+    chart2.update();
 }
 
 // #slider
@@ -183,7 +189,7 @@ function lista(chart1) {
         // personaRepetida o personaNoExiste?
         if (personaRepetida || personaNoExiste) {
             let mensaje = personaRepetida ?
-                'El nombre <mark>ya está asignado</mark>' :
+                'El nombre <mark>ya está asignado</mark>, @err:usar data-id' :
                 'Campo está <mark>vacío o incorrecto</mark>';
             $('#modal .msg').show().html(mensaje);
             $('#modal input*[list="list-personas"]').val('');
@@ -257,10 +263,10 @@ function lista(chart1) {
                     personasAInsertar.push({
                         label: persona.nombre,
                         data: data,
-                        background: colorAnterior == 0 ? 'rgba(20, 184, 220, .1)' : 'rgba(248, 207, 62, .1)',
-                        border: colorAnterior == 0 ? 'rgba(20, 184, 220, 1)' : 'rgba(248, 207, 62, 1)'
+                        background: colorAnterior == 0 ? 'rgba(20, 184, 220, .1)' : 'rgba(255, 67, 101, .1)',
+                        border: colorAnterior == 0 ? 'rgba(20, 184, 220, 1)' : 'rgba(255, 67, 101, 1)'
                     });
-                    // 'rgba(248, 207, 62, 1)' amarillo
+                    // 'rgba(248, 207, 62, 1)' rojo
                     // 'rgba(20, 184, 220, 1)' azul
                 }
             }
@@ -295,7 +301,7 @@ function lista(chart1) {
 }// fin lista
 
 // #table
-function table(chart2, chart0) {
+function table(chart0,chart2) {
     /*  @Variables:
         - propAnterior
         @Funciones:
@@ -317,7 +323,7 @@ function table(chart2, chart0) {
         function drawPersonas(elem, i, array) {
             $('#table tbody')
                 .append(`<tr>
-                            <td>${elem.nombre}</td>
+                            <td data-id="${elem.id}">${elem.nombre}</td>
                             <td>${elem.genero}</td>
                             <td>${elem.feed}</td>
                             <td>${elem.media}</td>
@@ -333,7 +339,7 @@ function table(chart2, chart0) {
 
     // orderTable
     function orderTable(e) {
-        // prop es tomada del data-head
+        // prop es tomada del data-head, (usada para ordenar personas)
         let prop = $(this).attr('data-head');
 
         if (prop != propAnterior) {
@@ -361,13 +367,28 @@ function table(chart2, chart0) {
     // addToTable
     function addToTable() {
         /*  @Funciones
+            - randomId
             - obtieneNewPerson
             - checkForm
             - add
             @escuchas */
+
+        // randomId
+        function randomId(){
+            // mapeo y obtengo todos los ids
+            const ids = personas.map(persona => persona.id);
+            let randomId = 0, idsIncluyeNewId = true;
+            // @HACER {randomId, asignar idsIncluyeNewId} @MIENTRAS...
+            do {
+                randomId = Math.random();
+                idsIncluyeNewId = ids.includes(randomId);
+            } while(idsIncluyeNewId)
+            return randomId;
+        }
         // obtieneNewPerson
         function obtenerNewPersona() {
             const newPersona = {
+                id: randomId(),
                 nombre: $('.section2 #nombre').val(),
                 genero: $('.section2 input[type="radio"]:checked').val(),
                 feed: parseInt($('.section2 #feed').val()),
@@ -401,9 +422,9 @@ function table(chart2, chart0) {
                 $('.section2 .msg').html('Los datos fueron gregados <mark>correctamente</mark>')
 
                 // planDeCarrera actualiza chart2 del aside
-                planDeCarrera(chart2)
+                //planDeCarrera(chart2)
                 // mediaDeSueldo actualiza chart0
-                mediaDeSueldo(chart0);
+                mediaDeSueldo(chart0,chart2);
             }
         }
         // añade escucha focusout a nombre
@@ -421,11 +442,13 @@ function table(chart2, chart0) {
 
     // editPerson
     function editPerson() {
-        /* !Cumple dos funcionalidades, borra y edita... */
-        const buscado = this.children[0].innerText;
+        /* !Cumple dos funcionalidades, borra y edita 
+        (bug: si hay dos nombres iguales borra el primero) */
+        // obtengo data-id del nombre en el dom
+        const buscado = this.children[0].getAttribute('data-id');
 
         // findIndex retorna el índice del primer elemento que retornemos verdadero
-        const i = personas.findIndex(elem => elem.nombre == buscado);
+        const i = personas.findIndex(elem => elem.id == buscado);
         const newPersona = personas[i];
         const { nombre, genero, feed, media, orientacion } = newPersona;
         $('.section2 #nombre').val(nombre);
@@ -433,13 +456,13 @@ function table(chart2, chart0) {
         $('.section2 #feed').val(feed);
         $('.section2 #media').val(media);
         $('.section2 #orientacion').val(orientacion);
-        // remueve persona en personas & nodo
+        // remueve persona en personas & nodo DOM
         personas.splice(i, 1);
         this.remove();
         //planDeCarrera actualiza chart2 del aside
-        planDeCarrera(chart2)
+        //planDeCarrera(chart2)
         // mediaDeSueldo actualiza chart0
-        mediaDeSueldo(chart0);
+        mediaDeSueldo(chart0,chart2);
     }
 
     // search
@@ -456,12 +479,13 @@ function table(chart2, chart0) {
 
             // buscando en personas
             $(personas).each(buscando);
+ 
             function buscando(i, persona) {
-
                 // pasa a string la clave de persona, y pregunta si coincide con search (boolean)
                 let match = String(persona[target]).toLocaleLowerCase().indexOf(search) != -1;
 
-                // si encuentra muestra
+                /* -si encuentra muestra-
+                (esto funciona ya que coincide el orden de las row del DOM con el orden del arreglo)*/
                 if (match) { $(rows[i]).slideDown(); }
                 // sino oculta
                 else $(rows[i]).slideUp();
@@ -585,22 +609,10 @@ function ini() {
             datasets: [{
                 label: 'Media de sueldo',
                 data: [],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
+                backgroundColor:'rgba(255, 67, 101, .2)',
+                borderColor: 'rgba(255, 67, 101, 1)',
+                pointBackgroundColor: 'rgba(255, 67, 101, 1)',
+                pointBorderColor: 'rgba(255, 255, 255, 1)',
                 borderWidth: 1
             }]
         },
@@ -617,7 +629,6 @@ function ini() {
             }
         }
     });
-    mediaDeSueldo(chart0);
 
     // CHART-1
     var ct1 = document.getElementById('chart-1').getContext('2d');
@@ -668,15 +679,15 @@ function ini() {
         // Conjunto de datos
         data: {
             // Etiquetas al hacer hover
-            labels: ['Web', 'Diseño', 'Tecnología', 'Apps', 'Otro'],
+            labels: [],//['Web', 'Diseño', 'Tecnología', 'Apps', 'Otro']
             datasets: [{
-                data: chart2Data,//data: [5, 19, 3, 1, otro],
+                data: [],//data: [5, 19, 3, 1, otro],//chart2Data
                 backgroundColor: [
-                    'rgba(20, 184, 220, 1)',
-                    'rgba(255, 67, 101, .5)',
-                    'rgba(20, 184, 220, .5)',
-                    'rgba(248, 207, 62, .5)',
-                    'rgba(100, 100, 100, .5)'
+                    'rgba(20, 184, 220, 1)',//azul
+                    'rgba(255, 67, 101, 1)',//rojo
+                    'rgba(20, 184, 220, .2)',//azul
+                    'rgba(248, 207, 62, 1)',//amarillo
+                    'rgba(100, 100, 100, 1)'//gris
                 ],
                 borderColor: 'rgba(255, 255, 255, 1)',
                 borderWidth: 1
@@ -695,7 +706,8 @@ function ini() {
             }
         }
     });// fin chart-2
-    planDeCarrera(chart2);//modifica const global chart2Data + chart.update();
+    //planDeCarrera(chart2);//modifica const global chart2Data + chart.update();
+    mediaDeSueldo(chart0,chart2);
     // -------------------
 
     // --- navClick menú & secciones ---
@@ -714,7 +726,7 @@ function ini() {
     lista(chart1);
 
     // .seccion2 main (tabla)
-    table(chart2, chart0);
+    table(chart0,chart2);
 
     // --- aside ---
     // .pendientes, maneja pendientes

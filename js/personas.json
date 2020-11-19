@@ -1,5 +1,6 @@
 [
     {
+        "id":1,
         "nombre":"a",
         "genero":"m",
         "feed":1,
@@ -7,6 +8,7 @@
         "orientacion":"web"
     },
     {
+        "id":2,
         "nombre":"b",
         "genero":"m",
         "feed":9,
@@ -14,6 +16,7 @@
         "orientacion":"diseño"
     },
     {
+        "id":3,
         "nombre":"c",
         "genero":"f",
         "feed":8,
