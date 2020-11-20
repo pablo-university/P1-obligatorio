@@ -109,32 +109,29 @@ function navClick(e) {
 // planDeCarrera$MediaDeSueldo
 function planDeCarrera$MediaDeSueldo(chart0, chart2) {
     // - variables -
-    const orientaciones = [], promedios = [], planDeCarrera = [];
+    let orientaciones = [], promedios = [], planDeCarrera = [];
 
-    // FILTRO personas con orientaciones sin incluir + MAP me retorna orientación de esas personas.
-    const orientacionesSinIncluir = personas
-        .filter(persona => !orientaciones.includes(persona.orientacion))
-        .map(persona => persona.orientacion);
-    // agrego esas orientaciones que estaban sin incluir
-    orientaciones.push(...orientacionesSinIncluir);
-
+    // Obtengo orientaciones
+    personas.forEach(persona => {
+        if (!orientaciones.includes(persona.orientacion)){
+            orientaciones.push(persona.orientacion);}
+    });
+    console.log('@2: ', orientaciones);
+//----------
     // recorro orientaciones para hacer promedios
-    orientaciones.forEach(function (orientacion, i) {
+    orientaciones.forEach(function (orientacion) {
         let total = 0, cont = 0;
         // por cada persona pregunto si es de la orientación y voy haciendo promedio
-        personas.forEach(function (persona, i) {
+        personas.forEach(function (persona) {
             if (persona.orientacion == orientacion) {
-                total += parseInt(persona.media);
+                total += persona.media;
                 cont++;
             }
-        });
-        promedios.push(total / cont);
+        });//!en el orden que obtuve orientaciones debo obtener pormedios y planDeCarrera
+        promedios.push(parseInt(total / cont));
         planDeCarrera.push(cont);
     });
-    // DEBUG---
-    console.log('Orientaciones y promedios: ', orientaciones, promedios);
-    console.log('planDeCarrera: ', planDeCarrera);
-
+    
     // inyecto en chart0 los datos
     chart0.data.labels = [...orientaciones];
     chart0.data.datasets[0].data = [...promedios];
@@ -693,11 +690,11 @@ function ini() {
             datasets: [{
                 data: [],//data: [5, 19, 3, 1, otro],//chart2Data
                 backgroundColor: [
-                    'rgba(20, 184, 220, 1)',//azul
-                    'rgba(255, 67, 101, 1)',//rojo
+                    'rgba(20, 184, 220, .5)',//azul
+                    'rgba(255, 67, 101, .5)',//rojo
                     'rgba(20, 184, 220, .2)',//azul
-                    'rgba(248, 207, 62, 1)',//amarillo
-                    'rgba(100, 100, 100, 1)'//gris
+                    'rgba(255, 67, 101, .2)',//rojo
+                    'rgba(100, 100, 100, .5)'//gris
                 ],
                 borderColor: 'rgba(255, 255, 255, 1)',
                 borderWidth: 1
@@ -740,6 +737,6 @@ function ini() {
     // --- aside ---
     // .pendientes, maneja pendientes
     pendientes();
+    
 
 }// fin ini
-
