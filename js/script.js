@@ -8,41 +8,74 @@
 - MODULOS .MJS: Resolver asincronía de modulos
 -------------------------------------------------------------------------------
 --- MI ESTRUCTURA GENERAL ---
-  @Cuando la estructura es grande:
+  @estructuras grandes:
+  - Importaciones
   - Variables
+  - Clase
   - Funciones
   - Ejecuciones
-  @Cuando estructura es chica:
-  - Como haciamos en clase
+  @estructura chica:
+  - todo junto
  */
 // --- IMPORTACIONES (pendiente) ---
-// import { chart0 } from './chart0.mjs';
+import {chart0, chart1, chart2} from './modules/charts.mjs';
 
 // --- VARIABLES GLOBALES ---
 const personas = [];
-$.ajax({
-    type: "GET",
-    url: "js/personas.json",
-    dataType: "json",
-    // caso reject
-    error: function (xhr) {
-        alert(`Error:${xhr.status}, seguramente un buen problema con CORS`);
-    },
-    // caso resolve
-    success: function (dato) {
-        // for of para objeto iterable
-        for (let persona of dato) {
-            personas.push(persona)
-        }/*
-        luego de obtener personas
-        ejecuto ini cuando haya leido el DOM */
 
-        $(ini);
+// Obtener personas según almacenamiento localStorage
+if (localStorage.getItem('personas') == null) {
+    $.ajax({
+        type: "GET",
+        url: "js/personas.json",
+        dataType: "json",
+        // caso reject
+        error: function (xhr) {
+            alert(`Error:${xhr.status}, seguramente un buen problema con CORS`);
+        },
+        // caso resolve
+        success: function (dato) {
+            // for of para objeto iterable
+            for (let persona of dato) {
+                personas.push(persona)
+            }/*
+            luego de obtener personas
+            ejecuto ini cuando haya leido el DOM */
+            $(ini);
+        }
+    })// fin ajax
+} else {
+    let dato = JSON.parse(localStorage.getItem('personas'));
+    // for of para objeto iterable
+    for (let persona of dato) {
+        personas.push(persona)
     }
-})
+    $(ini)
+}// fin else
 
 
-// --- FUNCIONES GLOBALES ---
+// --- FUNCIONES Y CLASES GLOBALES ---
+
+// Clase de guardado localStorage
+class StoragePersonas {// new StoragePersonas(personas);
+    constructor(personas) {
+        this.personas = personas;
+    }
+    // El dia que sepa PHP supongo que podría cambiar este metodo y guardarlo en una tabla SQL
+    guardar() {
+        // convierto personas en string
+        let dato = JSON.stringify(this.personas);
+        // vacio
+        localStorage.setItem('personas', '');
+        // agrego
+        localStorage.setItem('personas', dato);
+    }
+    // metodos para DEBUG
+    borrar() {
+        localStorage.removeItem("personas");
+        console.log('personas borrado de localStorage');
+    }
+}
 
 // Migré el modal a una Clase (exploración?)
 class Modal {// new Modal('titulo','contenido');
@@ -51,7 +84,7 @@ class Modal {// new Modal('titulo','contenido');
         this.titulo = titulo;
         this.contenido = contenido;
         // si no está, incrusto huesos del modal en dom
-        if ($('#modal').length < 1 ) {
+        if ($('#modal').length < 1) {
             $('body').append(`
             <!-- Modal, absoluto -->
             <div id="modal" class="card">
@@ -59,7 +92,8 @@ class Modal {// new Modal('titulo','contenido');
                     <head><h2>Titulo modal</h2><i class="far fa-window-close fa-lg"></i></head>
                     <main>cuerpo modal</main>
                 </section>
-            </div>`);}
+            </div>`);
+        }
     }
     // #cierra modal (metodo #privado según mozilla, experimental)
     #cierra(e) {
@@ -102,7 +136,7 @@ function navClick(e) {
 
     } else {
         // sino llamar a una funcion msg
-        if (confirm("Seguro salir")) { window.location = 'index.html'; }
+        if (confirm("Seguro salir")) {window.location = 'index.html'; }
     }
 }// fin navClick
 
@@ -113,11 +147,11 @@ function planDeCarrera$MediaDeSueldo(chart0, chart2) {
 
     // Obtengo orientaciones
     personas.forEach(persona => {
-        if (!orientaciones.includes(persona.orientacion)){
-            orientaciones.push(persona.orientacion);}
+        if (!orientaciones.includes(persona.orientacion)) {
+            orientaciones.push(persona.orientacion);
+        }
     });
-    console.log('@2: ', orientaciones);
-//----------
+    //----------
     // recorro orientaciones para hacer promedios
     orientaciones.forEach(function (orientacion) {
         let total = 0, cont = 0;
@@ -131,7 +165,7 @@ function planDeCarrera$MediaDeSueldo(chart0, chart2) {
         promedios.push(parseInt(total / cont));
         planDeCarrera.push(cont);
     });
-    
+
     // inyecto en chart0 los datos
     chart0.data.labels = [...orientaciones];
     chart0.data.datasets[0].data = [...promedios];
@@ -457,6 +491,10 @@ function table(chart0, chart2) {
 
                 // planDeCarrera$MediaDeSueldo actualiza chart0
                 planDeCarrera$MediaDeSueldo(chart0, chart2);
+
+                // almacenaPersonas in localStorage
+                const storage = new StoragePersonas(personas);
+                storage.guardar();
             }
         }
         // añade escucha focusout a nombre
@@ -494,6 +532,10 @@ function table(chart0, chart2) {
 
         // planDeCarrera$MediaDeSueldo actualiza chart0
         planDeCarrera$MediaDeSueldo(chart0, chart2);
+
+        // almacenaPersonas in localStorage
+        const storage = new StoragePersonas(personas);
+        storage.guardar();
     }
 
     // search
@@ -539,35 +581,6 @@ function table(chart0, chart2) {
 
 }// fin #table
 
-// .aside planDeCarrera
-function planDeCarrera(chart2) {
-    /* acorde a orientación de personas:
-     - recorro personas[i].orientacion
-     - 'Web','Diseño','Tecnología','Apps'
-     - asigno resultados a pasarle a chart2*/
-    chart2Data.fill(0);// reseteo char2Data
-
-    personas.forEach(function (persona, i, arr) {
-        switch (persona.orientacion) {
-            case 'web':
-                chart2Data[0]++;
-                break;
-            case 'diseño':
-                chart2Data[1]++;
-                break;
-            case 'tecnologia':
-                chart2Data[2]++;
-                break;
-            case 'app':
-                chart2Data[3]++;
-                break;
-            default:// 'otra' orientacion
-                chart2Data[4]++;
-        }
-    });
-    chart2.update();// updateo grafica
-}
-
 // .pendientes, maneja pendientes
 function pendientes() {
 
@@ -607,112 +620,7 @@ function pendientes() {
 // --- FUNCIÓN INI ---
 function ini() {
 
-    // CHART-0 ?probando
-    var ct0 = document.getElementById('chart-0');
-    var chart0 = new Chart(ct0, {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'Media de sueldo',
-                data: [],
-                backgroundColor: 'rgba(255, 67, 101, .2)',
-                borderColor: 'rgba(255, 67, 101, 1)',
-                pointBackgroundColor: 'rgba(255, 67, 101, 1)',
-                pointBorderColor: 'rgba(255, 255, 255, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            },
-            legend: {
-                display: false
-            }
-        }
-    });
 
-    // CHART-1
-    var ct1 = document.getElementById('chart-1').getContext('2d');
-    var chart1 = new Chart(ct1, {
-        type: 'radar',
-        data: {
-            labels: ['Media de sueldo ($)', 'Feed con empresa (%)', 'Prov. de capacitación (%)', 'Posible aumento (%)'],
-            datasets: [{
-                // Persona 1
-                label: 'Selecciona personas...',
-                data: [100, 100, 100, 100],
-                pointRadius: 5,
-                backgroundColor: 'rgba(20, 184, 220, .1)',
-                borderColor: 'rgba(20, 184, 220, 1)',
-                pointBackgroundColor: 'rgba(20, 184, 220, 1)',
-                pointBorderColor: 'rgba(255, 255, 255, 1)'
-            }]//fin datasets
-
-        },
-        options: {
-            scale: {
-                angleLines: {
-                    display: true
-                },
-                ticks: {
-                    suggestedMin: 0,
-                    suggestedMax: 100
-                }
-            },
-            legend: {
-                display: true,
-                position: 'bottom'
-            },
-            title: {
-                display: true,
-                text: 'Análisis de perfiles',
-                padding: -50
-            }
-        }
-    });
-
-    // CHART-2
-    var ct2 = document.getElementById('chart-2').getContext('2d');
-    var chart2 = new Chart(ct2, {
-        // Tipo de grafica
-        type: 'doughnut',
-
-        // Conjunto de datos
-        data: {
-            // Etiquetas al hacer hover
-            labels: [],//['Web', 'Diseño', 'Tecnología', 'Apps', 'Otro']
-            datasets: [{
-                data: [],//data: [5, 19, 3, 1, otro],//chart2Data
-                backgroundColor: [
-                    'rgba(20, 184, 220, .5)',//azul
-                    'rgba(255, 67, 101, .5)',//rojo
-                    'rgba(20, 184, 220, .2)',//azul
-                    'rgba(255, 67, 101, .2)',//rojo
-                    'rgba(100, 100, 100, .5)'//gris
-                ],
-                borderColor: 'rgba(255, 255, 255, 1)',
-                borderWidth: 1
-            }]
-
-        },
-        // Configuraciones
-        options: {
-            legend: {
-                display: true,
-                position: 'bottom'
-            },
-            title: {
-                display: true,
-                text: 'Plan de carrera'
-            }
-        }
-    });// fin chart-2
     planDeCarrera$MediaDeSueldo(chart0, chart2);
     // -------------------
 
@@ -737,6 +645,6 @@ function ini() {
     // --- aside ---
     // .pendientes, maneja pendientes
     pendientes();
-    
+
 
 }// fin ini
