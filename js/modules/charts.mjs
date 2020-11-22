@@ -3,10 +3,10 @@
     var chart0 = new Chart(ct0, {
         type: 'line',
         data: {
-            labels: [],
+            labels: ['a','a','a','a'],
             datasets: [{
                 label: 'Media de sueldo',
-                data: [],
+                data: [0,0,0,0],
                 backgroundColor: 'rgba(255, 67, 101, .2)',
                 borderColor: 'rgba(255, 67, 101, 1)',
                 pointBackgroundColor: 'rgba(255, 67, 101, 1)',
@@ -94,6 +94,7 @@
         },
         // Configuraciones
         options: {
+            animation: {duration:1000},
             legend: {
                 display: true,
                 position: 'bottom'

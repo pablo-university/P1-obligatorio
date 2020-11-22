@@ -18,7 +18,7 @@
   - todo junto
  */
 // --- IMPORTACIONES (pendiente) ---
-import {chart0, chart1, chart2} from './modules/charts.mjs';
+import { chart0, chart1, chart2 } from './modules/charts.mjs';
 
 // --- VARIABLES GLOBALES ---
 const personas = [];
@@ -72,22 +72,28 @@ class StoragePersonas {// new StoragePersonas(personas);
     }
     // metodos para DEBUG
     borrar() {
-        localStorage.removeItem("personas");
-        console.log('personas borrado de localStorage');
+        try {
+            localStorage.removeItem("personas");
+            console.log('personas borrado de localStorage');
+        }
+        catch (error) {
+            console.log('algo se pudrio: ', error);
+        }
     }
 }
 
 // Migré el modal a una Clase (exploración?)
 class Modal {// new Modal('titulo','contenido');
-    constructor(titulo, contenido) {
-        // Modal.titulo = titulo
+    constructor(id, titulo, contenido) {
+        // Modal.id = id
+        this.id = id;
         this.titulo = titulo;
         this.contenido = contenido;
         // si no está, incrusto huesos del modal en dom
-        if ($('#modal').length < 1) {
+        if ($(`#${id}`).length < 1) {
             $('body').append(`
             <!-- Modal, absoluto -->
-            <div id="modal" class="card">
+            <div id="${id}" class="card">
                 <section>
                     <head><h2>Titulo modal</h2><i class="far fa-window-close fa-lg"></i></head>
                     <main>cuerpo modal</main>
@@ -99,22 +105,22 @@ class Modal {// new Modal('titulo','contenido');
     #cierra(e) {
         let elem = $(e.target);
         // si e.target tiene id modal O es un i(icono cerrar)
-        let esModal = elem.attr('id') == 'modal';
+        let esModal = elem.attr('id') == `${this.id}`;
         if (esModal || e.target.localName == 'i') {
-            $('#modal').slideUp()
+            $(`#${this.id}`).slideUp()
         }
     }
     // abre modal
     abre() {
         // abre modal
-        $('#modal').slideDown();
+        $(`#${this.id}`).slideDown();
 
         // vacio & inserto contenido
-        $('#modal h2').html('').append(this.titulo);
-        $('#modal main').html('').append(this.contenido);
+        $(`#${this.id} h2`).html('').append(this.titulo);
+        $(`#${this.id} main`).html('').append(this.contenido);
 
         // cierra modal (debo referirme al objeto primero(this))
-        $('#modal, #modal [class*="far"]').click(this.#cierra);
+        $(`#${this.id}, #${this.id} [class*="far"]`).click(this.#cierra);
     }
 }// fin Class Modal
 
@@ -136,22 +142,44 @@ function navClick(e) {
 
     } else {
         // sino llamar a una funcion msg
-        if (confirm("Seguro salir")) {window.location = 'index.html'; }
+        if (confirm("Seguro salir")) { window.location = 'index.html'; }
     }
 }// fin navClick
 
 // planDeCarrera$MediaDeSueldo
 function planDeCarrera$MediaDeSueldo(chart0, chart2) {
     // - variables -
-    let orientaciones = [], promedios = [], planDeCarrera = [];
+    const orientaciones = [], promedios = [], planDeCarrera = [];
+    let femenino = 0, feed = 0;
 
-    // Obtengo orientaciones
+    // Obtengo orientaciones & %femenino
     personas.forEach(persona => {
         if (!orientaciones.includes(persona.orientacion)) {
             orientaciones.push(persona.orientacion);
         }
+        // si es femenino sumo...
+        if (persona.genero == 'f') { femenino++ }
+        feed += persona.feed; 
     });
     //----------
+    // slider update
+    // vaciar slider y agregar slide
+    $('#slider div').remove();
+    $('#slider').prepend(`
+        <div>
+            <h2>Feed Promedio!</h2>
+            <p>Porcentaje de feed promedio en base a las personas</p>
+            <h1>${parseInt(feed/personas.length)}%</h1>
+        </div>
+        <div>
+            <h2>Femenino!</h2>
+            <p>Porcentaje de personal femenino en la empresa</p>
+            <h1>${parseInt(femenino*100/personas.length)}%</h1>
+        </div>
+    `);
+    // inicia slider, contadores y updatea su contenido (pasar a clase?)
+    slider();
+    //---------
     // recorro orientaciones para hacer promedios
     orientaciones.forEach(function (orientacion) {
         let total = 0, cont = 0;
@@ -177,6 +205,7 @@ function planDeCarrera$MediaDeSueldo(chart0, chart2) {
     // updateo chart's
     chart0.update();
     chart2.update();
+    
 }
 
 // #slider
@@ -186,6 +215,7 @@ function slider() {
         - btn avanza if (n+1 < largoSeleccionado) else reset count  */
     let count = 0;
     let sliders = $('#slider > div');
+    console.log(sliders);// 2
 
     function cambiaSlider() {
         // oculto todo
@@ -201,11 +231,12 @@ function slider() {
         }
     }
 
-    // boton avanzar (100% ecologico jajajajaj)
-    $('#slider .boton').click(cambiaSlider);
     cambiaSlider(); // primera vez
+    // boton avanzar (100% ecologico)
+    $('#slider .boton').off();
+    $('#slider .boton').click(cambiaSlider);
     // Esto es 'Async'
-    setInterval(cambiaSlider, 10000);
+    setInterval(cambiaSlider, 5000);
 }
 
 // .section1 footer lista
@@ -216,8 +247,8 @@ function lista(chart1) {
     // manageLista
     function manageList() {
 
-        // new Modal(titulo,contenido); (inicia html en el constructor, charro? y bueno anda jjajjaa)
-        const modal = new Modal('Selecciona alguien para la lista', `
+        // new Modal(id, titulo,contenido); (inicia html en el constructor)
+        const modal = new Modal('modal','Selecciona alguien para la lista', `
             <input list="list-personas" placeholder="selecciona persona">
             <datalist id="list-personas">
                 <!-- agrego dinamicamente nombres de mi array -->
@@ -620,8 +651,11 @@ function pendientes() {
 // --- FUNCIÓN INI ---
 function ini() {
 
-
-    planDeCarrera$MediaDeSueldo(chart0, chart2);
+    // las graficas son importadas
+    setTimeout(function(){
+        planDeCarrera$MediaDeSueldo(chart0, chart2);},100);
+    //(esto tmbn maneja slider)
+    // setTime para mantener animacion en chart2, por mas que le agregue datos al instanciarla no se animaba...
     // -------------------
 
     // --- navClick menú & secciones ---
@@ -631,8 +665,8 @@ function ini() {
 
     // --- main secciones... ---
 
-    // .section1 #slider
-    slider();
+    // .section1 #slider (ahora es llamado desde planDeCarrera$MediaDeSueldo)
+    //slider();
 
     // .section1 main
 
