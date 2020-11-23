@@ -1,21 +1,23 @@
 /* --- MIS NOTAS JS!! ---
-- COMPONENTES: los .msg LOCALES serán llamados desde .seccion .msg
-               y los GLOBALES por #msg, los sliders globales con #slider,
-               botones como .seccion .boton etc
+- COMPONENTES: los .msg LOCALES serán llamados desde .seccion .msg,
+                igual con .seccion .boton
 - DESESTRUCTURACION: es lo moderno de let a = arr[1] y... let b = arr[2]... etc
                      const [a,b,c] = [1,2,3]; || [a,b,c] = [1,2,3]; sin declarar
                      const {apellido, nombre} = objeto;
-- MODULOS .MJS: Resolver asincronía de modulos
+- EXP.reg ej: /\w+{3}[cractresCoincdntes]/banderas |||| !ver referencias
+- MODULOS .MJS: Resolver asincronía de modulos?
 -------------------------------------------------------------------------------
---- MI ESTRUCTURA GENERAL ---
-  @estructuras grandes:
+--- Mapa para Migue ---
+  @Funciones + Clases:
   - Importaciones
   - Variables
-  - Clase
+  - Clases
   - Funciones
-  - Ejecuciones
-  @estructura chica:
-  - todo junto
+    -variables
+    -funciones
+    -ejecuciones
+  @ini
+  - ejecuciones
  */
 // --- IMPORTACIONES (pendiente) ---
 import { chart0, chart1, chart2 } from './modules/charts.mjs';
@@ -392,7 +394,6 @@ function lista(chart1) {
                 });// fin pusheo persona
             }
         }// fin if
-
 
         chart1.update();
     }// fin selectItemList
