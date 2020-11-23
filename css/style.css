@@ -169,7 +169,7 @@ hr {
 }
 
 /* Mi biblioteca MODAL */
-#modal {
+.modal {
   position: fixed;
   top: 0;
   background-color: rgba(0, 0, 0, 0.5);
@@ -177,7 +177,7 @@ hr {
   height: 100vh;
   display: none;
 }
-#modal > * {
+.modal > * {
   margin: 3rem auto;
   max-height: 80vh;
   width: 50vw;
@@ -185,7 +185,7 @@ hr {
   overflow-y: overlay;
   position: relative;
 }
-#modal [class*=far] {
+.modal [class*=far] {
   position: absolute;
   top: 2rem;
   right: 2rem;

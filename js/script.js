@@ -70,7 +70,7 @@ class StoragePersonas {// new StoragePersonas(personas);
         // agrego
         localStorage.setItem('personas', dato);
     }
-    // metodos para DEBUG
+    // metodos para mi DEBUG
     borrar() {
         try {
             localStorage.removeItem("personas");
@@ -82,8 +82,8 @@ class StoragePersonas {// new StoragePersonas(personas);
     }
 }
 
-// Migré el modal a una Clase (exploración?)
-class Modal {// new Modal('titulo','contenido');
+// Ya se conocen
+class Modal {// new Modal('id--modificador','titulo','contenido');
     constructor(id, titulo, contenido) {
         // Modal.id = id
         this.id = id;
@@ -93,7 +93,7 @@ class Modal {// new Modal('titulo','contenido');
         if ($(`#${id}`).length < 1) {
             $('body').append(`
             <!-- Modal, absoluto -->
-            <div id="${id}" class="card">
+            <div id="${id}" class="card modal">
                 <section>
                     <head><h2>Titulo modal</h2><i class="far fa-window-close fa-lg"></i></head>
                     <main>cuerpo modal</main>
@@ -142,7 +142,11 @@ function navClick(e) {
 
     } else {
         // sino llamar a una funcion msg
-        if (confirm("Seguro salir")) { window.location = 'index.html'; }
+        let modalSalir = new Modal('modal--salir','Confirmación',
+        `<p>Seguro que deseas salir?</p>
+        <input type="button" value="Salir" class="boton boton--salir">`);
+        modalSalir.abre();
+        $('.boton--salir').click(function(){window.location = 'index.html'});
     }
 }// fin navClick
 
@@ -248,7 +252,7 @@ function lista(chart1) {
     function manageList() {
 
         // new Modal(id, titulo,contenido); (inicia html en el constructor)
-        const modal = new Modal('modal','Selecciona alguien para la lista', `
+        const modal = new Modal('modal--list','Selecciona alguien para la lista', `
             <input list="list-personas" placeholder="selecciona persona">
             <datalist id="list-personas">
                 <!-- agrego dinamicamente nombres de mi array -->
@@ -258,22 +262,22 @@ function lista(chart1) {
         modal.abre();
 
         // oculta y vacia msg
-        $('#modal .msg').html('').hide();
+        $('#modal--list .msg').html('').hide();
 
         // imprime lista de personas
         personas.forEach(recorrePersonas);
         function recorrePersonas(elem) {
-            $('#modal #list-personas').append(`<option value="${elem.nombre}">`);
+            $('#modal--list #list-personas').append(`<option value="${elem.nombre}">`);
         };
 
         // escucha en agregar addToList
-        $('#modal .boton').click(addToList);
+        $('#modal--list .boton').click(addToList);
     }//fin maneja lista
 
     // addToList
     function addToList() {
         // nombre del input Datalist
-        let nombre = $('#modal input*[list="list-personas"]').val();
+        let nombre = $('#modal--list input*[list="list-personas"]').val();
 
         // obtengo persona seleccionada (xra saber su orientación)
         const personaSeleccionada = personas.find((persona) => persona.nombre == nombre);
@@ -281,18 +285,18 @@ function lista(chart1) {
         // pregunta si ya está agregado
         let personaRepetida = $(`.list [data-nombre*="${nombre}"]`).length > 0;
         // cubre campo vacío y agregar mal el nombre
-        let personaNoExiste = $(`#modal option[value*="${nombre}"]`).length == 0;
+        let personaNoExiste = $(`#modal--list option[value*="${nombre}"]`).length == 0;
 
         // oculta y vacia msg
-        $('#modal .msg').html('').hide();
+        $('#modal--list .msg').html('').hide();
 
         // personaRepetida o personaNoExiste?
         if (personaRepetida || personaNoExiste) {
             let mensaje = personaRepetida ?
                 'El nombre <mark>ya está asignado</mark>, @err:usar data-id' :
                 'Campo está <mark>vacío o incorrecto</mark>';
-            $('#modal .msg').show().html(mensaje);
-            $('#modal input*[list="list-personas"]').val('');
+            $('#modal--list .msg').show().html(mensaje);
+            $('#modal--list input*[list="list-personas"]').val('');
         } else {
             // agregar a lista persona
             $('.section1 .list').append(`
@@ -301,7 +305,7 @@ function lista(chart1) {
                     <p>Orientación del perfil: ${personaSeleccionada.orientacion}</p>
                 </div>`);
             // limpia input datalist
-            $('#modal input*[list="list-personas"]').val('');
+            $('#modal--list input*[list="list-personas"]').val('');
 
             // resetear y agregar evento a las card's
             $('.section1 .list > *').off();
@@ -477,7 +481,7 @@ function table(chart0, chart2) {
             // mapeo y obtengo todos los ids
             const ids = personas.map(persona => persona.id);
             let randomId = 0, idsIncluyeNewId = true;
-            // @HACER {randomId, asignar idsIncluyeNewId} @MIENTRAS...
+            // @HACER {randomId, re-asignar idsIncluyeNewId?} @MIENTRAS...
             do {
                 randomId = Math.random();
                 idsIncluyeNewId = ids.includes(randomId);
@@ -543,8 +547,7 @@ function table(chart0, chart2) {
 
     // editPerson
     function editPerson() {
-        /* !Cumple dos funcionalidades, borra y edita 
-        (bug: si hay dos nombres iguales borra el primero) */
+        /* !Cumple dos funcionalidades, borra y edita */
         // obtengo data-id del nombre en el dom
         const buscado = this.children[0].getAttribute('data-id');
 
@@ -660,13 +663,10 @@ function ini() {
 
     // --- navClick menú & secciones ---
     // oculto todo menos section1
-    // $('.main >*:not(.section1)').hide();
+    $('.main >*:not(.section1)').hide();
     $('.nav li').click(navClick);
 
     // --- main secciones... ---
-
-    // .section1 #slider (ahora es llamado desde planDeCarrera$MediaDeSueldo)
-    //slider();
 
     // .section1 main
 
@@ -679,6 +679,5 @@ function ini() {
     // --- aside ---
     // .pendientes, maneja pendientes
     pendientes();
-
 
 }// fin ini
