@@ -1,6 +1,8 @@
 @use 'globales';
 @use 'bibliotecas';
 @use 'snippet';
+@use 'form';
+@use 'table';
 
 /* ----------- CUERPO DE PAGINAS ------------- */
 /* --- LOGIN --- */
@@ -236,71 +238,3 @@ body {
     opacity: 0.8;
 }
 /* --- */
-
-/* ---------- TABLAS, FORMULARIO Y MODAL ------------ */
-/* TABLAS GENERAL */
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    /* fuente responsiva */
-    font-size: clamp(.5rem, 2vw, 1rem);
-}
-th,
-caption {
-    font-weight: 700;
-}
-td,
-th {
-    border: 1px solid var(--color-tabla);
-    text-align: left;
-    padding: 0.5rem;
-}
-th i {
-    opacity: 0;
-    margin-left: 1rem;
-}
-tr:nth-child(even) {
-    background-color: var(--color-tabla);
-}
-// ----- mini personalización ----
-tbody tr:hover {
-    background: var(--color-tabla-hover);
-}
-// ------------
-
-/* FORMULARIO GENERAL */
-label {
-    /* predefinido son inline */
-    /* display: block; */
-}
-input,
-textarea,
-select {
-    /* predefinido son inline-block */
-    /* display: block; */
-    background-color: white;
-    padding: 0.5rem;
-    width: 100%;
-    resize: none;
-
-    outline: none;
-    border: none;
-    border-bottom: 2px solid var(--color-link);
-}
-/* --- mini personalización (mejorar selectores)--- */
-input[type="radio"],
-input[type="checkbox"] {
-    width: auto;
-}
-input[type="range"] {
-    padding: inherit;
-}
-/* input[type=search]:after{
-    content : url("#");
-} */
-/* -------- */
-input[type="submit"],
-input[type="button"] {
-    border: none;
-}

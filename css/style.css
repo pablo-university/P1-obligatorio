@@ -211,9 +211,84 @@ hr {
   z-index: 1;
 }
 #snippet > * {
-  font-size: 5rem;
+  width: 5rem;
+  height: 5rem;
   animation: snippet 1s infinite;
-  color: slategray;
+  fill: slategray;
+}
+
+/* FORMULARIO GENERAL */
+label {
+  /* predefinido son inline */
+  /* display: block; */
+}
+
+input,
+textarea,
+select {
+  /* predefinido son inline-block */
+  /* display: block; */
+  background-color: white;
+  padding: 0.5rem;
+  width: 100%;
+  resize: none;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid var(--color-link);
+}
+
+/* --- mini personalización (mejorar selectores)--- */
+input[type=radio],
+input[type=checkbox] {
+  width: auto;
+}
+
+input[type=range] {
+  padding: inherit;
+}
+
+/* input[type=search]:after{
+    content : url("#");
+} */
+/* -------- */
+input[type=submit],
+input[type=button] {
+  border: none;
+}
+
+/* ---------- TABLAS ------------ */
+/* TABLAS GENERAL */
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  /* fuente responsiva */
+  font-size: clamp(0.5rem, 2vw, 1rem);
+}
+
+th,
+caption {
+  font-weight: 700;
+}
+
+td,
+th {
+  border: 1px solid var(--color-tabla);
+  text-align: left;
+  padding: 0.5rem;
+}
+
+th i {
+  opacity: 0;
+  margin-left: 1rem;
+}
+
+tr:nth-child(even) {
+  background-color: var(--color-tabla);
+}
+
+tbody tr:hover {
+  background: var(--color-tabla-hover);
 }
 
 /* ----------- CUERPO DE PAGINAS ------------- */
@@ -459,76 +534,3 @@ body {
 }
 
 /* --- */
-/* ---------- TABLAS, FORMULARIO Y MODAL ------------ */
-/* TABLAS GENERAL */
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-  /* fuente responsiva */
-  font-size: clamp(0.5rem, 2vw, 1rem);
-}
-
-th,
-caption {
-  font-weight: 700;
-}
-
-td,
-th {
-  border: 1px solid var(--color-tabla);
-  text-align: left;
-  padding: 0.5rem;
-}
-
-th i {
-  opacity: 0;
-  margin-left: 1rem;
-}
-
-tr:nth-child(even) {
-  background-color: var(--color-tabla);
-}
-
-tbody tr:hover {
-  background: var(--color-tabla-hover);
-}
-
-/* FORMULARIO GENERAL */
-label {
-  /* predefinido son inline */
-  /* display: block; */
-}
-
-input,
-textarea,
-select {
-  /* predefinido son inline-block */
-  /* display: block; */
-  background-color: white;
-  padding: 0.5rem;
-  width: 100%;
-  resize: none;
-  outline: none;
-  border: none;
-  border-bottom: 2px solid var(--color-link);
-}
-
-/* --- mini personalización (mejorar selectores)--- */
-input[type=radio],
-input[type=checkbox] {
-  width: auto;
-}
-
-input[type=range] {
-  padding: inherit;
-}
-
-/* input[type=search]:after{
-    content : url("#");
-} */
-/* -------- */
-input[type=submit],
-input[type=button] {
-  border: none;
-}

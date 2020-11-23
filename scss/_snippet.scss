@@ -18,8 +18,9 @@
     background-color: whitesmoke;
     z-index: 1;
     & > * {
-        font-size: 5rem;
+        width: 5rem;
+        height: 5rem;
         animation: snippet 1s infinite;
-        color: slategray;
+        fill: slategray;
     }
 }

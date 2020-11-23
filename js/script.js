@@ -83,17 +83,17 @@ class StoragePersonas {// new StoragePersonas(personas);
 }
 
 // Ya se conocen
-class Modal {// new Modal('id--modificador','titulo','contenido');
-    constructor(id, titulo, contenido) {
-        // Modal.id = id
-        this.id = id;
+class Modal {// new Modal('clase--modificador','titulo','contenido');
+    constructor(clase, titulo, contenido) {
+        // Modal.clase = clase
+        this.clase = clase;
         this.titulo = titulo;
         this.contenido = contenido;
         // si no está, incrusto huesos del modal en dom
-        if ($(`#${id}`).length < 1) {
+        if ($(`.${clase}`).length < 1) {
             $('body').append(`
             <!-- Modal, absoluto -->
-            <div id="${id}" class="card modal">
+            <div id="" class="card modal ${clase}">
                 <section>
                     <head><h2>Titulo modal</h2><i class="far fa-window-close fa-lg"></i></head>
                     <main>cuerpo modal</main>
@@ -102,25 +102,25 @@ class Modal {// new Modal('id--modificador','titulo','contenido');
         }
     }
     // #cierra modal (metodo #privado según mozilla, experimental)
-    #cierra(e) {
+    #cierra(e) {//NO ME BORRES!!!!!!!!!!
         let elem = $(e.target);
-        // si e.target tiene id modal O es un i(icono cerrar)
-        let esModal = elem.attr('id') == `${this.id}`;
+        // si e.target tiene clase modal O es un i(icono cerrar)
+        let esModal = elem.hasClass('modal');
         if (esModal || e.target.localName == 'i') {
-            $(`#${this.id}`).slideUp()
+            $(`.modal`).slideUp()
         }
     }
     // abre modal
     abre() {
         // abre modal
-        $(`#${this.id}`).slideDown();
+        $(`.${this.clase}`).slideDown();
 
         // vacio & inserto contenido
-        $(`#${this.id} h2`).html('').append(this.titulo);
-        $(`#${this.id} main`).html('').append(this.contenido);
+        $(`.${this.clase} h2`).html('').append(this.titulo);
+        $(`.${this.clase} main`).html('').append(this.contenido);
 
         // cierra modal (debo referirme al objeto primero(this))
-        $(`#${this.id}, #${this.id} [class*="far"]`).click(this.#cierra);
+        $(`.${this.clase}, .${this.clase} [class*="far"]`).click(this.#cierra);
     }
 }// fin Class Modal
 
@@ -240,7 +240,7 @@ function slider() {
     $('#slider .boton').off();
     $('#slider .boton').click(cambiaSlider);
     // Esto es 'Async'
-    setInterval(cambiaSlider, 5000);
+    setInterval(cambiaSlider, 10000);
 }
 
 // .section1 footer lista
@@ -262,22 +262,22 @@ function lista(chart1) {
         modal.abre();
 
         // oculta y vacia msg
-        $('#modal--list .msg').html('').hide();
+        $('.modal--list .msg').html('').hide();
 
         // imprime lista de personas
         personas.forEach(recorrePersonas);
         function recorrePersonas(elem) {
-            $('#modal--list #list-personas').append(`<option value="${elem.nombre}">`);
+            $('.modal--list #list-personas').append(`<option value="${elem.nombre}">`);
         };
 
         // escucha en agregar addToList
-        $('#modal--list .boton').click(addToList);
+        $('.modal--list .boton').click(addToList);
     }//fin maneja lista
 
     // addToList
     function addToList() {
         // nombre del input Datalist
-        let nombre = $('#modal--list input*[list="list-personas"]').val();
+        let nombre = $('.modal--list input*[list="list-personas"]').val();
 
         // obtengo persona seleccionada (xra saber su orientación)
         const personaSeleccionada = personas.find((persona) => persona.nombre == nombre);
@@ -285,18 +285,18 @@ function lista(chart1) {
         // pregunta si ya está agregado
         let personaRepetida = $(`.list [data-nombre*="${nombre}"]`).length > 0;
         // cubre campo vacío y agregar mal el nombre
-        let personaNoExiste = $(`#modal--list option[value*="${nombre}"]`).length == 0;
+        let personaNoExiste = $(`.modal--list option[value*="${nombre}"]`).length == 0;
 
         // oculta y vacia msg
-        $('#modal--list .msg').html('').hide();
+        $('.modal--list .msg').html('').hide();
 
         // personaRepetida o personaNoExiste?
         if (personaRepetida || personaNoExiste) {
             let mensaje = personaRepetida ?
                 'El nombre <mark>ya está asignado</mark>, @err:usar data-id' :
                 'Campo está <mark>vacío o incorrecto</mark>';
-            $('#modal--list .msg').show().html(mensaje);
-            $('#modal--list input*[list="list-personas"]').val('');
+            $('.modal--list .msg').show().html(mensaje);
+            $('.modal--list input*[list="list-personas"]').val('');
         } else {
             // agregar a lista persona
             $('.section1 .list').append(`
@@ -305,7 +305,7 @@ function lista(chart1) {
                     <p>Orientación del perfil: ${personaSeleccionada.orientacion}</p>
                 </div>`);
             // limpia input datalist
-            $('#modal--list input*[list="list-personas"]').val('');
+            $('.modal--list input*[list="list-personas"]').val('');
 
             // resetear y agregar evento a las card's
             $('.section1 .list > *').off();
