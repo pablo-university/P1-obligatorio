@@ -19,6 +19,8 @@
     list-style: none;
 
     user-select: none;
+    // controla desborde palabras largas
+    word-break: break-all;
 }
 :root {
     /* colores */

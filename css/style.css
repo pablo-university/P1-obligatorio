@@ -19,6 +19,7 @@
   font-weight: 400;
   list-style: none;
   user-select: none;
+  word-break: break-all;
 }
 
 :root {

@@ -5,7 +5,7 @@
 // Json usuario-pass
 var usuarios = {
 	'1': '1',
-	'cacho': '123',
+	'miguel': '123',
 };
 
 // CUANDO HAYA LEIDO EL HTML
