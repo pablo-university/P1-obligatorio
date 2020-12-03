@@ -9,6 +9,3 @@ _Creación de dashboard para final de semestre de facultad, con énfasis en demo
 
 ### Motivación🚀
 [Mi motivación](https://www.youtube.com/watch?v=n9kUnacewDA&ab_channel=PopArtDiscos)
-
-### Att: 
-_Pablo Delfante_ 😊
