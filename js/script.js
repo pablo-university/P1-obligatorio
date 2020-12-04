@@ -144,11 +144,11 @@ function navClick(e) {
 
     } else {
         // sino llamar a una funcion msg
-        let modalSalir = new Modal('modal--salir','Confirmación',
-        `<p>Seguro que deseas salir?</p>
+        let modalSalir = new Modal('modal--salir', 'Confirmación',
+            `<p>Seguro que deseas salir?</p>
         <input type="button" value="Salir" class="boton boton--salir">`);
         modalSalir.abre();
-        $('.boton--salir').click(function(){window.location = 'index.html'});
+        $('.boton--salir').click(function () { window.location = 'index.html' });
     }
 }// fin navClick
 
@@ -165,7 +165,7 @@ function planDeCarrera$MediaDeSueldo(chart0, chart2) {
         }
         // si es femenino sumo...
         if (persona.genero == 'f') { femenino++ }
-        feed += persona.feed; 
+        feed += persona.feed;
     });
     //----------
     // slider update
@@ -175,12 +175,12 @@ function planDeCarrera$MediaDeSueldo(chart0, chart2) {
         <div>
             <h2>Feed Promedio!</h2>
             <p>Porcentaje de feed promedio en base a las personas</p>
-            <h1>${parseInt(feed/personas.length)}%</h1>
+            <h1>${parseInt(feed / personas.length)}%</h1>
         </div>
         <div>
             <h2>Femenino!</h2>
             <p>Porcentaje de personal femenino en la empresa</p>
-            <h1>${parseInt(femenino*100/personas.length)}%</h1>
+            <h1>${parseInt(femenino * 100 / personas.length)}%</h1>
         </div>
     `);
     // inicia slider, contadores y updatea su contenido (pasar a clase?)
@@ -211,7 +211,7 @@ function planDeCarrera$MediaDeSueldo(chart0, chart2) {
     // updateo chart's
     chart0.update();
     chart2.update();
-    
+
 }
 
 // #slider
@@ -254,7 +254,7 @@ function lista(chart1) {
     function manageList() {
 
         // new Modal(id, titulo,contenido); (inicia html en el constructor)
-        const modal = new Modal('modal--list','Selecciona alguien para la lista', `
+        const modal = new Modal('modal--list', 'Selecciona alguien para la lista', `
             <input list="list-personas" placeholder="selecciona persona">
             <datalist id="list-personas">
                 <!-- agrego dinamicamente nombres de mi array -->
@@ -295,7 +295,7 @@ function lista(chart1) {
         // personaRepetida o personaNoExiste?
         if (personaRepetida || personaNoExiste) {
             let mensaje = personaRepetida ?
-                'El nombre <mark>ya está asignado</mark>, @err:usar data-id' :
+                'El nombre <mark>ya está asignado</mark>' :
                 'Campo está <mark>vacío o incorrecto</mark>';
             $('.modal--list .msg').show().html(mensaje);
             $('.modal--list input*[list="list-personas"]').val('');
@@ -505,6 +505,11 @@ function table(chart0, chart2) {
         function checkForm() {
             const { nombre, orientacion } = obtenerNewPersona();
 
+            // PARCHE 3.12.20 (soluciona agregado de diferente nombre + comparar 2 con mismo nombre)
+            let debug = persona => persona.nombre == nombre;
+            if (personas.some(debug)){$('.section2 .msg').html(`El nombre <mark>ya encuentra ingresado</mark>, escoge otro`); return false}
+            // parche end ---
+
             // controla que nombre&orientación NO sean vacíos
             if (nombre == '' || orientacion == '') {
                 $('.section2 .msg').html(`El campo <mark>${nombre == orientacion ? 'nombre y orientación están vacíos' : nombre == '' ? 'nombre es vacío' : 'orientación es vacío'}</mark>`);
@@ -656,8 +661,9 @@ function pendientes() {
 function ini() {
 
     // las graficas son importadas
-    setTimeout(function(){
-        planDeCarrera$MediaDeSueldo(chart0, chart2);},100);
+    setTimeout(function () {
+        planDeCarrera$MediaDeSueldo(chart0, chart2);
+    }, 100);
     //(esto tmbn maneja slider)
     // setTime para mantener animacion en chart2, por mas que le agregue datos al instanciarla no se animaba...
     // -------------------

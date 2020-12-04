@@ -1,26 +1,26 @@
 [
     {
-        "id":1,
-        "nombre":"a",
-        "genero":"m",
-        "feed":1,
-        "media":30000,
-        "orientacion":"web"
-    },
-    {
         "id":2,
-        "nombre":"b",
-        "genero":"m",
-        "feed":9,
-        "media":50000,
+        "nombre":"Sofia",
+        "genero":"f",
+        "feed":80,
+        "media":40000,
         "orientacion":"diseño"
     },
     {
         "id":3,
-        "nombre":"c",
+        "nombre":"Camila",
         "genero":"f",
-        "feed":8,
+        "feed":90,
         "media":40000,
         "orientacion":"app"
+    },
+    {
+        "id":4,
+        "nombre":"Pablo",
+        "genero":"m",
+        "feed":90,
+        "media":50000,
+        "orientacion":"web"
     }
 ]
