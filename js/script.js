@@ -97,8 +97,8 @@ class Modal {// new Modal('clase--modificador','titulo','contenido');
             <!-- Modal, absoluto -->
             <div id="" class="card modal ${clase}">
                 <section>
-                    <head><h2>Titulo modal</h2><i class="far fa-window-close fa-lg"></i></head>
-                    <main>cuerpo modal</main>
+                    <head><h2>${titulo}</h2><i class="far fa-window-close fa-lg"></i></head>
+                    <main>${contenido}</main>
                 </section>
             </div>`);
         }
@@ -117,9 +117,9 @@ class Modal {// new Modal('clase--modificador','titulo','contenido');
         // abre modal
         $(`.${this.clase}`).slideDown();
 
-        // vacio & inserto contenido
-        $(`.${this.clase} h2`).html('').append(this.titulo);
-        $(`.${this.clase} main`).html('').append(this.contenido);
+        // vacio & inserto contenido (7.12.20 lo inserto ya en el constructor)
+        // $(`.${this.clase} h2`).html('').append(this.titulo);
+        // $(`.${this.clase} main`).html('').append(this.contenido);
 
         // cierra modal (debo referirme al objeto primero(this))
         $(`.${this.clase}, .${this.clase} [class*="far"]`).click(this.#cierra);
