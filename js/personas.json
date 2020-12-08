@@ -1,1 +1,28 @@
-{"personas":[{"id":"0.21856863511557645","nombre":"Aldana","genero":"f","feed":"76","media":"80951","orientacion":"tecnologia"},{"id":"0.2863684976185785","nombre":"Camila","genero":"f","feed":"90","media":"30153","orientacion":"app"},{"id":"0.09693532470190624","nombre":"Pablo","genero":"m","feed":"90","media":"50000","orientacion":"web"}]}
+{"personas":
+    [
+        {
+            "id":2,
+            "nombre":"Sofia",
+            "genero":"f",
+            "feed":80,
+            "media":40000,
+            "orientacion":"diseño"
+        },
+        {
+            "id":3,
+            "nombre":"Camila",
+            "genero":"f",
+            "feed":90,
+            "media":40000,
+            "orientacion":"app"
+        },
+        {
+            "id":4,
+            "nombre":"Pablo",
+            "genero":"m",
+            "feed":90,
+            "media":50000,
+            "orientacion":"web"
+        }
+    ]
+}
