@@ -2,3 +2,7 @@
 .vscode/settings.json
 sound/
 scss/
+personasBackup.json
+
+
+node_modules

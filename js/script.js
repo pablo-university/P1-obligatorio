@@ -25,36 +25,95 @@ import { chart0, chart1, chart2 } from './modules/charts.mjs';
 // --- VARIABLES GLOBALES ---
 const personas = [];
 
-// Obtener personas según almacenamiento localStorage
-if (localStorage.getItem('personas') == null) {
-    $.ajax({
-        type: "GET",
-        url: "js/personas.json",
-        dataType: "json",
-        // caso reject
-        error: function (xhr) {
-            alert(`Error:${xhr.status}, seguramente un buen problema con CORS`);
-        },
-        // caso resolve
-        success: function (dato) {
-            // for of para objeto iterable
-            for (let persona of dato) {
-                personas.push(persona)
-            }/*
-            luego de obtener personas
-            ejecuto ini cuando haya leido el DOM */
-            $(ini);
-        }
-    })// fin ajax
-} else {
-    let dato = JSON.parse(localStorage.getItem('personas'));
-    // for of para objeto iterable
-    for (let persona of dato) {
-        personas.push(persona)
-    }
-    $(ini)
-}// fin else
+/* 
+--- TRAE:↑
+SI localStorage no es vacio trae personas
+SINO trae personas de local y guarda!
+-------------------------------------*/
+function traerPersonas() {
 
+    // paso a numericos los valores numericos
+    function toNumber(persona, i) {
+        personas[i].id = parseFloat(persona.id);
+        personas[i].feed = parseFloat(persona.feed);
+        personas[i].media = parseFloat(persona.media);
+    }
+
+    // vacio personas antes de agregarle personas
+    personas.splice(0, personas.length);
+
+    if (localStorage.getItem('personas') != null) {
+        let dato = JSON.parse(localStorage.getItem('personas'));
+        // for of para objeto iterable
+        for (let persona of dato) {
+            personas.push(persona);
+        }
+        // paso a numericos los valores numericos
+        personas.forEach(toNumber);
+        $(ini)
+        console.log('↑traje personas de localStorage: ', personas);
+    } else {
+        // trae personas de local y guarda en localStorage para la proxima
+        $.ajax({
+            dataType: 'text',
+            url: "./js/personas.json",
+            success: function (result) {
+                /* respuesta es un objeto que tiene personas como indice, 
+                y dentro las personas */
+                let respuesta = JSON.parse(result);
+                // aqui respuesta tiene las personas
+                respuesta = respuesta.personas;
+                // muestra array personas
+                console.log('↑traje personas de ./local: ', respuesta);
+
+                // obtiene personas de la respuesta
+                for (let persona of respuesta) {
+                    personas.push(persona)
+                }
+                // paso a numericos los valores numericos
+                personas.forEach(toNumber);
+                /* ejecuto ini */
+                $(ini);
+                // --- guardar ---
+                guardarPersonas();
+            },
+            error: function (xhr, status, error) {
+                console.log('X↑no se pudo obtener personas de local por CORS o 404: ', status);
+            }
+        });
+
+    }// fin else   
+} // fin traer personas
+traerPersonas();
+
+/* 
+--- GUARDA:↓
+en localStorage y si puede local 
+(si guarda local live server me resetea la 
+pg y no veo los mensajes de esta funcion)
+---------------------------------------*/
+function guardarPersonas() {
+
+    // guardarLocalStorage
+    localStorage.setItem("personas", JSON.stringify(personas))
+    console.log('↓guarde en localStorage', personas)
+
+    /*
+    guarda local (BUG¿? resetea la pg por el live,
+    pueden no verse mensajes del servidor....) */
+    $.ajax({
+        data: { personas: personas },
+        dataType: 'text',
+        url: "http://localhost:8080",
+        success: function (result) {
+            // muestra respuesta de mi servidor en caso ok
+            console.log('↓guarde local: ' + result);
+        },
+        error: function (xhr, status, error) {
+            console.log('X↓No guarde en local, iniciar server de guardado');
+        }
+    });
+}// fin guardar
 
 // --- FUNCIONES Y CLASES GLOBALES ---
 
@@ -71,16 +130,6 @@ class StoragePersonas {// new StoragePersonas(personas);
         localStorage.setItem('personas', '');
         // agrego
         localStorage.setItem('personas', dato);
-    }
-    // metodos para mi DEBUG
-    borrar() {
-        try {
-            localStorage.removeItem("personas");
-            console.log('personas borrado de localStorage');
-        }
-        catch (error) {
-            console.log('algo se pudrio: ', error);
-        }
     }
 }
 
@@ -165,7 +214,7 @@ function planDeCarrera$MediaDeSueldo(chart0, chart2) {
         }
         // si es femenino sumo...
         if (persona.genero == 'f') { femenino++ }
-        feed += persona.feed;
+        feed += parseInt(persona.feed);
     });
     //----------
     // slider update
@@ -192,7 +241,7 @@ function planDeCarrera$MediaDeSueldo(chart0, chart2) {
         // por cada persona pregunto si es de la orientación y voy haciendo promedio
         personas.forEach(function (persona) {
             if (persona.orientacion == orientacion) {
-                total += persona.media;
+                total += parseInt(persona.media);
                 cont++;
             }
         });//!en el orden que obtuve orientaciones debo obtener pormedios y planDeCarrera
@@ -221,7 +270,7 @@ function slider() {
         - btn avanza if (n+1 < largoSeleccionado) else reset count  */
     let count = 0;
     let sliders = $('#slider > div');
-    console.log(sliders);// 2
+    //console.log(sliders);// 2
 
     function cambiaSlider() {
         // oculto todo
@@ -263,7 +312,8 @@ function lista(chart1) {
             <p class='msg'></p>`);
         modal.abre();
 
-        // oculta y vacia msg
+        // vacia cosas que agregue a modal (para actualizarlas)
+        $('.modal--list #list-personas').html('');
         $('.modal--list .msg').html('').hide();
 
         // imprime lista de personas
@@ -273,13 +323,14 @@ function lista(chart1) {
         };
 
         // escucha en agregar addToList
+        $('.modal--list .boton').off('click');
         $('.modal--list .boton').click(addToList);
     }//fin maneja lista
 
     // addToList
     function addToList() {
         // nombre del input Datalist
-        let nombre = $('.modal--list input*[list="list-personas"]').val();
+        let nombre = $('.modal--list input[list*="list-personas"]').val();
 
         // obtengo persona seleccionada (xra saber su orientación)
         const personaSeleccionada = personas.find((persona) => persona.nombre == nombre);
@@ -298,7 +349,7 @@ function lista(chart1) {
                 'El nombre <mark>ya está asignado</mark>' :
                 'Campo está <mark>vacío o incorrecto</mark>';
             $('.modal--list .msg').show().html(mensaje);
-            $('.modal--list input*[list="list-personas"]').val('');
+            $('.modal--list input[list*="list-personas"]').val('');
         } else {
             // agregar a lista persona
             $('.section1 .list').append(`
@@ -307,7 +358,7 @@ function lista(chart1) {
                     <p>Orientación del perfil: ${personaSeleccionada.orientacion}</p>
                 </div>`);
             // limpia input datalist
-            $('.modal--list input*[list="list-personas"]').val('');
+            $('.modal--list input[list*="list-personas"]').val('');
 
             // resetear y agregar evento a las card's
             $('.section1 .list > *').off();
@@ -361,7 +412,7 @@ function lista(chart1) {
                     // arr con datos de la persona a insertar
                     const data = [];
                     // según mis super cuentas si ganas poco & poco feed tas in the horno
-                    data.push(persona.media / 1000, persona.feed, persona.media / 1000 + persona.feed, (persona.media / 100000 + persona.feed) / 2);
+                    data.push(parseInt(persona.media) / 1000, parseInt(persona.feed), parseInt(persona.media) / 1000 + parseInt(persona.feed), (parseInt(persona.media) / 100000 + parseInt(persona.feed)) / 2);
 
                     colorAnterior = colorAnterior == 0 ? 1 : 0;
                     // si es par azul, sino amarella, dandole colorcito a la vidax
@@ -413,7 +464,6 @@ function table(chart0, chart2) {
         - orderTable
         - addToTable
         - edit/remove
-        - checkForm
         - search
         @Ejecuciones */
     let propAnterior = 'vacio';
@@ -507,7 +557,7 @@ function table(chart0, chart2) {
 
             // PARCHE 3.12.20 (soluciona agregado de diferente nombre + comparar 2 con mismo nombre)
             let debug = persona => persona.nombre == nombre;
-            if (personas.some(debug)){$('.section2 .msg').html(`El nombre <mark>ya encuentra ingresado</mark>, escoge otro`); return false}
+            if (personas.some(debug)) { $('.section2 .msg').html(`El nombre <mark>ya encuentra ingresado</mark>, escoge otro`); return false }
             // parche end ---
 
             // controla que nombre&orientación NO sean vacíos
@@ -533,9 +583,8 @@ function table(chart0, chart2) {
                 // planDeCarrera$MediaDeSueldo actualiza chart0
                 planDeCarrera$MediaDeSueldo(chart0, chart2);
 
-                // almacenaPersonas in localStorage
-                const storage = new StoragePersonas(personas);
-                storage.guardar();
+                // almacenaPersonas
+                guardarPersonas();
             }
         }
         // añade escucha focusout a nombre
@@ -573,9 +622,8 @@ function table(chart0, chart2) {
         // planDeCarrera$MediaDeSueldo actualiza chart0
         planDeCarrera$MediaDeSueldo(chart0, chart2);
 
-        // almacenaPersonas in localStorage
-        const storage = new StoragePersonas(personas);
-        storage.guardar();
+        // almacenaPersonas
+        guardarPersonas();
     }
 
     // search
