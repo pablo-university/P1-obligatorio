@@ -207,13 +207,14 @@ function planDeCarrera$MediaDeSueldo(chart0, chart2) {
     const orientaciones = [], promedios = [], planDeCarrera = [];
     let femenino = 0, feed = 0;
 
-    // Obtengo orientaciones & %femenino
+    // Obtengo orientaciones & %femenino + feed
     personas.forEach(persona => {
         if (!orientaciones.includes(persona.orientacion)) {
             orientaciones.push(persona.orientacion);
         }
         // si es femenino sumo...
         if (persona.genero == 'f') { femenino++ }
+        // agrego feed
         feed += parseInt(persona.feed);
     });
     //----------
@@ -235,7 +236,7 @@ function planDeCarrera$MediaDeSueldo(chart0, chart2) {
     // inicia slider, contadores y updatea su contenido (pasar a clase?)
     slider();
     //---------
-    // recorro orientaciones para hacer promedios
+    // recorro orientaciones para hacer promedios & planDeCarrera
     orientaciones.forEach(function (orientacion) {
         let total = 0, cont = 0;
         // por cada persona pregunto si es de la orientación y voy haciendo promedio
@@ -296,7 +297,10 @@ function slider() {
 
 // .section1 footer lista
 function lista(chart1) {
-    // - variables -
+ /* - manageList
+    - addToList
+    - removeItemList
+    - selectItemList */
 
     // - funciones -
     // manageLista
@@ -395,12 +399,10 @@ function lista(chart1) {
             personasSeleccionadas.push(nombre);
         });
 
-        // si hay 1, 2... personas
+        // si hay 1, 2... personas (evita que grafica quede vacia)
         if (personasSeleccionadas.length > 0) {
-
             // arr con personasAInsertar
             const personasAInsertar = [];
-
             // controla color
             let colorAnterior = 0;
 
