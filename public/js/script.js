@@ -104,7 +104,7 @@ function guardarPersonas() {
     $.ajax({
         data: { personas: personas },
         dataType: 'text',
-        url: "http://localhost:8080",
+        url: "http://localhost:8080/guardar",
         success: function (result) {
             // muestra respuesta de mi servidor en caso ok
             console.log('↓guarde local: ' + result);
