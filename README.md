@@ -1,6 +1,6 @@
 # P1-obligatorio
 
-_Proyecto académico de JS vanilla_
+_Repositorio de proyecto académico de JS vanilla_
 ```
 1) npm install
 ```
